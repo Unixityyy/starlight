@@ -126,7 +126,7 @@
 
             // Download Button (Mocked functionality)
             const downloadLink = document.createElement('a');
-            downloadLink.href = `./music/${song.fileName}`; // Hypothetical download path
+            downloadLink.href = song.fileName; // Hypothetical download path
             downloadLink.download = song.fileName; // Suggests the file name for download
             downloadLink.className = 'btn btn-outline-primary btn-sm w-100 mt-2';
             downloadLink.innerHTML = `
@@ -164,4 +164,5 @@
 </body>
 
 </html>
+
 

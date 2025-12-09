@@ -1,1 +1,1 @@
-# a fork of Unixityyy's "Starlight"
+# unixityyy.github.io

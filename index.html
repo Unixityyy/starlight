@@ -1,168 +1,153 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Starlight Sound Library</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            background-color: #1a1a2e;
-            font-family: 'Inter', sans-serif;
-        }
-        .card {
-            transition: transform 0.2s, box-shadow 0.2s;
-            border-radius: 12px;
-            overflow: hidden;
-            background-color: #27273f;
-            border: 1px solid #3d3d5f;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-        }
-        .album-cover {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-bottom: 1px solid #3d3d5f;
-            aspect-ratio: 1 / 1;
-        }
-        .request-card {
-            background-color: #5d3587;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            height: 100%;
-            cursor: pointer;
-            text-decoration: none;
-        }
-        .request-card:hover {
-            background-color: #7b4aa5;
-            color: #ffffff;
-        }
-        .explicit-tag {
-            background-color: #5d3587; 
-            border-radius: 3px; 
-            padding: 1px 4px; 
-            color: #fff; 
-            font-weight: 700; 
-            font-size: 0.75rem; 
-            display: inline-block; 
-            line-height: 1; 
-            margin-left: 5px; 
-            vertical-align: middle;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Starlight Sound Library</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      background-color:#1a1a2e;
+      font-family:Inter,sans-serif;
+    }
+
+    .card {
+      background:#27273f;
+      border:1px solid #3d3d5f;
+      border-radius:12px;
+      transition:.2s;
+    }
+
+    .card:hover {
+      transform:translateY(-5px);
+      box-shadow:0 10px 20px rgba(0,0,0,.5);
+    }
+
+    .album-cover {
+      width:100%;
+      aspect-ratio:1/1;
+      object-fit:cover;
+      border-bottom:1px solid #3d3d5f;
+    }
+
+    .explicit-tag {
+      background:#5d3587;
+      color:white;
+      font-size:.75rem;
+      padding:1px 4px;
+      border-radius:3px;
+      font-weight:700;
+    }
+
+    .request-card {
+      background:#5d3587;
+      color:white;
+      text-decoration:none;
+      height:100%;
+    }
+
+    .request-card:hover {
+      background:#7b4aa5;
+      color:white;
+    }
+  </style>
 </head>
+
 <body class="text-white">
 
-    <div class="container py-5">
-        <header class="text-center mb-5">
-            <h1 class="display-4 fw-bold text-primary">Starlight Sound Library</h1>
-            <p class="lead text-secondary">Better than Google Slides with music.</p>
-            <p class="lead text-secondary">(Songs with the E label are explicit, please be catious of them.)</p>
-        </header>
+<!-- NAV -->
+<nav class="container mb-4">
+  <ul class="nav nav-tabs justify-content-center">
+    <li class="nav-item">
+      <a class="nav-link active" href="./">Home</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="./player">Player</a>
+    </li>
+  </ul>
+</nav>
 
-        <div id="song-grid" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
-            
-            <div class="col">
-                <a href="https://forms.gle/JzcFk7ftmKTxuk4m7" target="_blank" class="card request-card shadow-lg" style="height: 100%;">
-                    <div class="card-body p-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-plus-circle-fill mb-3" viewBox="0 0 16 16">
-                          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
-                        </svg>
-                        <h5 class="card-title fw-bold">Request a Song</h5>
-                        <p class="card-text small opacity-75">Can't find what you're looking for? Submit a request via our Google Form!</p>
-                        <span class="btn btn-outline-light btn-sm mt-2">Open Form</span>
-                    </div>
-                </a>
-            </div>
+<div class="container py-4">
 
+  <!-- HEADER -->
+  <header class="text-center mb-5">
+    <h1 class="fw-bold text-primary">Starlight Sound Library</h1>
+    <p class="text-secondary">Better than Google Slides with music.</p>
+    <p class="text-secondary small">
+      Songs marked with <span class="explicit-tag">E</span> are explicit
+    </p>
+  </header>
+
+  <!-- GRID -->
+  <div id="song-grid"
+       class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+
+    <!-- REQUEST CARD -->
+    <div class="col">
+      <a href="https://forms.gle/JzcFk7ftmKTxuk4m7"
+         target="_blank"
+         class="card request-card shadow-lg">
+        <div class="d-flex flex-column align-items-center justify-content-center p-4 text-center h-100">
+          <svg xmlns="http://www.w3.org/2000/svg"
+               width="40" height="40"
+               fill="currentColor"
+               class="mb-3"
+               viewBox="0 0 16 16">
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+          </svg>
+          <h5 class="fw-bold">Request a Song</h5>
+          <p class="small opacity-75">
+            Missing something? Request a song through our form.
+          </p>
+          <span class="btn btn-outline-light btn-sm mt-2">
+            Open Form
+          </span>
         </div>
+      </a>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6+jIeSzM" crossorigin="anonymous"></script>
+  </div>
+</div>
 
-    <script>
-        const songs = [
-            { id: 1, title: "Big Poe", artist: "Tyler, The Creator (ft. Sk8brd)", cover: "https://i.ytimg.com/vi/OKVi6jPdE8c/hq720.jpg", fileName: "Big Poe.m4a", isExplicit: true },
-            { id: 2, title: "Doomsday", artist: "MF Doom", cover: "https://i.ytimg.com/vi/5TlZeem3FU8/hq720.jpg", fileName: "Doomsday.m4a", isExplicit: false },
-            { id: 3, title: "World's Smallest Violin", artist: "AJR", cover: "https://i.ytimg.com/vi/MiKkH48P8g8/hq720.jpg", fileName: "World's Smallest Violin.m4a", isExplicit: true },
-            { id: 4, title: "SICKO MODE", artist: "Travis Scott", cover: "https://i.ytimg.com/vi/d-JBBNg8YKs/hq720.jpg", fileName: "SICKO MODE.m4a", isExplicit: true },
-            { id: 5, title: "Wish", artist: "Diplo (ft. Trippie Redd)", cover: "https://i.ytimg.com/vi/ZpQAwGHI29A/hq720.jpg", fileName: "Wish.m4a", isExplicit: true },
-            { id: 5, title: "Loonboon", artist: "supershigi", cover: "https://i.ytimg.com/vi/lr4vi_XAjQQ/hq720.jpg", fileName: "Loonboon.m4a", isExplicit: false },
-        ];
+<!-- SCRIPTS -->
+<script src="./songs.js"></script>
 
-        function makeCard(song) {
-            const col = document.createElement('div');
-            col.className = 'col';
+<script>
+  function makeCard(song) {
+    const col = document.createElement('div');
+    col.className = 'col';
 
-            const card = document.createElement('div');
-            card.className = 'card h-100 shadow';
+    col.innerHTML = `
+      <div class="card h-100">
+        <img src="${song.cover}" class="album-cover"
+          onerror="this.src='https://placehold.co/300x300/4A4A6A/FFFFFF?text=NO+COVER'">
+        <div class="card-body p-3">
+          <h6 class="fw-bold text-primary text-truncate">
+            ${song.title}
+            ${song.isExplicit
+              ? '<span class="explicit-tag ms-1">E</span>'
+              : ''}
+          </h6>
+          <p class="small text-secondary">${song.artist}</p>
+          <a href="${song.file}" download
+             class="btn btn-outline-primary btn-sm w-100">
+            Download
+          </a>
+        </div>
+      </div>
+    `;
+    return col;
+  }
 
-            const img = document.createElement('img');
-            img.src = song.cover;
-            img.className = 'album-cover';
-            img.alt = `Album cover for ${song.title}`;
-            img.onerror = function() { this.onerror=null; this.src='https://placehold.co/150x150/4A4A6A/FFFFFF?text=NO+COVER'; };
+  const grid = document.getElementById('song-grid');
 
-            const body = document.createElement('div');
-            body.className = 'card-body p-3';
-
-            const title = document.createElement('h6');
-            title.className = 'card-title fw-bold text-truncate text-primary';
-            title.textContent = song.title;
-
-            if (song.isExplicit) {
-                const tag = document.createElement('span');
-                tag.className = 'explicit-tag';
-                tag.textContent = 'E';
-                
-                title.appendChild(document.createTextNode(' '));
-                title.appendChild(tag);
-            }
-
-            const artist = document.createElement('p');
-            artist.className = 'card-text small text-secondary mb-2';
-            artist.textContent = song.artist;
-
-            const link = document.createElement('a');
-            link.href = song.fileName;
-            link.download = song.fileName;
-            link.className = 'btn btn-outline-primary btn-sm w-100 mt-2';
-            link.innerHTML = `
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download me-2" viewBox="0 0 16 16">
-                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                    <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V3.5a.5.5 0 0 0-1 0v6.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-                </svg>
-                Download
-            `;
-            
-            body.appendChild(title);
-            body.appendChild(artist);
-            body.appendChild(link);
-            
-            card.appendChild(img);
-            card.appendChild(body);
-            
-            col.appendChild(card);
-            return col;
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const grid = document.getElementById('song-grid');
-
-            songs.forEach(song => {
-                const cardEl = makeCard(song);
-                grid.appendChild(cardEl);
-            });
-        });
-    </script>
+  window.STARLIGHT_SONGS.forEach(song => {
+    grid.appendChild(makeCard(song));
+  });
+</script>
 
 </body>
-
 </html>

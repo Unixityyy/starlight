@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <title>Starlight Sound Player</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    body {
+      background:#1a1a2e;
+      color:white;
+    }
+
+    .player-box {
+      background:#27273f;
+      border:1px solid #3d3d5f;
+      border-radius:14px;
+      padding:20px;
+    }
+
+    .song-title {
+      font-weight:600;
+      color:#9aa4ff;
+      text-align:center;
+      margin-bottom:10px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .controls {
+      display:flex;
+      align-items:center;
+      gap:15px;
+    }
+
+    .icon-btn {
+      font-size:1.4rem;
+      cursor:pointer;
+      color:white;
+    }
+
+    .icon-btn:hover {
+      color:#9aa4ff;
+    }
+
+    .progress {
+      height:6px;
+      cursor:pointer;
+      flex-grow:1;
+    }
+
+    .progress-bar {
+      transition:width 0.1s linear;
+    }
+
+    .list-group-item {
+      background:#1f1f33;
+      border-color:#3d3d5f;
+      cursor:pointer;
+    }
+
+    .list-group-item:hover {
+      background:#3d3d5f;
+    }
+  </style>
+</head>
+
+<body>
+
+<nav class="container mb-4">
+  <ul class="nav nav-tabs justify-content-center">
+    <li class="nav-item">
+      <a class="nav-link" href="../">Home</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active" href="./">Player</a>
+    </li>
+  </ul>
+</nav>
+
+<div class="container py-4">
+
+  <h1 class="text-center text-primary fw-bold mb-4">
+    Starlight Sound Player
+  </h1>
+
+  <!-- PLAYER -->
+  <div class="player-box mb-4">
+
+    <div id="nowPlaying" class="song-title">
+      Nothing playing
+    </div>
+
+    <div class="controls">
+      <!-- Play / Pause -->
+      <i id="playPause" class="bi bi-play-fill icon-btn"></i>
+
+      <!-- Loop -->
+      <i id="loopBtn" class="bi bi-arrow-repeat icon-btn opacity-50" title="Loop"></i>
+
+      <!-- Progress -->
+      <div class="progress" id="progressBar">
+        <div class="progress-bar bg-primary" id="progress"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UPLOAD -->
+  <div class="mb-4">
+    <label class="form-label">Upload a song</label>
+    <input type="file" id="upload" class="form-control" accept="audio/*">
+  </div>
+
+  <!-- LIBRARY -->
+  <h5 class="text-secondary mb-2">Library</h5>
+  <ul class="list-group" id="library"></ul>
+
+</div>
+
+<audio id="audio"></audio>
+
+<script src="../songs.js"></script>
+
+<script>
+  const audio = document.getElementById('audio');
+  const playPause = document.getElementById('playPause');
+  const loopBtn = document.getElementById('loopBtn');
+  const progress = document.getElementById('progress');
+  const progressBar = document.getElementById('progressBar');
+  const nowPlaying = document.getElementById('nowPlaying');
+  const upload = document.getElementById('upload');
+  const library = document.getElementById('library');
+
+  // Play / pause toggle
+  playPause.onclick = () => {
+    if (audio.paused) audio.play();
+    else audio.pause();
+  };
+
+  audio.onplay = () => {
+    playPause.className = 'bi bi-pause-fill icon-btn';
+  };
+
+  audio.onpause = () => {
+    playPause.className = 'bi bi-play-fill icon-btn';
+  };
+
+  // Loop toggle
+  loopBtn.onclick = () => {
+    audio.loop = !audio.loop;
+    loopBtn.classList.toggle('opacity-50', !audio.loop);
+    loopBtn.classList.toggle('text-primary', audio.loop);
+  };
+
+  // Progress update
+  audio.ontimeupdate = () => {
+    if (!audio.duration) return;
+    progress.style.width =
+      `${(audio.currentTime / audio.duration) * 100}%`;
+  };
+
+  // Seek
+  progressBar.onclick = e => {
+    const rect = progressBar.getBoundingClientRect();
+    const percent = (e.clientX - rect.left) / rect.width;
+    audio.currentTime = percent * audio.duration;
+  };
+
+  // Upload
+  upload.onchange = e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    audio.src = URL.createObjectURL(file);
+    nowPlaying.textContent = file.name;
+    audio.play();
+  };
+
+  // Library
+  window.STARLIGHT_SONGS.forEach(song => {
+    const li = document.createElement('li');
+    li.className = 'list-group-item text-white';
+    li.textContent = `${song.title} — ${song.artist}`;
+
+    li.onclick = () => {
+      audio.src = `../${song.file}`;
+      nowPlaying.textContent = `${song.title} — ${song.artist}`;
+      audio.play();
+    };
+
+    library.appendChild(li);
+  });
+</script>
+
+</body>
+</html>

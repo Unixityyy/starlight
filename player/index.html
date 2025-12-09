@@ -9,10 +9,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
   <style>
-    body {
-      background:#1a1a2e;
-      color:white;
-    }
+    body { background:#1a1a2e; color:white; }
 
     .player-box {
       background:#27273f;
@@ -21,41 +18,37 @@
       padding:20px;
     }
 
-    .song-title {
+    .song-title-row {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:10px;
       font-weight:600;
       color:#9aa4ff;
-      text-align:center;
-      margin-bottom:10px;
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
     }
 
-    .controls {
-      display:flex;
-      align-items:center;
-      gap:15px;
-    }
-
-    .icon-btn {
-      font-size:1.4rem;
-      cursor:pointer;
+    .explicit-tag {
+      background:#5d3587;
       color:white;
+      font-size:.75rem;
+      padding:1px 4px;
+      border-radius:3px;
+      font-weight:700;
+      margin-left:10px;
+      flex-shrink:0;
     }
 
-    .icon-btn:hover {
-      color:#9aa4ff;
-    }
+    .controls { display:flex; align-items:center; gap:15px; }
 
-    .progress {
-      height:6px;
-      cursor:pointer;
-      flex-grow:1;
-    }
+    .icon-btn { font-size:1.4rem; cursor:pointer; color:white; }
+    .icon-btn:hover { color:#9aa4ff; }
 
-    .progress-bar {
-      transition:width 0.1s linear;
-    }
+    .progress { height:6px; cursor:pointer; flex-grow:1; }
+
+    .progress-bar { transition:width 0.1s linear; }
 
     .list-group-item {
       background:#1f1f33;
@@ -63,9 +56,9 @@
       cursor:pointer;
     }
 
-    .list-group-item:hover {
-      background:#3d3d5f;
-    }
+    .list-group-item:hover { background:#3d3d5f; }
+
+    .list-item-title { flex-grow:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
   </style>
 </head>
 
@@ -73,12 +66,8 @@
 
 <nav class="container mb-4">
   <ul class="nav nav-tabs justify-content-center">
-    <li class="nav-item">
-      <a class="nav-link" href="../">Home</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link active" href="./">Player</a>
-    </li>
+    <li class="nav-item"><a class="nav-link" href="../">Home</a></li>
+    <li class="nav-item"><a class="nav-link active" href="./">Player</a></li>
   </ul>
 </nav>
 
@@ -91,18 +80,14 @@
   <!-- PLAYER -->
   <div class="player-box mb-4">
 
-    <div id="nowPlaying" class="song-title">
-      Nothing playing
+    <div id="nowPlaying" class="song-title-row">
+      <span class="list-item-title">Nothing playing</span>
+      <span class="explicit-tag" style="display:none;">E</span>
     </div>
 
     <div class="controls">
-      <!-- Play / Pause -->
       <i id="playPause" class="bi bi-play-fill icon-btn"></i>
-
-      <!-- Loop -->
       <i id="loopBtn" class="bi bi-arrow-repeat icon-btn opacity-50" title="Loop"></i>
-
-      <!-- Progress -->
       <div class="progress" id="progressBar">
         <div class="progress-bar bg-primary" id="progress"></div>
       </div>
@@ -132,8 +117,15 @@
   const progress = document.getElementById('progress');
   const progressBar = document.getElementById('progressBar');
   const nowPlaying = document.getElementById('nowPlaying');
+  const titleSpan = nowPlaying.querySelector('.list-item-title');
+  const explicitSpan = nowPlaying.querySelector('.explicit-tag');
   const upload = document.getElementById('upload');
   const library = document.getElementById('library');
+
+  function setNowPlaying(songName, isExplicit) {
+    titleSpan.textContent = songName;
+    explicitSpan.style.display = isExplicit ? 'inline-block' : 'none';
+  }
 
   // Play / pause toggle
   playPause.onclick = () => {
@@ -141,13 +133,8 @@
     else audio.pause();
   };
 
-  audio.onplay = () => {
-    playPause.className = 'bi bi-pause-fill icon-btn';
-  };
-
-  audio.onpause = () => {
-    playPause.className = 'bi bi-play-fill icon-btn';
-  };
+  audio.onplay = () => playPause.className = 'bi bi-pause-fill icon-btn';
+  audio.onpause = () => playPause.className = 'bi bi-play-fill icon-btn';
 
   // Loop toggle
   loopBtn.onclick = () => {
@@ -159,8 +146,7 @@
   // Progress update
   audio.ontimeupdate = () => {
     if (!audio.duration) return;
-    progress.style.width =
-      `${(audio.currentTime / audio.duration) * 100}%`;
+    progress.style.width = `${(audio.currentTime / audio.duration) * 100}%`;
   };
 
   // Seek
@@ -175,19 +161,22 @@
     const file = e.target.files[0];
     if (!file) return;
     audio.src = URL.createObjectURL(file);
-    nowPlaying.textContent = file.name;
+    setNowPlaying(file.name, false);
     audio.play();
   };
 
   // Library
   window.STARLIGHT_SONGS.forEach(song => {
     const li = document.createElement('li');
-    li.className = 'list-group-item text-white';
-    li.textContent = `${song.title} — ${song.artist}`;
+    li.className = 'list-group-item d-flex align-items-center';
+    li.innerHTML = `
+      <span class="list-item-title">${song.title} — ${song.artist}</span>
+      ${song.isExplicit ? '<span class="explicit-tag">E</span>' : ''}
+    `;
 
     li.onclick = () => {
       audio.src = `../${song.file}`;
-      nowPlaying.textContent = `${song.title} — ${song.artist}`;
+      setNowPlaying(`${song.title} — ${song.artist}`, song.isExplicit);
       audio.play();
     };
 

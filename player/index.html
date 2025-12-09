@@ -170,13 +170,13 @@
     const li = document.createElement('li');
     li.className = 'list-group-item d-flex align-items-center';
     li.innerHTML = `
-      <span class="list-item-title">${song.title} — ${song.artist}</span>
+      <span class="list-item-title">${song.title} - ${song.artist}</span>
       ${song.isExplicit ? '<span class="explicit-tag">E</span>' : ''}
     `;
 
     li.onclick = () => {
       audio.src = `../${song.file}`;
-      setNowPlaying(`${song.title} — ${song.artist}`, song.isExplicit);
+      setNowPlaying(`${song.title} - ${song.artist}`, song.isExplicit);
       audio.play();
     };
 

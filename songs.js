@@ -4,7 +4,7 @@ window.STARLIGHT_SONGS = [
     title: "Big Poe",
     artist: "Tyler, The Creator (ft. Sk8brd)",
     cover: "https://i.ytimg.com/vi/OKVi6jPdE8c/hq720.jpg",
-    file: "Big Poe.m4a",
+    file: "./songs/Big Poe.m4a",
     isExplicit: true
   },
   {
@@ -12,7 +12,7 @@ window.STARLIGHT_SONGS = [
     title: "Doomsday",
     artist: "MF Doom",
     cover: "https://i.ytimg.com/vi/5TlZeem3FU8/hq720.jpg",
-    file: "Doomsday.m4a",
+    file: "./songs/Doomsday.m4a",
     isExplicit: false
   },
   {
@@ -20,7 +20,7 @@ window.STARLIGHT_SONGS = [
     title: "World's Smallest Violin",
     artist: "AJR",
     cover: "https://i.ytimg.com/vi/MiKkH48P8g8/hq720.jpg",
-    file: "World's Smallest Violin.m4a",
+    file: "./songs/World's Smallest Violin.m4a",
     isExplicit: true
   },
   {
@@ -28,7 +28,7 @@ window.STARLIGHT_SONGS = [
     title: "SICKO MODE",
     artist: "Travis Scott",
     cover: "https://i.ytimg.com/vi/d-JBBNg8YKs/hq720.jpg",
-    file: "SICKO MODE.m4a",
+    file: "./songs/SICKO MODE.m4a",
     isExplicit: true
   },
   {
@@ -36,7 +36,7 @@ window.STARLIGHT_SONGS = [
     title: "Wish",
     artist: "Diplo (ft. Trippie Redd)",
     cover: "https://i.ytimg.com/vi/ZpQAwGHI29A/hq720.jpg",
-    file: "Wish.m4a",
+    file: "./songs/Wish.m4a",
     isExplicit: true
   },
   {
@@ -44,7 +44,7 @@ window.STARLIGHT_SONGS = [
     title: "Loonboon",
     artist: "supershigi",
     cover: "https://i.ytimg.com/vi/lr4vi_XAjQQ/hq720.jpg",
-    file: "Loonboon.m4a",
+    file: "./songs/Loonboon.m4a",
     isExplicit: false
   }
 ];

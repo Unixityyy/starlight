@@ -1,3 +1,5 @@
+// yt image urls are https://i.ytimg.com/vi/<video id>/hq720.jpg
+
 window.STARLIGHT_SONGS = [
   {
     id: 1,
@@ -56,3 +58,22 @@ window.STARLIGHT_SONGS = [
     isExplicit: true
   },
 ];
+
+(() => {
+  const today = new Date();
+  const isAprilFools =
+    today.getMonth() === 3 && today.getDate() === 1; // 3 = april, 1 = 1st, april fools day
+
+  if (isAprilFools) {
+    window.STARLIGHT_SONGS = [
+      {
+        id: 1,
+        title: "Baby Shark",
+        artist: "Pinkfong",
+        cover: "https://i.ytimg.com/vi/XqZsoesa55w/hq720.jpg",
+        file: "./songs/Baby Shark.m4a",
+        isExplicit: false
+      }
+    ];
+  }
+})();

@@ -46,5 +46,13 @@ window.STARLIGHT_SONGS = [
     cover: "https://i.ytimg.com/vi/lr4vi_XAjQQ/hq720.jpg",
     file: "./songs/Loonboon.m4a",
     isExplicit: false
-  }
+  },
+  {
+    id: 7,
+    title: "Thrift Shop",
+    artist: "Macklemore & Ryan Lewis (ft. Wanz)",
+    cover: "https://i.ytimg.com/vi/apIzD5lgmp0/hq720.jpg",
+    file: "./songs/Thrift Shop.m4a",
+    isExplicit: true
+  },
 ];

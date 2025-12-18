@@ -65,6 +65,14 @@ window.STARLIGHT_SONGS = [
     file: "./songs/What It Sounds Like.m4a",
     isExplicit: false
   },
+  {
+    id: 8,
+    title: "H*e Cakes",
+    artist: "MF Doom",
+    cover: "https://i.ytimg.com/vi/GZAXE3-srfM/hq720.jpg",
+    file: "./songs/Hoe Cakes.m4a",
+    isExplicit: true
+  },
 ];
 
 (() => {

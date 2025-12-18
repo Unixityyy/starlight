@@ -71,7 +71,7 @@ window.STARLIGHT_SONGS = [
     artist: "Tate McRae",
     cover: "https://i.ytimg.com/vi/0cmbxttS-RY/hq720.jpg",
     file: "./songs/You Broke Me First.m4a",
-    isExplicit: false
+    isExplicit: true
   },
   {
     id: 10,

@@ -61,8 +61,16 @@ window.STARLIGHT_SONGS = [
     id: 8,
     title: "What It Sounds Like",
     artist: "HUNTR/X",
-    cover: "https://i9.ytimg.com/s_p/OLAK5uy_m4g1sRMn8VOHpfif0z2DhkGZIzR-cNtAc/maxresdefault.jpg?sqp=CIzojcoGir7X7AMICLvuscYGEAE=&rs=AOn4CLBk0KlyUFTT76yCFNHLKf8X48ibug&v=1758230331",
+    cover: "https://i.ytimg.com/vi/nXg0WUHAXMk/hq720.jpg",
     file: "./songs/What It Sounds Like.m4a",
+    isExplicit: false
+  },
+  {
+    id: 9,
+    title: "You Broke Me First",
+    artist: "Tate McRae",
+    cover: "https://i.ytimg.com/vi/0cmbxttS-RY/hq720.jpg",
+    file: "./songs/You Broke Me First.m4a",
     isExplicit: false
   },
 ];

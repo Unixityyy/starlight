@@ -66,7 +66,7 @@ window.STARLIGHT_SONGS = [
     isExplicit: false
   },
   {
-    id: 8,
+    id: 9,
     title: "H*e Cakes",
     artist: "MF Doom",
     cover: "https://i.ytimg.com/vi/GZAXE3-srfM/hqdefault.jpg", // only exception. there was no hq720 for this song.

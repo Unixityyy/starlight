@@ -69,7 +69,7 @@ window.STARLIGHT_SONGS = [
     id: 8,
     title: "H*e Cakes",
     artist: "MF Doom",
-    cover: "https://i.ytimg.com/vi/GZAXE3-srfM/hq720.jpg",
+    cover: "https://i.ytimg.com/vi/GZAXE3-srfM/hqdefault.jpg", // only exception. there was no hq720 for this song.
     file: "./songs/Hoe Cakes.m4a",
     isExplicit: true
   },

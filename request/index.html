@@ -22,6 +22,7 @@
   <ul class="nav nav-tabs justify-content-center">
     <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
     <li class="nav-item"><a class="nav-link" href="/player">Player</a></li>
+    <li class="nav-item"><a class="nav-link" href="./request">Request Form</a></li>
   </ul>
 </nav>
 
@@ -55,14 +56,22 @@
 <script>
 const form = document.getElementById('songForm');
 const message = document.getElementById('formMessage');
+const submitBtn = form.querySelector('button[type="submit"]');
 
 form.addEventListener('submit', async e => {
   e.preventDefault();
   message.textContent = '';
 
+  const songNameInput = form.songName;
+  const songArtistInput = form.songArtist;
+
+  const originalBtnText = submitBtn ? submitBtn.textContent : '';
+  [songNameInput, songArtistInput, submitBtn].forEach(el => { if (el) el.disabled = true; });
+  if (submitBtn) submitBtn.textContent = 'Submitting...';
+
   const data = new URLSearchParams({
-    'Song Name': form.songName.value,
-    'Song Artist': form.songArtist.value
+    'Song Name': songNameInput.value,
+    'Song Artist': songArtistInput.value
   });
 
   try {
@@ -85,6 +94,9 @@ form.addEventListener('submit', async e => {
   } catch(err) {
     console.error(err);
     message.textContent = 'Error submitting song.';
+  } finally {
+    [songNameInput, songArtistInput, submitBtn].forEach(el => { if (el) el.disabled = false; });
+    if (submitBtn) submitBtn.textContent = originalBtnText;
   }
 });
 </script>

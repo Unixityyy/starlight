@@ -61,7 +61,7 @@ window.STARLIGHT_SONGS = [
     id: 8,
     title: "What It Sounds Like",
     artist: "HUNTR/X",
-    cover: "https://i9.ytimg.com/s_p/OLAK5uy_m4g1sRMn8VOHpfif0z2DhkGZIzR-cNtAc/maxresdefault.jpg?sqp=CIzojcoGir7X7AMICLvuscYGEAE=&rs=AOn4CLBk0KlyUFTT76yCFNHLKf8X48ibug&v=1758230331",
+    cover: "https://i.ytimg.com/vi/rkYuufTXkL8/hq720.jpg",
     file: "./songs/What It Sounds Like.m4a",
     isExplicit: false
   },

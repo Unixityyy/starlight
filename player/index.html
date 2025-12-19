@@ -59,7 +59,12 @@
 
     .list-group-item:hover { background:#3d3d5f; }
 
-    .list-item-title { flex-grow:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .list-item-title {
+      flex-grow:1;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
   </style>
 </head>
 
@@ -75,9 +80,19 @@
 
 <div class="container py-4">
 
-  <h1 class="text-center text-primary fw-bold mb-4">
+  <h1 class="text-center text-primary fw-bold mb-3">
     Starlight Sound Player
   </h1>
+
+  <!-- CLEAN TOGGLE -->
+  <div class="d-flex justify-content-center mb-3">
+    <div class="form-check form-switch">
+      <input class="form-check-input" type="checkbox" id="cleanToggle">
+      <label class="form-check-label" for="cleanToggle">
+        Clean
+      </label>
+    </div>
+  </div>
 
   <!-- PLAYER -->
   <div class="player-box mb-4">
@@ -110,7 +125,7 @@
 
 <audio id="audio"></audio>
 
-<script src="../songs.js"></script>
+<script src="/songs.js"></script>
 
 <script>
   const audio = document.getElementById('audio');
@@ -123,51 +138,59 @@
   const explicitSpan = nowPlaying.querySelector('.explicit-tag');
   const upload = document.getElementById('upload');
   const library = document.getElementById('library');
+  const cleanToggle = document.getElementById('cleanToggle');
 
-  function setNowPlaying(songName, isExplicit) {
-    titleSpan.textContent = songName;
+  let cleanMode = false;
+  let currentSong = null;
+
+  function getSongFile(song) {
+    if (cleanMode && song.file_clean) return song.file_clean;
+    return song.file;
+  }
+
+  function setNowPlaying(text, isExplicit) {
+    titleSpan.textContent = text;
     explicitSpan.style.display = isExplicit ? 'inline-block' : 'none';
   }
 
-  // Play / pause toggle
-  playPause.onclick = () => {
-    if (audio.paused) audio.play();
-    else audio.pause();
-  };
+  playPause.onclick = () => audio.paused ? audio.play() : audio.pause();
 
   audio.onplay = () => playPause.className = 'bi bi-pause-fill icon-btn';
   audio.onpause = () => playPause.className = 'bi bi-play-fill icon-btn';
 
-  // Loop toggle
   loopBtn.onclick = () => {
     audio.loop = !audio.loop;
     loopBtn.classList.toggle('opacity-50', !audio.loop);
     loopBtn.classList.toggle('text-primary', audio.loop);
   };
 
-  // Progress update
   audio.ontimeupdate = () => {
     if (!audio.duration) return;
     progress.style.width = `${(audio.currentTime / audio.duration) * 100}%`;
   };
 
-  // Seek
   progressBar.onclick = e => {
     const rect = progressBar.getBoundingClientRect();
-    const percent = (e.clientX - rect.left) / rect.width;
-    audio.currentTime = percent * audio.duration;
+    audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
   };
 
-  // Upload
   upload.onchange = e => {
     const file = e.target.files[0];
     if (!file) return;
     audio.src = URL.createObjectURL(file);
+    currentSong = null;
     setNowPlaying(file.name, false);
     audio.play();
   };
 
-  // Library
+  cleanToggle.onchange = () => {
+    cleanMode = cleanToggle.checked;
+    if (currentSong) {
+      audio.src = `../${getSongFile(currentSong)}`;
+      audio.play();
+    }
+  };
+
   window.STARLIGHT_SONGS.forEach(song => {
     const li = document.createElement('li');
     li.className = 'list-group-item d-flex align-items-center';
@@ -177,7 +200,8 @@
     `;
 
     li.onclick = () => {
-      audio.src = `../${song.file}`;
+      currentSong = song;
+      audio.src = `../${getSongFile(song)}`;
       setNowPlaying(`${song.title} - ${song.artist}`, song.isExplicit);
       audio.play();
     };

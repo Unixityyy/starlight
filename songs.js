@@ -7,6 +7,7 @@ window.STARLIGHT_SONGS = [
     artist: "Tyler, The Creator (ft. Sk8brd)",
     cover: "https://i.ytimg.com/vi/OKVi6jPdE8c/hq720.jpg",
     file: "./songs/Big Poe.m4a",
+    file_clean: "./songs/Big Poe Clean.m4a",
     isExplicit: true
   },
   {
@@ -23,6 +24,7 @@ window.STARLIGHT_SONGS = [
     artist: "AJR",
     cover: "https://i.ytimg.com/vi/MiKkH48P8g8/hq720.jpg",
     file: "./songs/World's Smallest Violin.m4a",
+    file_clean: "./songs/Worlds Smallest Violin Clean.m4a",
     isExplicit: true
   },
   {
@@ -31,6 +33,7 @@ window.STARLIGHT_SONGS = [
     artist: "Travis Scott",
     cover: "https://i.ytimg.com/vi/d-JBBNg8YKs/hq720.jpg",
     file: "./songs/SICKO MODE.m4a",
+    file_clean: "./songs/SICKO MODE Clean.m4a",
     isExplicit: true
   },
   {
@@ -39,6 +42,7 @@ window.STARLIGHT_SONGS = [
     artist: "Diplo (ft. Trippie Redd)",
     cover: "https://i.ytimg.com/vi/ZpQAwGHI29A/hq720.jpg",
     file: "./songs/Wish.m4a",
+    file_clean: "./songs/Wish Clean.m4a",
     isExplicit: true
   },
   {
@@ -55,6 +59,7 @@ window.STARLIGHT_SONGS = [
     artist: "Macklemore & Ryan Lewis (ft. Wanz)",
     cover: "https://i.ytimg.com/vi/apIzD5lgmp0/hq720.jpg",
     file: "./songs/Thrift Shop.m4a",
+    file_clean: "./songs/Thrift Shop Clean.m4a",
     isExplicit: true
   },
   {
@@ -71,6 +76,7 @@ window.STARLIGHT_SONGS = [
     artist: "Tate McRae",
     cover: "https://i.ytimg.com/vi/0cmbxttS-RY/hq720.jpg",
     file: "./songs/You Broke Me First.m4a",
+    file_clean: "./songs/You Broke Me First Clean.m4a",
     isExplicit: true
   },
   {
@@ -79,6 +85,7 @@ window.STARLIGHT_SONGS = [
     artist: "MF Doom",
     cover: "https://i.ytimg.com/vi/GZAXE3-srfM/hqdefault.jpg", // only exception. there was no hq720 for this song.
     file: "./songs/Hoe Cakes.m4a",
+    file_clean: "./songs/Hoe Cakes Clean.m4a",
     isExplicit: true
   },
 ];

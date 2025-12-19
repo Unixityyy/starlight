@@ -90,12 +90,22 @@
 
 <div class="container py-4">
 
-  <header class="mb-5">
+  <header class="mb-4">
     <h1>Starlight Sound Library</h1>
     <p>Better than Google Slides with music.</p>
     <p class="small">
       Songs marked with <span class="explicit-tag">E</span> are explicit
     </p>
+
+    <!-- CLEAN TOGGLE -->
+    <div class="d-flex justify-content-center mt-3">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="cleanToggle">
+        <label class="form-check-label" for="cleanToggle">
+          Clean
+        </label>
+      </div>
+    </div>
   </header>
 
   <div id="song-grid"
@@ -126,9 +136,20 @@
   </div>
 </div>
 
-<script src="./songs.js"></script>
+<script src="/songs.js"></script>
 
 <script>
+  let cleanMode = false;
+  const grid = document.getElementById('song-grid');
+  const toggle = document.getElementById('cleanToggle');
+
+  function getSongFile(song) {
+    if (cleanMode && song.file_clean) {
+      return song.file_clean;
+    }
+    return song.file;
+  }
+
   function makeCard(song) {
     const col = document.createElement('div');
     col.className = 'col';
@@ -145,7 +166,7 @@
               : ''}
           </h6>
           <p class="small text-secondary">${song.artist}</p>
-          <a href="${song.file}" download
+          <a href="${getSongFile(song)}" download
              class="btn btn-outline-primary btn-sm w-100">
             Download
           </a>
@@ -155,11 +176,19 @@
     return col;
   }
 
-  const grid = document.getElementById('song-grid');
+  function renderSongs() {
+    grid.querySelectorAll('.col:not(:first-child)').forEach(e => e.remove());
+    window.STARLIGHT_SONGS.forEach(song => {
+      grid.appendChild(makeCard(song));
+    });
+  }
 
-  window.STARLIGHT_SONGS.forEach(song => {
-    grid.appendChild(makeCard(song));
+  toggle.addEventListener('change', () => {
+    cleanMode = toggle.checked;
+    renderSongs();
   });
+
+  renderSongs();
 </script>
 
 </body>

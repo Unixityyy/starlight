@@ -88,6 +88,15 @@ window.STARLIGHT_SONGS = [
     file_clean: "./songs/Hoe Cakes Clean.m4a",
     isExplicit: true
   },
+  {
+    id: 11,
+    title: "Payphone",
+    artist: "Maroon 5",
+    cover: "https://i.ytimg.com/vi/8UY5BGFLtK0/hq720.jpg",
+    file: "./songs/Payphone.m4a",
+    file_clean: "./songs/Payphone Clean.m4a",
+    isExplicit: true
+  },
 ];
 
 (() => {

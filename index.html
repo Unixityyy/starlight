@@ -139,14 +139,15 @@
 <script src="/songs.js"></script>
 
 <script>
-  let cleanMode = false;
   const grid = document.getElementById('song-grid');
   const toggle = document.getElementById('cleanToggle');
 
+  // load saved state
+  let cleanMode = localStorage.getItem('cleanEnabled') === 'true';
+  toggle.checked = cleanMode;
+
   function getSongFile(song) {
-    if (cleanMode && song.file_clean) {
-      return song.file_clean;
-    }
+    if (cleanMode && song.file_clean) return song.file_clean;
     return song.file;
   }
 
@@ -161,9 +162,7 @@
         <div class="card-body p-2">
           <h6 class="fw-bold text-primary text-truncate">
             ${song.title}
-            ${song.isExplicit
-              ? '<span class="explicit-tag ms-1">E</span>'
-              : ''}
+            ${song.isExplicit ? '<span class="explicit-tag ms-1">E</span>' : ''}
           </h6>
           <p class="small text-secondary">${song.artist}</p>
           <a href="${getSongFile(song)}" download
@@ -185,11 +184,11 @@
 
   toggle.addEventListener('change', () => {
     cleanMode = toggle.checked;
+    localStorage.setItem('cleanEnabled', cleanMode);
     renderSongs();
   });
 
   renderSongs();
 </script>
-
 </body>
 </html>

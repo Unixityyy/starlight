@@ -72,9 +72,9 @@
 
 <nav class="container mb-4">
   <ul class="nav nav-tabs justify-content-center">
-    <li class="nav-item"><a class="nav-link" href="../">Home</a></li>
-    <li class="nav-item"><a class="nav-link active" href="./">Player</a></li>
-    <li class="nav-item"><a class="nav-link" href="./request">Request Form</a></li>
+    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+    <li class="nav-item"><a class="nav-link active" href="/">Player</a></li>
+    <li class="nav-item"><a class="nav-link" href="/request">Request Form</a></li>
   </ul>
 </nav>
 
@@ -140,7 +140,10 @@
   const library = document.getElementById('library');
   const cleanToggle = document.getElementById('cleanToggle');
 
-  let cleanMode = false;
+  // load saved state
+  let cleanMode = localStorage.getItem('cleanEnabled') === 'true';
+  cleanToggle.checked = cleanMode;
+
   let currentSong = null;
 
   function getSongFile(song) {
@@ -154,7 +157,6 @@
   }
 
   playPause.onclick = () => audio.paused ? audio.play() : audio.pause();
-
   audio.onplay = () => playPause.className = 'bi bi-pause-fill icon-btn';
   audio.onpause = () => playPause.className = 'bi bi-play-fill icon-btn';
 
@@ -177,14 +179,16 @@
   upload.onchange = e => {
     const file = e.target.files[0];
     if (!file) return;
-    audio.src = URL.createObjectURL(file);
     currentSong = null;
+    audio.src = URL.createObjectURL(file);
     setNowPlaying(file.name, false);
     audio.play();
   };
 
   cleanToggle.onchange = () => {
     cleanMode = cleanToggle.checked;
+    localStorage.setItem('cleanEnabled', cleanMode);
+
     if (currentSong) {
       audio.src = `../${getSongFile(currentSong)}`;
       audio.play();
@@ -209,6 +213,5 @@
     library.appendChild(li);
   });
 </script>
-
 </body>
 </html>

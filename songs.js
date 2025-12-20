@@ -97,6 +97,14 @@ window.STARLIGHT_SONGS = [
     file_clean: "./songs/Payphone Clean.m4a",
     isExplicit: true
   },
+  {
+    id: 12,
+    title: "Black Knife",
+    artist: "Toby Fox",
+    cover: "https://i.ytimg.com/vi/B8Us0DZgexw/hq720.jpg",
+    file: "./songs/Black Knife.m4a",
+    isExplicit: false
+  },
 ];
 
 (() => {

@@ -72,11 +72,11 @@ window.STARLIGHT_SONGS = [
   },
   {
     id: 9,
-    title: "You Broke Me First",
+    title: "you broke me first",
     artist: "Tate McRae",
     cover: "https://i.ytimg.com/vi/0cmbxttS-RY/hq720.jpg",
-    file: "./songs/You Broke Me First.m4a",
-    file_clean: "./songs/You Broke Me First Clean.m4a",
+    file: "./songs/you broke me first.m4a",
+    file_clean: "./songs/you broke me first Clean.m4a",
     isExplicit: true
   },
   {
@@ -103,6 +103,14 @@ window.STARLIGHT_SONGS = [
     artist: "Toby Fox",
     cover: "https://i.ytimg.com/vi/B8Us0DZgexw/hq720.jpg",
     file: "./songs/Black Knife.m4a",
+    isExplicit: false
+  },
+  {
+    id: 13,
+    title: "67 Merry Rizzmas",
+    artist: "Goji Georgie",
+    cover: "https://i.ytimg.com/vi/xVIEfn3yumw/hq720.jpg",
+    file: "./songs/67 Merry Rizzmas.m4a",
     isExplicit: false
   },
 ];

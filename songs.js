@@ -117,8 +117,8 @@ window.STARLIGHT_SONGS = [
     id: 14,
     title: "Shiawase",
     artist: "Dion Timmer",
-    cover: "https://i.ytimg.com/vi/xVIEfn3yumw/hq720.jpg",
-    file: "./songs/67 Merry Rizzmas.m4a",
+    cover: "https://i.ytimg.com/vi/suisIF4hwyw/hq720.jpg",
+    file: "./songs/Shiawase.m4a",
     isExplicit: false
   },
 ];

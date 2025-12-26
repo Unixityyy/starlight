@@ -31,7 +31,7 @@ window.STARLIGHT_SONGS = [
     id: 4,
     title: "SICKO MODE",
     artist: "Travis Scott",
-    cover: "https://i.ytimg.com/vi/d-JBBNg8YKs/hq720.jpg",
+    cover: "https://i.ytimg.com/vi/d-JBBNg8YKs/hq720.jpg", // also what is this thumbnail (╥﹏╥)
     file: "./songs/SICKO MODE.m4a",
     file_clean: "./songs/SICKO MODE Clean.m4a",
     isExplicit: true
@@ -74,7 +74,7 @@ window.STARLIGHT_SONGS = [
     id: 9,
     title: "you broke me first",
     artist: "Tate McRae",
-    cover: "https://i.ytimg.com/vi/0cmbxttS-RY/hq720.jpg",
+    cover: "./songs/you broke me first.png", // there was no good youtube cover for this song :\
     file: "./songs/you broke me first.m4a",
     file_clean: "./songs/you broke me first Clean.m4a",
     isExplicit: true
@@ -83,7 +83,7 @@ window.STARLIGHT_SONGS = [
     id: 10,
     title: "H*e Cakes",
     artist: "MF Doom",
-    cover: "https://i.ytimg.com/vi/GZAXE3-srfM/hqdefault.jpg", // only exception. there was no hq720 for this song.
+    cover: "https://i.ytimg.com/vi/GZAXE3-srfM/hqdefault.jpg", // only exception. there was no hq720 for this song. // well guess what. we have another exception :)
     file: "./songs/Hoe Cakes.m4a",
     file_clean: "./songs/Hoe Cakes Clean.m4a",
     isExplicit: true
@@ -109,6 +109,14 @@ window.STARLIGHT_SONGS = [
     id: 13,
     title: "67 Merry Rizzmas",
     artist: "Goji Georgie",
+    cover: "https://i.ytimg.com/vi/xVIEfn3yumw/hq720.jpg",
+    file: "./songs/67 Merry Rizzmas.m4a",
+    isExplicit: false
+  },
+  {
+    id: 14,
+    title: "Shiawase",
+    artist: "Dion Timmer",
     cover: "https://i.ytimg.com/vi/xVIEfn3yumw/hq720.jpg",
     file: "./songs/67 Merry Rizzmas.m4a",
     isExplicit: false

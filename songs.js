@@ -121,6 +121,14 @@ window.STARLIGHT_SONGS = [
     file: "./songs/Shiawase.m4a",
     isExplicit: false
   },
+  {
+    id: 15,
+    title: "This Side Of Paradise",
+    artist: "Coyote Theory",
+    cover: "https://i.ytimg.com/vi/TfRWFei-rbk/hq720.jpg",
+    file: "./songs/This Side Of Paradise.m4a",
+    isExplicit: false
+  },
 ];
 
 (() => {

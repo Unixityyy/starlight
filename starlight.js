@@ -150,3 +150,11 @@ window.STARLIGHT_SONGS = [
   }
 
 })();
+
+console.log("%cHey There!", "color: red; font-size: 50px; font-weight: bold;");
+console.log(
+  "%cIf somebody told you to paste something here, it is very likely they are a %cscammer%c!",
+  "color: red; font-size: 25px;",
+  "color: red; font-size: 25px; font-weight: bold;",
+  "color: red; font-size: 25px;"
+);

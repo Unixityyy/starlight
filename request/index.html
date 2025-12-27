@@ -81,7 +81,7 @@ form.addEventListener('submit', async e => {
   });
 
   try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbxZy9mM0zl8RtKPZ6JxrSViY1JHfQH5RjPCeZfO33uFnbjsnte5NhjKPnBWDzyN2M2S/exec', { // replace with Apps Script URL
+    const response = await fetch('https://script.google.com/macros/s/AKfycbxZy9mM0zl8RtKPZ6JxrSViY1JHfQH5RjPCeZfO33uFnbjsnte5NhjKPnBWDzyN2M2S/exec', {
       method: 'POST',
       body: data,
       headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -92,20 +92,23 @@ form.addEventListener('submit', async e => {
     if(result.result === "success") {
       message.textContent = 'Song submitted successfully!';
       form.reset();
+      console.log("[Starlight] Page '/request' has made a POST request to https://script.google.com")
     } else if(result.result === "duplicate") {
       message.textContent = 'This song has already been requested!';
     } else {
       message.textContent = 'Error submitting song.';
+      console.error("[Starlight] Page /request has reached an error attempting to POST to https://script.google.com")
     }
   } catch(err) {
-    console.error(err);
+    console.error(`[Starlight] ${err}`);
     message.textContent = 'Error submitting song.';
+    console.error("[Starlight] Page /request has reached an error attempting to POST to https://script.google.com")
   } finally {
     [songNameInput, songArtistInput, submitBtn].forEach(el => { if (el) el.disabled = false; });
     if (submitBtn) submitBtn.textContent = originalBtnText;
   }
 });
 </script>
-
+<script src="/starlight.js"></script>
 </body>
 </html>

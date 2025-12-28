@@ -41,15 +41,18 @@
     ],
     "win": {
       "icon": "build/icon.png",
-      "target": "portable"
+      "target": "portable",
+      "artifactName": "${productName}.${ext}"
     },
     "mac": {
       "icon": "build/icon.png",
-      "target": "dmg"
+      "target": "dmg",
+      "artifactName": "${productName}.${ext}"
     },
     "linux": {
       "icon": "build/icon.png",
-      "target": "AppImage"
+      "target": "AppImage",
+      "artifactName": "${productName}.${ext}"
     }
   }
 }

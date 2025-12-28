@@ -1,0 +1,52 @@
+{
+  "name": "starlight",
+  "version": "1.0.0",
+  "description": "Starlight Desktop",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Unixityyy/starlight.git"
+  },
+  "keywords": [],
+  "author": "Unixityyy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Unixityyy/starlight/issues"
+  },
+  "homepage": "https://github.com/Unixityyy/starlight#readme",
+  "devDependencies": {
+    "electron": "^39.2.7",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.unixity.starlight",
+    "productName": "Starlight",
+    "files": [
+      "**/*",
+      "!.github",
+      "!package-lock.json",
+      "!.git"
+    ],
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "Unixityyy",
+        "repo": "starlight"
+      }
+    ],
+    "win": {
+      "target": "portable"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  }
+}

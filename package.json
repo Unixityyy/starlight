@@ -40,12 +40,15 @@
       }
     ],
     "win": {
+      "icon": "favicon.ico",
       "target": "portable"
     },
     "mac": {
+      "icon": "icon.icns",
       "target": "dmg"
     },
     "linux": {
+      "icon": "favicon.ico",
       "target": "AppImage"
     }
   }

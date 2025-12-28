@@ -1,6 +1,6 @@
 {
   "name": "starlight",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Starlight Desktop",
   "main": "main.js",
   "scripts": {
@@ -36,9 +36,16 @@
       {
         "provider": "github",
         "owner": "Unixityyy",
-        "repo": "starlight"
+        "repo": "starlight",
+        "publishAutoUpdate": false
       }
     ],
+    "nsis": {
+      "differentialPackage": false
+    },
+    "dmg": {
+      "writeUpdateInfo": false
+    },
     "win": {
       "icon": "build/icon.png",
       "target": "portable",

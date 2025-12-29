@@ -33,6 +33,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Build Tailwind CSS
+        run: npm run tailwind:build
+
       # --- GitHub Pages Logic (Only runs on Ubuntu) ---
       - name: Setup Pages
         if: matrix.os == 'ubuntu-latest'

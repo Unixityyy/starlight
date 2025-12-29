@@ -1,6 +1,6 @@
 {
   "name": "starlight",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Starlight Desktop",
   "main": "main.js",
   "scripts": {
@@ -28,6 +28,11 @@
     "productName": "Starlight",
     "files": [
       "**/*",
+      "player/**/*",
+      "requests/**/*",
+      "!node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
+      "songs/**/*",
+      "starlight.js",
       "!.github",
       "!package-lock.json",
       "!.git"

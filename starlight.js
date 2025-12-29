@@ -158,3 +158,25 @@ console.log(
   "color: red; font-size: 25px; font-weight: bold;",
   "color: red; font-size: 25px;"
 );
+
+document.addEventListener('click', e => {
+  const origin = e.target.closest('a');
+  if (!origin || !origin.href) return;
+
+  const isElectron = navigator.userAgent.toLowerCase().includes('electron');
+
+  if (isElectron) {
+    e.preventDefault();
+    let target = origin.getAttribute('href');
+
+    if (target === '/' || target === './') {
+        target = 'index.html';
+    }
+    
+    else if (!target.includes('.html') && !target.startsWith('http')) {
+        target = target.endsWith('/') ? `${target}index.html` : `${target}/index.html`;
+    }
+
+    window.location.href = target;
+  }
+});

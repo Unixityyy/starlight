@@ -129,6 +129,22 @@ window.STARLIGHT_SONGS = [
     file: "./songs/This Side Of Paradise.m4a",
     isExplicit: false
   },
+  {
+    id: 16,
+    title: "Waving Through a Window",
+    artist: "Ben Platt",
+    cover: "https://i.ytimg.com/vi/A9fGB1ln13E/hq720.jpg",
+    file: "./songs/Waving Through a Window.m4a",
+    isExplicit: false
+  },
+  {
+    id: 16,
+    title: "You Will Be Found",
+    artist: "Ben Platt",
+    cover: "https://i.ytimg.com/vi/A9fGB1ln13E/hq720.jpg",
+    file: "./songs/You Will Be Found.m4a",
+    isExplicit: false
+  },
 ];
 
 (() => {

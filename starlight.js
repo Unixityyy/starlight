@@ -132,7 +132,7 @@ window.STARLIGHT_SONGS = [
   {
     id: 16,
     title: "Waving Through a Window",
-    artist: "Ben Platt",
+    artist: "Original Broadway Cast of Dear Evan Hansen",
     cover: "https://i.ytimg.com/vi/A9fGB1ln13E/hq720.jpg",
     file: "./songs/Waving Through a Window.m4a",
     isExplicit: false
@@ -140,9 +140,112 @@ window.STARLIGHT_SONGS = [
   {
     id: 17,
     title: "You Will Be Found",
-    artist: "Ben Platt",
+    artist: "Original Broadway Cast of Dear Evan Hansen",
     cover: "https://i.ytimg.com/vi/A9fGB1ln13E/hq720.jpg",
     file: "./songs/You Will Be Found.m4a",
+    isExplicit: false
+  },
+  {
+    id: 18,
+    title: "It's Tv Time!",
+    artist: "Toby Fox",
+    cover: "https://i.ytimg.com/vi/B8Us0DZgexw/hq720.jpg",
+    file: "./songs/It's Tv Time!.m4a",
+    isExplicit: false
+  },
+  {
+    id: 19,
+    title: "911 / Mr. Lonely",
+    artist: "Tyler, The Creator (ft. Frank Ocean & Steve Lacy)",
+    cover: "https://i.ytimg.com/vi/khMb3k-Wwvg/hq720.jpg",
+    file: "./songs/911 Mr. Lonely.m4a",
+    file_clean: "./songs/911 Mr. Lonely Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 20,
+    title: "This Could Be Us",
+    artist: "Rae Sremmurd",
+    cover: "https://i.ytimg.com/vi/poYUzSVlNEE/hq720.jpg",
+    file: "./songs/This Could Be Us.m4a",
+    file_clean: "./songs/911 Mr. Lonely Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 21,
+    title: "Glitter",
+    artist: "Tyler, The Creator",
+    cover: "https://i.ytimg.com/vi/MvEtKc8-n3s/hq720.jpg",
+    file: "./songs/Glitter.m4a",
+    file_clean: "./songs/Glitter Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 22,
+    title: "The World Revolving",
+    artist: "Toby Fox",
+    cover: "https://i.ytimg.com/vi/B8Us0DZgexw/hq720.jpg",
+    file: "./songs/The World Revolving.m4a",
+    isExplicit: false
+  },
+  {
+    id: 23,
+    title: "Do What I Want",
+    artist: "Lil Uzi Vert",
+    cover: "https://i.ytimg.com/vi/j6PfExD39aM/hq720.jpg",
+    file: "./songs/Do What I Want.m4a",
+    file_clean: "./songs/Do What I Want Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 24,
+    title: "Love Scars",
+    artist: "Trippie Redd",
+    cover: "https://i.ytimg.com/vi/KXpLGyvHc7M/hq720.jpg",
+    file: "./songs/Love Scars.m4a",
+    file_clean: "./songs/Love Scars Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 25,
+    title: "Orula",
+    artist: "Victor Mendivil",
+    cover: "https://i.ytimg.com/vi/qEz8K0lHxY0/hq720.jpg",
+    file: "./songs/Orula.m4a",
+    isExplicit: false
+  },
+  {
+    id: 26,
+    title: "Where This Flower Blooms",
+    artist: "Tyler, The Creator (ft. Frank Ocean)",
+    cover: "https://i.ytimg.com/vi/MvEtKc8-n3s/hq720.jpg",
+    file: "./songs/Where This Flower Blooms.m4a",
+    file_clean: "./songs/Where This Flower Blooms Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 27,
+    title: "ARE WE STILL FRIENDS?",
+    artist: "Tyler, The Creator",
+    cover: "https://i.ytimg.com/vi/dqZ8vr_Q4UI/hq720.jpg",
+    file: "./songs/ARE WE STILL FRIENDS.m4a",
+    file_clean: "./songs/ARE WE STILL FRIENDS Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 28,
+    title: "Xenogenesis",
+    artist: "TheFatRat",
+    cover: "https://i.ytimg.com/vi/jOgjcOMnjjs/hq720.jpg",
+    file: "./songs/Xenogenesis.m4a",
+    isExplicit: false
+  },
+  {
+    id: 29,
+    title: "Unity",
+    artist: "TheFatRat",
+    cover: "https://i.ytimg.com/vi/mP9W93FgHzo/hq720.jpg",
+    file: "./songs/Unity.m4a",
     isExplicit: false
   },
 ];

@@ -6,53 +6,85 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
-  <link href="dist/output.css" rel="stylesheet">
-
+  
   <style>
     body { background-color:#1a1a2e; font-family:Inter,sans-serif; color:white; }
     .card { background:#27273f; border:1px solid #3d3d5f; border-radius:12px; transition:.2s; }
     .card:hover { transform:translateY(-5px); box-shadow:0 10px 20px rgba(0,0,0,.5); }
     header h1 { font-size:3rem; font-weight:bold; text-align:center; color:#0d6efd; margin-bottom:.5rem; }
     header p { text-align:center; color:#c0c0ff; margin-bottom:.25rem; }
+    
+    .search-result-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      background: #1a1a2e;
+      border: 1px solid #3d3d5f;
+      margin-bottom: 4px;
+      border-radius: 8px;
+    }
+    .search-result-item:hover { background: #32325d; }
+    .album-art { width: 45px; height: 45px; border-radius: 4px; }
+    .explicit-tag {
+      background:#5d3587;
+      color:white;
+      font-size:.65rem;
+      padding:1px 4px;
+      border-radius:3px;
+      font-weight:700;
+      text-transform: uppercase;
+      vertical-align: middle;
+    }
   </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav class="container mb-4">
   <ul class="nav nav-tabs justify-content-center">
-    <li class="nav-item">
-      <a class="nav-link" href="../">Home</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="../player">Player</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link active" href="./">Request Form</a>
-    </li>
+    <li class="nav-item"><a class="nav-link" href="../">Home</a></li>
+    <li class="nav-item"><a class="nav-link" href="../player">Player</a></li>
+    <li class="nav-item"><a class="nav-link active" href="./">Request Form</a></li>
   </ul>
 </nav>
 
 <div class="container py-4">
   <header class="mb-5">
     <h1>Starlight Song Request</h1>
-    <p>Submit a song you want added to the library!</p>
+    <p>Search Apple Music for a song to add to the library!</p>
+    <p>For some reason, explicit songs don't show and we are working on that!</p>
   </header>
 
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="card p-4">
-        <h3 class="text-primary mb-3 text-center">Request a Song</h3>
+        <h3 class="text-primary mb-3 text-center">Find a Song</h3>
+        
+        <div class="mb-3">
+          <input type="text" class="form-control form-control-lg" id="songSearch" placeholder="Search by title or artist..." autocomplete="off">
+        </div>
+
+        <div id="searchResults" class="mb-3" style="max-height: 280px; overflow-y: auto;"></div>
+
         <form id="songForm">
-          <div class="mb-3">
-            <label for="songName" class="form-label">Song Name</label>
-            <input type="text" class="form-control" id="songName" name="songName" required>
+          <input type="hidden" id="songName" name="songName">
+          <input type="hidden" id="songArtist" name="songArtist">
+          
+          <div id="selectedSongPreview" class="mb-4 d-none">
+            <p class="small text-muted mb-2 text-center">Ready to Submit:</p>
+            <div class="p-3 border border-primary rounded bg-dark d-flex align-items-center gap-3">
+              <img id="displayArt" src="" class="album-art" alt="Art">
+              <div class="overflow-hidden">
+                <div class="d-flex align-items-center gap-2">
+                    <strong id="displayTitle" class="text-truncate"></strong>
+                    <span id="displayExplicit" class="explicit-tag" style="display:none;">E</span>
+                </div>
+                <span id="displayArtist" class="text-secondary small d-block text-truncate"></span>
+              </div>
+            </div>
           </div>
-          <div class="mb-3">
-            <label for="songArtist" class="form-label">Song Artist</label>
-            <input type="text" class="form-control" id="songArtist" name="songArtist" required>
-          </div>
-          <button type="submit" class="btn btn-outline-light w-100">Submit</button>
+
+          <button type="submit" id="submitBtn" class="btn btn-outline-light w-100 py-2" disabled>Submit Request</button>
         </form>
         <div id="formMessage" class="mt-3 text-center opacity-75"></div>
       </div>
@@ -61,20 +93,78 @@
 </div>
 
 <script>
-const form = document.getElementById('songForm');
+const songSearch = document.getElementById('songSearch');
+const searchResults = document.getElementById('searchResults');
+const songForm = document.getElementById('songForm');
+const songNameInput = document.getElementById('songName');
+const songArtistInput = document.getElementById('songArtist');
+const selectedSongPreview = document.getElementById('selectedSongPreview');
+const displayTitle = document.getElementById('displayTitle');
+const displayArtist = document.getElementById('displayArtist');
+const displayArt = document.getElementById('displayArt');
+const displayExplicit = document.getElementById('displayExplicit');
+const submitBtn = document.getElementById('submitBtn');
 const message = document.getElementById('formMessage');
-const submitBtn = form.querySelector('button[type="submit"]');
 
-form.addEventListener('submit', async e => {
+let debounceTimer;
+
+songSearch.addEventListener('input', () => {
+  clearTimeout(debounceTimer);
+  const query = songSearch.value.trim();
+  
+  if (query.length < 2) {
+    searchResults.innerHTML = '';
+    return;
+  }
+
+  debounceTimer = setTimeout(() => {
+    fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&entity=song&limit=20&country=us&explicit=true&lang=en_us`)
+      .then(res => res.json())
+      .then(data => {
+        searchResults.innerHTML = '';
+        data.results.forEach(track => {
+          const isExplicit = track.trackExplicitness === 'explicit';
+          const item = document.createElement('div');
+          item.className = 'search-result-item p-2 d-flex align-items-center';
+          item.innerHTML = `
+            <img src="${track.artworkUrl60}" class="album-art">
+            <div class="overflow-hidden flex-grow-1">
+              <div class="text-truncate">
+                <strong>${track.trackName}</strong>
+                ${isExplicit ? '<span class="explicit-tag ms-1">E</span>' : ''}
+              </div>
+              <div class="text-secondary small text-truncate">${track.artistName}</div>
+            </div>
+          `;
+          item.onclick = () => selectSong(track.trackName, track.artistName, track.artworkUrl100, isExplicit);
+          searchResults.appendChild(item);
+        });
+      });
+  }, 400);
+});
+
+function selectSong(name, artist, artUrl, isExplicit) {
+  songNameInput.value = name;
+  songArtistInput.value = artist;
+  
+  displayTitle.textContent = name;
+  displayArtist.textContent = artist;
+  displayArt.src = artUrl;
+  
+  selectedSongPreview.classList.remove('d-none');
+  submitBtn.disabled = false;
+  searchResults.innerHTML = '';
+  displayExplicit.style.display = isExplicit ? 'inline-block' : 'none';
+  songSearch.value = '';
+}
+
+songForm.addEventListener('submit', async e => {
   e.preventDefault();
   message.textContent = '';
-
-  const songNameInput = form.songName;
-  const songArtistInput = form.songArtist;
-
-  const originalBtnText = submitBtn ? submitBtn.textContent : '';
-  [songNameInput, songArtistInput, submitBtn].forEach(el => { if (el) el.disabled = true; });
-  if (submitBtn) submitBtn.textContent = 'Submitting...';
+  
+  const originalBtnText = submitBtn.textContent;
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Submitting...';
 
   const data = new URLSearchParams({
     'Song Name': songNameInput.value,
@@ -92,21 +182,16 @@ form.addEventListener('submit', async e => {
 
     if(result.result === "success") {
       message.textContent = 'Song submitted successfully!';
-      form.reset();
-      console.log("[Starlight] Page '/request' has made a POST request to https://script.google.com")
-    } else if(result.result === "duplicate") {
-      message.textContent = 'This song has already been requested!';
+      songForm.reset();
+      selectedSongPreview.classList.add('d-none');
     } else {
-      message.textContent = 'Error submitting song.';
-      console.error("[Starlight] Page /request has reached an error attempting to POST to https://script.google.com")
+      message.textContent = result.result === "duplicate" ? 'This song has already been requested!' : 'Error submitting song.';
     }
   } catch(err) {
-    console.error(`[Starlight] ${err}`);
     message.textContent = 'Error submitting song.';
-    console.error("[Starlight] Page /request has reached an error attempting to POST to https://script.google.com")
   } finally {
-    [songNameInput, songArtistInput, submitBtn].forEach(el => { if (el) el.disabled = false; });
-    if (submitBtn) submitBtn.textContent = originalBtnText;
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalBtnText;
   }
 });
 </script>

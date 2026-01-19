@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <script type="module" src="../auth.js"></script>
   
   <style>
     body { background-color:#1a1a2e; font-family:Inter,sans-serif; color:white; }
@@ -42,9 +43,21 @@
 
 <nav class="container mb-4">
   <ul class="nav nav-tabs justify-content-center">
-    <li class="nav-item"><a class="nav-link" href="../">Home</a></li>
-    <li class="nav-item"><a class="nav-link" href="../player">Player</a></li>
-    <li class="nav-item"><a class="nav-link active" href="./">Request Form</a></li>
+    <li class="nav-item">
+      <a class="nav-link" href="../">Home</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="../player">Player</a>
+    </li>
+    <li class="nav-item auth-only d-none">
+      <a class="nav-link active" href="./">Request Form</a>
+    </li>
+    <li class="nav-item auth-only d-none">
+      <button class="nav-link text-danger" onclick="logoutUser()">Logout</button>
+    </li>
+    <li class="nav-item guest-only">
+      <a class="nav-link text-warning" href="../login/">Login</a>
+    </li>
   </ul>
 </nav>
 
@@ -53,6 +66,7 @@
     <h1>Starlight Song Request</h1>
     <p>Search Apple Music for a song to add to the library!</p>
     <p>For some reason, explicit songs don't show and we are working on that!</p>
+    <p class="text-error">Your email will be sent along with your request!</p>
   </header>
 
   <div class="row justify-content-center">
@@ -92,7 +106,10 @@
   </div>
 </div>
 
-<script>
+<script type="module">
+// Import auth from your config file
+import { auth } from '../auth.js';
+
 const songSearch = document.getElementById('songSearch');
 const searchResults = document.getElementById('searchResults');
 const songForm = document.getElementById('songForm');
@@ -146,11 +163,9 @@ songSearch.addEventListener('input', () => {
 function selectSong(name, artist, artUrl, isExplicit) {
   songNameInput.value = name;
   songArtistInput.value = artist;
-  
   displayTitle.textContent = name;
   displayArtist.textContent = artist;
   displayArt.src = artUrl;
-  
   selectedSongPreview.classList.remove('d-none');
   submitBtn.disabled = false;
   searchResults.innerHTML = '';
@@ -166,13 +181,16 @@ songForm.addEventListener('submit', async e => {
   submitBtn.disabled = true;
   submitBtn.textContent = 'Submitting...';
 
+  const userEmail = auth.currentUser ? auth.currentUser.email : "Anonymous";
+
   const data = new URLSearchParams({
     'Song Name': songNameInput.value,
-    'Song Artist': songArtistInput.value
+    'Song Artist': songArtistInput.value,
+    'Email': userEmail
   });
 
   try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbxZy9mM0zl8RtKPZ6JxrSViY1JHfQH5RjPCeZfO33uFnbjsnte5NhjKPnBWDzyN2M2S/exec', {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbzfRUdzvAEgiZriAuNkn-hfyv2omEcy6rWHHLsPtI0U-nTjg8SPuU69lf1-Mhg4LCZN/exec', {
       method: 'POST',
       body: data,
       headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -184,14 +202,15 @@ songForm.addEventListener('submit', async e => {
       message.textContent = 'Song submitted successfully!';
       songForm.reset();
       selectedSongPreview.classList.add('d-none');
+      submitBtn.disabled = true;
     } else {
       message.textContent = result.result === "duplicate" ? 'This song has already been requested!' : 'Error submitting song.';
     }
   } catch(err) {
     message.textContent = 'Error submitting song.';
   } finally {
-    submitBtn.disabled = false;
     submitBtn.textContent = originalBtnText;
+    if (!selectedSongPreview.classList.contains('d-none')) submitBtn.disabled = false;
   }
 });
 </script>

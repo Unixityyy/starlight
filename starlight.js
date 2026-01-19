@@ -248,6 +248,22 @@ window.STARLIGHT_SONGS = [
     file: "./songs/Unity.m4a",
     isExplicit: false
   },
+  {
+    id: 30,
+    title: "Power of the Saber Blade",
+    artist: "DragonForce, Beat Saber",
+    cover: "https://i.scdn.co/image/ab67616d00001e0253888de94493e604572838d1", // another exception
+    file: "./songs/Power of the Saber Blade.m4a",
+    isExplicit: false
+  },
+  {
+    id: 31,
+    title: "Dragon Smash Goblin",
+    artist: "DragonForce, Beat Saber (ft. Nekrogoblikon)",
+    cover: "https://i.ytimg.com/vi/jfaiSnW23rk/hq720.jpg",
+    file: "./songs/Power of the Saber Blade.m4a",
+    isExplicit: false
+  },
 ];
 
 (() => {

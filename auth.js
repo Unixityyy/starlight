@@ -1,5 +1,12 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { 
+  getAuth, 
+  onAuthStateChanged, 
+  signOut, 
+  GoogleAuthProvider, 
+  OAuthProvider,
+  fetchSignInMethodsForEmail 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBTvi0k6pbskDO2YzQBaBFCHebC16M16CQ",
@@ -13,6 +20,9 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
+export const googleProvider = new GoogleAuthProvider();
+export const microsoftProvider = new OAuthProvider('microsoft.com');
+export { fetchSignInMethodsForEmail };
 
 const isElectron = navigator.userAgent.toLowerCase().includes('electron');
 
@@ -26,15 +36,11 @@ onAuthStateChanged(auth, (user) => {
   document.querySelectorAll('.auth-only').forEach(el => {
     user ? el.classList.remove('d-none') : el.classList.add('d-none');
   });
-
   document.querySelectorAll('.guest-only').forEach(el => {
     user ? el.classList.add('d-none') : el.classList.remove('d-none');
   });
-
   const emailDisplay = document.getElementById('user-email');
-  if (emailDisplay && user) {
-    emailDisplay.textContent = user.email;
-  }
+  if (emailDisplay && user) emailDisplay.textContent = user.email;
 
   if (!user && window.location.href.includes('/request')) {
     window.location.href = isElectron ? "../login/index.html" : "/login/";

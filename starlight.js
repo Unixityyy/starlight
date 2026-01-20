@@ -168,7 +168,7 @@ window.STARLIGHT_SONGS = [
     artist: "Rae Sremmurd",
     cover: "https://i.ytimg.com/vi/poYUzSVlNEE/hq720.jpg",
     file: "./songs/This Could Be Us.m4a",
-    file_clean: "./songs/911 Mr. Lonely Clean.m4a",
+    file_clean: "./songs/This Could Be Us Clean.m4a",
     isExplicit: true
   },
   {
@@ -262,6 +262,56 @@ window.STARLIGHT_SONGS = [
     artist: "DragonForce, Beat Saber (ft. Nekrogoblikon)",
     cover: "https://i.ytimg.com/vi/jfaiSnW23rk/hq720.jpg",
     file: "./songs/Power of the Saber Blade.m4a",
+    isExplicit: false
+  },
+  {
+    id: 32,
+    title: "St. Chroma",
+    artist: "Tyler, The Creator (ft. Daniel Caesar)",
+    cover: "https://i.ytimg.com/vi/33b53NUGF_Q/hq720.jpg",
+    file: "./songs/St Chroma.m4a",
+    file_clean: "./songs/St Chroma Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 33,
+    title: "Lush Life",
+    artist: "Zara Larsson",
+    cover: "https://i.ytimg.com/vi/aPPQXMaMMNc/hq720.jpg",
+    file: "./songs/Lush Life.m4a",
+    isExplicit: false
+  },
+  {
+    id: 34,
+    title: "From The Start",
+    artist: "Laufey",
+    cover: "./songs/From The Start.png", // this is like the 6 or 7th exception
+    file: "./songs/From The Start.m4a",
+    isExplicit: false
+  },
+  {
+    id: 35,
+    title: "No Pole",
+    artist: "Yorn Toliver",
+    cover: "https://i.ytimg.com/vi/ntWM2wEF478/hq720.jpg",
+    file: "./songs/No Pole.m4a",
+    isExplicit: false
+  },
+  {
+    id: 36,
+    title: "Mask Off",
+    artist: "Future",
+    cover: "https://i.ytimg.com/vi/aWb8z-KhZdo/hq720.jpg",
+    file: "./songs/Mask Off.m4a",
+    file_clean: "./songs/Mask Off Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 37,
+    title: "Not The 1975",
+    artist: "Future",
+    cover: "https://i.ytimg.com/vi/JmTlU36RVdc/hq720.jpg",
+    file: "./songs/Not The 1975.m4a",
     isExplicit: false
   },
 ];

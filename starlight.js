@@ -261,7 +261,7 @@ window.STARLIGHT_SONGS = [
     title: "Dragon Smash Goblin",
     artist: "DragonForce, Beat Saber (ft. Nekrogoblikon)",
     cover: "https://i.ytimg.com/vi/jfaiSnW23rk/hq720.jpg",
-    file: "./songs/Power of the Saber Blade.m4a",
+    file: "./songs/Dragon Smash Goblin.m4a",
     isExplicit: false
   },
 ];

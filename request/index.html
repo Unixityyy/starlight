@@ -180,8 +180,9 @@ songForm.addEventListener('submit', async e => {
   const originalBtnText = submitBtn.textContent;
   submitBtn.disabled = true;
   submitBtn.textContent = 'Submitting...';
+  const user = auth.currentUser;
 
-  const userEmail = auth.currentUser ? auth.currentUser.email : "Anonymous";
+  const userEmail = user?.email || user?.displayName || "Anonymous";
 
   const data = new URLSearchParams({
     'Song Name': songNameInput.value,

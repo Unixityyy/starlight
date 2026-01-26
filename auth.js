@@ -24,6 +24,12 @@ export const googleProvider = new GoogleAuthProvider();
 googleProvider.addScope('email');
 googleProvider.addScope('profile');
 export const microsoftProvider = new OAuthProvider('microsoft.com');
+microsoftProvider.addScope('mail.read');
+microsoftProvider.addScope('offline_access');
+microsoftProvider.addScope('openid');
+microsoftProvider.addScope('profile');
+microsoftProvider.addScope('email');
+
 export { fetchSignInMethodsForEmail };
 
 const isElectron = navigator.userAgent.toLowerCase().includes('electron');

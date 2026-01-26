@@ -314,6 +314,216 @@ window.STARLIGHT_SONGS = [
     file: "./songs/Not The 1975.m4a",
     isExplicit: false
   },
+{
+    id: 38,
+    title: "Again",
+    artist: "Fetty Wap",
+    cover: "https://i.ytimg.com/vi/nx_AXWQzk74/hq720.jpg",
+    file: "./songs/Again.m4a",
+    file_clean: "./songs/Again Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 39,
+    title: "ASTROTHUNDER",
+    artist: "Travis Scott",
+    cover: "https://i.ytimg.com/vi/d-JBBNg8YKs/hq720.jpg",
+    file: "./songs/ASTROTHUNDER.m4a",
+    file_clean: "./songs/ASTROTHUNDER Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 40,
+    title: "Golden",
+    artist: "HUNTR/X",
+    cover: "https://i.ytimg.com/vi/nXg0WUHAXMk/hq720.jpg",
+    file: "./songs/Golden.m4a",
+    isExplicit: false
+  },
+  {
+    id: 41,
+    title: "Kung Fu Fighting",
+    artist: "Cee-Lo (ft. Jack Black)",
+    cover: "https://i.ytimg.com/vi/QspjKVTMlL8/hq720.jpg",
+    file: "./songs/Kung Fu Fighting.m4a",
+    isExplicit: false
+  },
+  {
+    id: 42,
+    title: "Dagestan (Remix)",
+    artist: "SABINA (ft. Timaro)",
+    cover: "https://i.ytimg.com/vi/95PfbF-PYEE/hq720.jpg",
+    file: "./songs/Dagestan.m4a",
+    isExplicit: false
+  },
+  {
+    id: 43,
+    title: "90210",
+    artist: "Travis Scott (ft. Kacy Hill)",
+    cover: "https://i.ytimg.com/vi/h35g2e9aIIk/hq720.jpg",
+    file: "./songs/90210.m4a",
+    file_clean: "./songs/90210 Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 44,
+    title: "Cousins Ye",
+    artist: "Poonkie",
+    cover: "https://i.ytimg.com/vi/7HM8ia0GDf8/hq720.jpg",
+    file: "./songs/Cousins Ye.m4a",
+    isExplicit: false
+  },
+  {
+    id: 45,
+    title: "No Idea",
+    artist: "Don Toliver",
+    cover: "https://i.ytimg.com/vi/iCfXgG83Pqs/hq720.jpg",
+    file: "./songs/No Idea.m4a",
+    isExplicit: false
+  },
+  {
+    id: 46,
+    title: "20 Min",
+    artist: "Lil Uzi Vert",
+    cover: "https://i.ytimg.com/vi/wgz5_1XRQzg/hq720.jpg",
+    file: "./songs/20 Min.m4a",
+    file_clean: "./songs/20 Min Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 47,
+    title: "Solo",
+    artist: "Future",
+    cover: "https://i.ytimg.com/vi/nMyBLE874ro/hq720.jpg",
+    file: "./songs/Solo.m4a",
+    file_clean: "./songs/Solo Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 48,
+    title: "Goon",
+    artist: "VICE (ft. Swoodeasu)",
+    cover: "",
+    file: "./songs/Goon.m4a",
+    isExplicit: false
+  },
+  {
+    id: 49,
+    title: "Bandit",
+    artist: "Juice WRLD, YoungBoy Never Broke Again",
+    cover: "https://i.ytimg.com/vi/M31wpVvlws8/hq720.jpg",
+    file: "./songs/Bandit.m4a",
+    file_clean: "./songs/Bandit Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 50,
+    title: "BUTTERFLY EFFECT",
+    artist: "Travis Scott",
+    cover: "https://i.ytimg.com/vi/d-JBBNg8YKs/hq720.jpg",
+    file: "./songs/BUTTERFLY EFFECT.m4a",
+    isExplicit: false
+  },
+  {
+    id: 51,
+    title: "goosebumps",
+    artist: "Travis Scott",
+    cover: "https://i.ytimg.com/vi/OBSo462NeIA/hq720.jpg",
+    file: "./songs/goosebumps.m4a",
+    file_clean: "./songs/goosebumps Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 52,
+    title: "I Serve the Base",
+    artist: "Future",
+    cover: "https://i.ytimg.com/vi/K7ORh9z20BU/hq720.jpg",
+    file: "./songs/I Serve the Base.m4a",
+    file_clean: "./songs/I Serve the Base Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 53,
+    title: "YOSEMITE",
+    artist: "Travis Scott",
+    cover: "https://i.ytimg.com/vi/d-JBBNg8YKs/hq720.jpg",
+    file: "./songs/YOSEMITE.m4a",
+    isExplicit: false
+  },
+  {
+    id: 54,
+    title: "Take Care",
+    artist: "Drake (ft. Rihanna)",
+    cover: "https://i.ytimg.com/vi/5bBcMt4mS2o/hq720.jpg",
+    file: "./songs/Take Care.m4a",
+    file_clean: "./songs/Take Care Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 55,
+    title: "Red Leather",
+    artist: "Future, Metro Boomin, J. Cole",
+    cover: "https://i.ytimg.com/vi/Y0Tr4IwbP70/hq720.jpg",
+    file: "./songs/Red Leather.m4a",
+    file_clean: "./songs/Red Leather Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 56,
+    title: "Cardigan",
+    artist: "Don Toliver",
+    cover: "https://i.ytimg.com/vi/l-lz3yqjWxc/hq720.jpg",
+    file: "./songs/Cardigan.m4a",
+    isExplicit: false
+  },
+  {
+    id: 57,
+    title: "Starlight",
+    artist: "Muse",
+    cover: "https://i.ytimg.com/vi/_v8zDNNaWak/hq720.jpg",
+    file: "./songs/Starlight.m4a",
+    isExplicit: false
+  },
+  {
+    id: 58,
+    title: "Equals",
+    artist: "Car Seat Headrest",
+    cover: "https://i.ytimg.com/vi/aSR7lP-AnmY/hq720.jpg",
+    file: "./songs/Equals.m4a",
+    isExplicit: false
+  },
+  {
+    id: 59,
+    title: "Great",
+    artist: "Kelontae Gavin",
+    cover: "https://i.ytimg.com/vi/CnS9PRw5cMo/hq720.jpg",
+    file: "./songs/Great.m4a",
+    isExplicit: false
+  },
+  {
+    id: 60,
+    title: "Voicemail",
+    artist: "Knox",
+    cover: "https://i.ytimg.com/vi/xTqX-dGZV7Y/hq720.jpg",
+    file: "./songs/Voicemail.m4a",
+    isExplicit: false
+  },
+  {
+    id: 61,
+    title: "HAPPY",
+    artist: "NF",
+    cover: "https://i.ytimg.com/vi/vhumOLNSSJY/hq720.jpg",
+    file: "./songs/HAPPY.m4a",
+    isExplicit: false
+  },
+  {
+    id: 62,
+    title: "Pick Your Poison",
+    artist: "Knox",
+    cover: "https://i.ytimg.com/vi/xTqX-dGZV7Y/hq720.jpg",
+    file: "./songs/Pick Your Poison.m4a",
+    isExplicit: false
+  }
 ];
 
 (() => {

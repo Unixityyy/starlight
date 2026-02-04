@@ -676,7 +676,15 @@ window.STARLIGHT_SONGS = [
     cover: "https://i.ytimg.com/vi/nqXN3WFUPXQ/hq720.jpg",
     file: "./songs/Hyperclocked.m4a",
     isExplicit: false
-  }
+  },
+  {
+    id: 81,
+    title: "Muffin",
+    artist: "BadBoyHalo, CG5, and Hyper Potions (feat. Skeppy & CaptianPuffy)",
+    cover: "https://i.ytimg.com/vi/DVxzYuIWVQE/hq720.jpg",
+    file: "./songs/Muffin.m4a",
+    isExplicit: false
+  },
 ];
 
 (() => {

@@ -506,7 +506,8 @@ window.STARLIGHT_SONGS = [
     artist: "Knox",
     cover: "https://i.ytimg.com/vi/xTqX-dGZV7Y/hq720.jpg",
     file: "./songs/Voicemail.m4a",
-    isExplicit: false
+    file_clean: "./songs/Voicemail Clean.m4a",
+    isExplicit: true
   },
   {
     id: 61,
@@ -522,6 +523,158 @@ window.STARLIGHT_SONGS = [
     artist: "Knox",
     cover: "https://i.ytimg.com/vi/xTqX-dGZV7Y/hq720.jpg",
     file: "./songs/Pick Your Poison.m4a",
+    isExplicit: false
+  },
+  {
+    id: 63,
+    title: "Trap Queen (1738)",
+    artist: "Fetty Wap",
+    cover: "https://i.ytimg.com/vi/nx_AXWQzk74/hq720.jpg",
+    file: "./songs/Trap Queen.m4a",
+    file_clean: "./songs/Trap Queen Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 64,
+    title: "Bound",
+    artist: "The Ponderosa Twins Plus One",
+    cover: "https://i.ytimg.com/vi/-E8ZU_sNGrM/hq720.jpg",
+    file: "./songs/Bound.m4a",
+    isExplicit: false
+  },
+  {
+    id: 65,
+    title: "Goon 2 Me",
+    artist: "Sophie Rain",
+    cover: "",
+    file: "./songs/Goon 2 Me.m4a",
+    isExplicit: false
+  },
+  {
+    id: 66,
+    title: "4 Raws (Remix)",
+    artist: "elude",
+    cover: "https://i.ytimg.com/vi/9OS7Q4Kzkmg/hq720.jpg",
+    file: "./songs/4 Raws (Remix).m4a",
+    isExplicit: false
+  },
+  {
+    id: 67,
+    title: "X-SLIDE",
+    artist: "2ke & 808iuli",
+    cover: "https://i.ytimg.com/vi/9OS7Q4Kzkmg/hq720.jpg",
+    file: "./songs/X-SLIDE.m4a",
+    file_clean: "./songs/X-SLIDE Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 68,
+    title: "Sum 2 Prove",
+    artist: "Lil Baby",
+    cover: "https://i.ytimg.com/vi/lr31Nq8B-Ho/hq720.jpg",
+    file: "./songs/Sum 2 Prove.m4a",
+    file_clean: "./songs/Sum 2 Prove Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 69,
+    title: "Life Goes On",
+    artist: "Lil Baby (feat. Gunna & Lil Uzi Vert)",
+    cover: "https://i.ytimg.com/vi/jy7yrpU_maM/hq720.jpg",
+    file: "./songs/Life Goes On.m4a",
+    file_clean: "./songs/Life Goes On Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 70,
+    title: "EVIL J0RDAN",
+    artist: "Playboi Carti",
+    cover: "https://i.ytimg.com/vi/1PH3m-Z50zk/hq720.jpg",
+    file: "./songs/EVIL J0RDAN.m4a",
+    file_clean: "./songs/EVIL J0RDAN Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 71,
+    title: "Popular",
+    artist: "The Weeknd & Madonna (feat. Playboi Carti)",
+    cover: "https://i.ytimg.com/vi/VPQlVGU2qmo/hq720.jpg",
+    file: "./songs/Popular.m4a",
+    file_clean: "./songs/Popular Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 72,
+    title: "HUMBLE.",
+    artist: "Kendrick Lamar",
+    cover: "https://i.ytimg.com/vi/ov4WobPqoSA/hq720.jpg",
+    file: "./songs/HUMBLE..m4a",
+    file_clean: "./songs/HUMBLE. Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 73,
+    title: "Doot Doot (6 7)",
+    artist: "Skrilla",
+    cover: "https://i.ytimg.com/vi/B5-bA9f3YRs/hq720.jpg",
+    file: "./songs/Doot Doot (6 7).m4a",
+    file_clean: "./songs/Doot Doot (6 7) Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 74,
+    title: "Look At Me!",
+    artist: "XXXTENTACION",
+    cover: "https://is1-ssl.mzstatic.com/image/thumb/Music82/v4/9a/4c/80/9a4c80e3-fd0d-5f27-eabf-5e15fc400df2/888915346167_cover.jpg/720x720bb.webp", // no yt cover :(
+    file: "./songs/Look At Me!.m4a",
+    isExplicit: false
+  },
+  {
+    id: 75,
+    title: "Cry For Me (WA WA WA)",
+    artist: "Ironmouse, shirobeats & HalaCG (feat. Bubi)",
+    cover: "https://i.ytimg.com/vi/tupuZFm3jo8/hq720.jpg",
+    file: "./songs/Cry For Me (WA WA WA).m4a",
+    isExplicit: false
+  },
+  {
+    id: 76,
+    title: "Lie",
+    artist: "NF",
+    cover: "https://i.ytimg.com/vi/B1dmRjyN0CQ/hq720.jpg",
+    file: "./songs/Lie.m4a",
+    isExplicit: false
+  },
+  {
+    id: 77,
+    title: "Let You Down",
+    artist: "NF",
+    cover: "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/6e/96/04/6e9604a8-3270-f86e-0c47-0127141545c3/17UM1IM17084.rgb.jpg/720x720bb.webp",
+    file: "./songs/Let You Down.m4a",
+    isExplicit: false
+  },
+  {
+    id: 78,
+    title: "Ghost",
+    artist: "Justin Bieber",
+    cover: "https://is1-ssl.mzstatic.com/image/thumb/Video124/v4/5e/f1/fe/5ef1fef1-bb55-7a43-01d9-eb14a0a83d65/Job459d5992-31ae-4d3f-90ea-14f85f44cb55-110453921-PreviewImage_preview_image_nonvideo_sdr-Time1616778829905.png/720x720bb.webp",
+    file: "./songs/Ghost.m4a",
+    isExplicit: false
+  },
+  {
+    id: 79,
+    title: "Rescue Me",
+    artist: "OneRepublic",
+    cover: "https://i.ytimg.com/vi/YOrMAW4pKuA/hq720.jpg",
+    file: "./songs/Rescue Me.m4a",
+    isExplicit: false
+  },
+  {
+    id: 80,
+    title: "Hyperclocked",
+    artist: "Schwank",
+    cover: "https://i.ytimg.com/vi/nqXN3WFUPXQ/hq720.jpg",
+    file: "./songs/Hyperclocked.m4a",
     isExplicit: false
   }
 ];

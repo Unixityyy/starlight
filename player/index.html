@@ -166,6 +166,57 @@
     return (cleanMode && song.file_clean) ? song.file_clean : song.file;
   }
 
+async function getSquareArtwork(url) {
+  if (!url || !url.includes('ytimg.com')) return url;
+
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.crossOrigin = "Anonymous";
+    img.src = url;
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const size = img.height;
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d');
+      
+      const offset = (img.width - img.height) / 2;
+      ctx.drawImage(img, offset, 0, size, size, 0, 0, size, size);
+      
+      resolve(canvas.toDataURL('image/jpeg'));
+    };
+    img.onerror = () => resolve(url);
+  });
+}
+
+  async function updateMediaSession(song) {
+    if ('mediaSession' in navigator) {
+      const squareArt = await getSquareArtwork(song.cover);
+
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: song.title,
+        artist: song.artist,
+        album: 'Starlight Sound',
+        artwork: [
+          { src: squareArt || '../favicon.ico', sizes: '512x512', type: 'image/jpeg' }
+        ]
+      });
+
+      navigator.mediaSession.setActionHandler('play', () => audio.play());
+      navigator.mediaSession.setActionHandler('pause', () => audio.pause());
+      
+      navigator.mediaSession.setActionHandler('previoustrack', () => {
+        const index = window.STARLIGHT_SONGS.findIndex(s => s.id === song.id);
+        if (index > 0) playSong(window.STARLIGHT_SONGS[index - 1]);
+      });
+
+      navigator.mediaSession.setActionHandler('nexttrack', () => {
+        const index = window.STARLIGHT_SONGS.findIndex(s => s.id === song.id);
+        if (index < window.STARLIGHT_SONGS.length - 1) playSong(window.STARLIGHT_SONGS[index + 1]);
+      });
+    }
+  }
+
   function updateUI(title, artist, isExplicit) {
     currentTitle.textContent = title;
     currentArtist.textContent = artist;
@@ -176,9 +227,25 @@
     });
   }
 
+  function playSong(song) {
+    currentSong = song;
+    audio.src = `../${getSongFile(song)}`;
+    updateUI(song.title, song.artist, song.isExplicit);
+    updateMediaSession(song);
+    audio.play();
+  }
+
   playPause.onclick = () => audio.paused ? audio.play() : audio.pause();
   audio.onplay = () => playPause.className = 'bi bi-pause-circle-fill icon-btn';
   audio.onpause = () => playPause.className = 'bi bi-play-circle-fill icon-btn';
+
+  audio.onended = () => {
+    if (audio.loop) return;
+    const index = window.STARLIGHT_SONGS.findIndex(s => s.id === currentSong.id);
+    if (index !== -1 && index < window.STARLIGHT_SONGS.length - 1) {
+      playSong(window.STARLIGHT_SONGS[index + 1]);
+    }
+  };
 
   loopBtn.onclick = () => {
     audio.loop = !audio.loop;
@@ -202,6 +269,9 @@
     currentSong = null;
     audio.src = URL.createObjectURL(file);
     updateUI(file.name, 'Local File', false);
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({ title: file.name, artist: 'Local' });
+    }
     audio.play();
   };
 
@@ -223,19 +293,17 @@
       li.className = 'list-group-item d-flex justify-content-between align-items-center p-3 mb-2 rounded';
       li.dataset.title = song.title;
       li.innerHTML = `
-        <div>
-          <div class="fw-bold">${song.title}</div>
-          <div class="small text-secondary">${song.artist}</div>
+        <div class="d-flex align-items-center gap-3">
+          <img src="${song.cover || '../favicon.ico'}" style="width:40px; height:40px; border-radius:4px; object-fit:cover;">
+          <div>
+            <div class="fw-bold">${song.title}</div>
+            <div class="small text-secondary">${song.artist}</div>
+          </div>
         </div>
         ${song.isExplicit ? '<span class="explicit-tag">E</span>' : ''}
       `;
 
-      li.onclick = () => {
-        currentSong = song;
-        audio.src = `../${getSongFile(song)}`;
-        updateUI(song.title, song.artist, song.isExplicit);
-        audio.play();
-      };
+      li.onclick = () => playSong(song);
       library.appendChild(li);
     });
   }

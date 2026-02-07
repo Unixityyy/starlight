@@ -6,8 +6,8 @@ window.STARLIGHT_SONGS = [
     title: "Big Poe",
     artist: "Tyler, The Creator (ft. Sk8brd)",
     cover: "https://i.ytimg.com/vi/OKVi6jPdE8c/hq720.jpg",
-    file: "./songs/Big Poe.m4a",
-    file_clean: "./songs/Big Poe Clean.m4a",
+    file: "/songs/Big Poe.m4a",
+    file_clean: "/songs/Big Poe Clean.m4a",
     isExplicit: true
   },
   {
@@ -15,7 +15,7 @@ window.STARLIGHT_SONGS = [
     title: "Doomsday",
     artist: "MF Doom",
     cover: "https://i.ytimg.com/vi/5TlZeem3FU8/hq720.jpg",
-    file: "./songs/Doomsday.m4a",
+    file: "/songs/Doomsday.m4a",
     isExplicit: false
   },
   {
@@ -23,8 +23,8 @@ window.STARLIGHT_SONGS = [
     title: "World's Smallest Violin",
     artist: "AJR",
     cover: "https://i.ytimg.com/vi/MiKkH48P8g8/hq720.jpg",
-    file: "./songs/World's Smallest Violin.m4a",
-    file_clean: "./songs/Worlds Smallest Violin Clean.m4a",
+    file: "/songs/World's Smallest Violin.m4a",
+    file_clean: "/songs/Worlds Smallest Violin Clean.m4a",
     isExplicit: true
   },
   {
@@ -32,8 +32,8 @@ window.STARLIGHT_SONGS = [
     title: "SICKO MODE",
     artist: "Travis Scott",
     cover: "https://i.ytimg.com/vi/d-JBBNg8YKs/hq720.jpg", // also what is this thumbnail (╥﹏╥)
-    file: "./songs/SICKO MODE.m4a",
-    file_clean: "./songs/SICKO MODE Clean.m4a",
+    file: "/songs/SICKO MODE.m4a",
+    file_clean: "/songs/SICKO MODE Clean.m4a",
     isExplicit: true
   },
   {
@@ -41,8 +41,8 @@ window.STARLIGHT_SONGS = [
     title: "Wish",
     artist: "Diplo (ft. Trippie Redd)",
     cover: "https://i.ytimg.com/vi/ZpQAwGHI29A/hq720.jpg",
-    file: "./songs/Wish.m4a",
-    file_clean: "./songs/Wish Clean.m4a",
+    file: "/songs/Wish.m4a",
+    file_clean: "/songs/Wish Clean.m4a",
     isExplicit: true
   },
   {
@@ -50,7 +50,7 @@ window.STARLIGHT_SONGS = [
     title: "Loonboon",
     artist: "supershigi",
     cover: "https://i.ytimg.com/vi/lr4vi_XAjQQ/hq720.jpg",
-    file: "./songs/Loonboon.m4a",
+    file: "/songs/Loonboon.m4a",
     isExplicit: false
   },
   {
@@ -58,8 +58,8 @@ window.STARLIGHT_SONGS = [
     title: "Thrift Shop",
     artist: "Macklemore & Ryan Lewis (ft. Wanz)",
     cover: "https://i.ytimg.com/vi/apIzD5lgmp0/hq720.jpg",
-    file: "./songs/Thrift Shop.m4a",
-    file_clean: "./songs/Thrift Shop Clean.m4a",
+    file: "/songs/Thrift Shop.m4a",
+    file_clean: "/songs/Thrift Shop Clean.m4a",
     isExplicit: true
   },
   {
@@ -67,16 +67,16 @@ window.STARLIGHT_SONGS = [
     title: "What It Sounds Like",
     artist: "HUNTR/X",
     cover: "https://i.ytimg.com/vi/nXg0WUHAXMk/hq720.jpg",
-    file: "./songs/What It Sounds Like.m4a",
+    file: "/songs/What It Sounds Like.m4a",
     isExplicit: false
   },
   {
     id: 9,
     title: "you broke me first",
     artist: "Tate McRae",
-    cover: "./songs/you broke me first.png", // there was no good youtube cover for this song :\
-    file: "./songs/you broke me first.m4a",
-    file_clean: "./songs/you broke me first Clean.m4a",
+    cover: "/songs/you broke me first.png", // there was no good youtube cover for this song :\
+    file: "/songs/you broke me first.m4a",
+    file_clean: "/songs/you broke me first Clean.m4a",
     isExplicit: true
   },
   {
@@ -84,8 +84,8 @@ window.STARLIGHT_SONGS = [
     title: "H*e Cakes",
     artist: "MF Doom",
     cover: "https://i.ytimg.com/vi/GZAXE3-srfM/hqdefault.jpg", // only exception. there was no hq720 for this song. // well guess what. we have another exception :)
-    file: "./songs/Hoe Cakes.m4a",
-    file_clean: "./songs/Hoe Cakes Clean.m4a",
+    file: "/songs/Hoe Cakes.m4a",
+    file_clean: "/songs/Hoe Cakes Clean.m4a",
     isExplicit: true
   },
   {
@@ -93,8 +93,8 @@ window.STARLIGHT_SONGS = [
     title: "Payphone",
     artist: "Maroon 5",
     cover: "https://i.ytimg.com/vi/8UY5BGFLtK0/hq720.jpg",
-    file: "./songs/Payphone.m4a",
-    file_clean: "./songs/Payphone Clean.m4a",
+    file: "/songs/Payphone.m4a",
+    file_clean: "/songs/Payphone Clean.m4a",
     isExplicit: true
   },
   {
@@ -102,7 +102,7 @@ window.STARLIGHT_SONGS = [
     title: "Black Knife",
     artist: "Toby Fox",
     cover: "https://i.ytimg.com/vi/B8Us0DZgexw/hq720.jpg",
-    file: "./songs/Black Knife.m4a",
+    file: "/songs/Black Knife.m4a",
     isExplicit: false
   },
   {
@@ -110,7 +110,7 @@ window.STARLIGHT_SONGS = [
     title: "67 Merry Rizzmas",
     artist: "Goji Georgie",
     cover: "https://i.ytimg.com/vi/xVIEfn3yumw/hq720.jpg",
-    file: "./songs/67 Merry Rizzmas.m4a",
+    file: "/songs/67 Merry Rizzmas.m4a",
     isExplicit: false
   },
   {
@@ -118,7 +118,7 @@ window.STARLIGHT_SONGS = [
     title: "Shiawase",
     artist: "Dion Timmer",
     cover: "https://i.ytimg.com/vi/suisIF4hwyw/hq720.jpg",
-    file: "./songs/Shiawase.m4a",
+    file: "/songs/Shiawase.m4a",
     isExplicit: false
   },
   {
@@ -126,7 +126,7 @@ window.STARLIGHT_SONGS = [
     title: "This Side Of Paradise",
     artist: "Coyote Theory",
     cover: "https://i.ytimg.com/vi/TfRWFei-rbk/hq720.jpg",
-    file: "./songs/This Side Of Paradise.m4a",
+    file: "/songs/This Side Of Paradise.m4a",
     isExplicit: false
   },
   {
@@ -134,7 +134,7 @@ window.STARLIGHT_SONGS = [
     title: "Waving Through a Window",
     artist: "Original Broadway Cast of Dear Evan Hansen",
     cover: "https://i.ytimg.com/vi/A9fGB1ln13E/hq720.jpg",
-    file: "./songs/Waving Through a Window.m4a",
+    file: "/songs/Waving Through a Window.m4a",
     isExplicit: false
   },
   {
@@ -142,7 +142,7 @@ window.STARLIGHT_SONGS = [
     title: "You Will Be Found",
     artist: "Original Broadway Cast of Dear Evan Hansen",
     cover: "https://i.ytimg.com/vi/A9fGB1ln13E/hq720.jpg",
-    file: "./songs/You Will Be Found.m4a",
+    file: "/songs/You Will Be Found.m4a",
     isExplicit: false
   },
   {
@@ -150,7 +150,7 @@ window.STARLIGHT_SONGS = [
     title: "It's Tv Time!",
     artist: "Toby Fox",
     cover: "https://i.ytimg.com/vi/B8Us0DZgexw/hq720.jpg",
-    file: "./songs/It's Tv Time!.m4a",
+    file: "/songs/It's Tv Time!.m4a",
     isExplicit: false
   },
   {
@@ -158,8 +158,8 @@ window.STARLIGHT_SONGS = [
     title: "911 / Mr. Lonely",
     artist: "Tyler, The Creator (ft. Frank Ocean & Steve Lacy)",
     cover: "https://i.ytimg.com/vi/khMb3k-Wwvg/hq720.jpg",
-    file: "./songs/911 Mr. Lonely.m4a",
-    file_clean: "./songs/911 Mr. Lonely Clean.m4a",
+    file: "/songs/911 Mr. Lonely.m4a",
+    file_clean: "/songs/911 Mr. Lonely Clean.m4a",
     isExplicit: true
   },
   {
@@ -167,8 +167,8 @@ window.STARLIGHT_SONGS = [
     title: "This Could Be Us",
     artist: "Rae Sremmurd",
     cover: "https://i.ytimg.com/vi/poYUzSVlNEE/hq720.jpg",
-    file: "./songs/This Could Be Us.m4a",
-    file_clean: "./songs/This Could Be Us Clean.m4a",
+    file: "/songs/This Could Be Us.m4a",
+    file_clean: "/songs/This Could Be Us Clean.m4a",
     isExplicit: true
   },
   {
@@ -176,8 +176,8 @@ window.STARLIGHT_SONGS = [
     title: "Glitter",
     artist: "Tyler, The Creator",
     cover: "https://i.ytimg.com/vi/MvEtKc8-n3s/hq720.jpg",
-    file: "./songs/Glitter.m4a",
-    file_clean: "./songs/Glitter Clean.m4a",
+    file: "/songs/Glitter.m4a",
+    file_clean: "/songs/Glitter Clean.m4a",
     isExplicit: true
   },
   {
@@ -185,7 +185,7 @@ window.STARLIGHT_SONGS = [
     title: "The World Revolving",
     artist: "Toby Fox",
     cover: "https://i.ytimg.com/vi/B8Us0DZgexw/hq720.jpg",
-    file: "./songs/The World Revolving.m4a",
+    file: "/songs/The World Revolving.m4a",
     isExplicit: false
   },
   {
@@ -193,8 +193,8 @@ window.STARLIGHT_SONGS = [
     title: "Do What I Want",
     artist: "Lil Uzi Vert",
     cover: "https://i.ytimg.com/vi/j6PfExD39aM/hq720.jpg",
-    file: "./songs/Do What I Want.m4a",
-    file_clean: "./songs/Do What I Want Clean.m4a",
+    file: "/songs/Do What I Want.m4a",
+    file_clean: "/songs/Do What I Want Clean.m4a",
     isExplicit: true
   },
   {
@@ -202,8 +202,8 @@ window.STARLIGHT_SONGS = [
     title: "Love Scars",
     artist: "Trippie Redd",
     cover: "https://i.ytimg.com/vi/KXpLGyvHc7M/hq720.jpg",
-    file: "./songs/Love Scars.m4a",
-    file_clean: "./songs/Love Scars Clean.m4a",
+    file: "/songs/Love Scars.m4a",
+    file_clean: "/songs/Love Scars Clean.m4a",
     isExplicit: true
   },
   {
@@ -211,7 +211,7 @@ window.STARLIGHT_SONGS = [
     title: "Orula",
     artist: "Victor Mendivil",
     cover: "https://i.ytimg.com/vi/qEz8K0lHxY0/hq720.jpg",
-    file: "./songs/Orula.m4a",
+    file: "/songs/Orula.m4a",
     isExplicit: false
   },
   {
@@ -219,8 +219,8 @@ window.STARLIGHT_SONGS = [
     title: "Where This Flower Blooms",
     artist: "Tyler, The Creator (ft. Frank Ocean)",
     cover: "https://i.ytimg.com/vi/MvEtKc8-n3s/hq720.jpg",
-    file: "./songs/Where This Flower Blooms.m4a",
-    file_clean: "./songs/Where This Flower Blooms Clean.m4a",
+    file: "/songs/Where This Flower Blooms.m4a",
+    file_clean: "/songs/Where This Flower Blooms Clean.m4a",
     isExplicit: true
   },
   {
@@ -228,8 +228,8 @@ window.STARLIGHT_SONGS = [
     title: "ARE WE STILL FRIENDS?",
     artist: "Tyler, The Creator",
     cover: "https://i.ytimg.com/vi/dqZ8vr_Q4UI/hq720.jpg",
-    file: "./songs/ARE WE STILL FRIENDS.m4a",
-    file_clean: "./songs/ARE WE STILL FRIENDS Clean.m4a",
+    file: "/songs/ARE WE STILL FRIENDS.m4a",
+    file_clean: "/songs/ARE WE STILL FRIENDS Clean.m4a",
     isExplicit: true
   },
   {
@@ -237,7 +237,7 @@ window.STARLIGHT_SONGS = [
     title: "Xenogenesis",
     artist: "TheFatRat",
     cover: "https://i.ytimg.com/vi/jOgjcOMnjjs/hq720.jpg",
-    file: "./songs/Xenogenesis.m4a",
+    file: "/songs/Xenogenesis.m4a",
     isExplicit: false
   },
   {
@@ -245,7 +245,7 @@ window.STARLIGHT_SONGS = [
     title: "Unity",
     artist: "TheFatRat",
     cover: "https://i.ytimg.com/vi/mP9W93FgHzo/hq720.jpg",
-    file: "./songs/Unity.m4a",
+    file: "/songs/Unity.m4a",
     isExplicit: false
   },
   {
@@ -253,7 +253,7 @@ window.STARLIGHT_SONGS = [
     title: "Power of the Saber Blade",
     artist: "DragonForce, Beat Saber",
     cover: "https://i.scdn.co/image/ab67616d00001e0253888de94493e604572838d1", // another exception
-    file: "./songs/Power of the Saber Blade.m4a",
+    file: "/songs/Power of the Saber Blade.m4a",
     isExplicit: false
   },
   {
@@ -261,7 +261,7 @@ window.STARLIGHT_SONGS = [
     title: "Dragon Smash Goblin",
     artist: "DragonForce, Beat Saber (ft. Nekrogoblikon)",
     cover: "https://i.ytimg.com/vi/jfaiSnW23rk/hq720.jpg",
-    file: "./songs/Dragon Smash Goblin.m4a",
+    file: "/songs/Dragon Smash Goblin.m4a",
     isExplicit: false
   },
   {
@@ -269,8 +269,8 @@ window.STARLIGHT_SONGS = [
     title: "St. Chroma",
     artist: "Tyler, The Creator (ft. Daniel Caesar)",
     cover: "https://i.ytimg.com/vi/33b53NUGF_Q/hq720.jpg",
-    file: "./songs/St Chroma.m4a",
-    file_clean: "./songs/St Chroma Clean.m4a",
+    file: "/songs/St Chroma.m4a",
+    file_clean: "/songs/St Chroma Clean.m4a",
     isExplicit: true
   },
   {
@@ -278,15 +278,15 @@ window.STARLIGHT_SONGS = [
     title: "Lush Life",
     artist: "Zara Larsson",
     cover: "https://i.ytimg.com/vi/aPPQXMaMMNc/hq720.jpg",
-    file: "./songs/Lush Life.m4a",
+    file: "/songs/Lush Life.m4a",
     isExplicit: false
   },
   {
     id: 34,
     title: "From The Start",
     artist: "Laufey",
-    cover: "./songs/From The Start.png", // this is like the 6 or 7th exception
-    file: "./songs/From The Start.m4a",
+    cover: "/songs/From The Start.png", // this is like the 6 or 7th exception
+    file: "/songs/From The Start.m4a",
     isExplicit: false
   },
   {
@@ -294,7 +294,7 @@ window.STARLIGHT_SONGS = [
     title: "No Pole",
     artist: "Yorn Toliver",
     cover: "https://i.ytimg.com/vi/ntWM2wEF478/hq720.jpg",
-    file: "./songs/No Pole.m4a",
+    file: "/songs/No Pole.m4a",
     isExplicit: false
   },
   {
@@ -302,8 +302,8 @@ window.STARLIGHT_SONGS = [
     title: "Mask Off",
     artist: "Future",
     cover: "https://i.ytimg.com/vi/aWb8z-KhZdo/hq720.jpg",
-    file: "./songs/Mask Off.m4a",
-    file_clean: "./songs/Mask Off Clean.m4a",
+    file: "/songs/Mask Off.m4a",
+    file_clean: "/songs/Mask Off Clean.m4a",
     isExplicit: true
   },
   {
@@ -311,7 +311,7 @@ window.STARLIGHT_SONGS = [
     title: "Not The 1975",
     artist: "Future",
     cover: "https://i.ytimg.com/vi/JmTlU36RVdc/hq720.jpg",
-    file: "./songs/Not The 1975.m4a",
+    file: "/songs/Not The 1975.m4a",
     isExplicit: false
   },
 {
@@ -319,8 +319,8 @@ window.STARLIGHT_SONGS = [
     title: "Again",
     artist: "Fetty Wap",
     cover: "https://i.ytimg.com/vi/nx_AXWQzk74/hq720.jpg",
-    file: "./songs/Again.m4a",
-    file_clean: "./songs/Again Clean.m4a",
+    file: "/songs/Again.m4a",
+    file_clean: "/songs/Again Clean.m4a",
     isExplicit: true
   },
   {
@@ -328,8 +328,8 @@ window.STARLIGHT_SONGS = [
     title: "ASTROTHUNDER",
     artist: "Travis Scott",
     cover: "https://i.ytimg.com/vi/d-JBBNg8YKs/hq720.jpg",
-    file: "./songs/ASTROTHUNDER.m4a",
-    file_clean: "./songs/ASTROTHUNDER Clean.m4a",
+    file: "/songs/ASTROTHUNDER.m4a",
+    file_clean: "/songs/ASTROTHUNDER Clean.m4a",
     isExplicit: true
   },
   {
@@ -337,7 +337,7 @@ window.STARLIGHT_SONGS = [
     title: "Golden",
     artist: "HUNTR/X",
     cover: "https://i.ytimg.com/vi/nXg0WUHAXMk/hq720.jpg",
-    file: "./songs/Golden.m4a",
+    file: "/songs/Golden.m4a",
     isExplicit: false
   },
   {
@@ -345,7 +345,7 @@ window.STARLIGHT_SONGS = [
     title: "Kung Fu Fighting",
     artist: "Cee-Lo (ft. Jack Black)",
     cover: "https://i.ytimg.com/vi/QspjKVTMlL8/hq720.jpg",
-    file: "./songs/Kung Fu Fighting.m4a",
+    file: "/songs/Kung Fu Fighting.m4a",
     isExplicit: false
   },
   {
@@ -353,7 +353,7 @@ window.STARLIGHT_SONGS = [
     title: "Dagestan (Remix)",
     artist: "SABINA (ft. Timaro)",
     cover: "https://i.ytimg.com/vi/95PfbF-PYEE/hq720.jpg",
-    file: "./songs/Dagestan.m4a",
+    file: "/songs/Dagestan.m4a",
     isExplicit: false
   },
   {
@@ -361,8 +361,8 @@ window.STARLIGHT_SONGS = [
     title: "90210",
     artist: "Travis Scott (ft. Kacy Hill)",
     cover: "https://i.ytimg.com/vi/h35g2e9aIIk/hq720.jpg",
-    file: "./songs/90210.m4a",
-    file_clean: "./songs/90210 Clean.m4a",
+    file: "/songs/90210.m4a",
+    file_clean: "/songs/90210 Clean.m4a",
     isExplicit: true
   },
   {
@@ -370,7 +370,7 @@ window.STARLIGHT_SONGS = [
     title: "Cousins Ye",
     artist: "Poonkie",
     cover: "https://i.ytimg.com/vi/7HM8ia0GDf8/hq720.jpg",
-    file: "./songs/Cousins Ye.m4a",
+    file: "/songs/Cousins Ye.m4a",
     isExplicit: false
   },
   {
@@ -378,7 +378,7 @@ window.STARLIGHT_SONGS = [
     title: "No Idea",
     artist: "Don Toliver",
     cover: "https://i.ytimg.com/vi/iCfXgG83Pqs/hq720.jpg",
-    file: "./songs/No Idea.m4a",
+    file: "/songs/No Idea.m4a",
     isExplicit: false
   },
   {
@@ -386,8 +386,8 @@ window.STARLIGHT_SONGS = [
     title: "20 Min",
     artist: "Lil Uzi Vert",
     cover: "https://i.ytimg.com/vi/wgz5_1XRQzg/hq720.jpg",
-    file: "./songs/20 Min.m4a",
-    file_clean: "./songs/20 Min Clean.m4a",
+    file: "/songs/20 Min.m4a",
+    file_clean: "/songs/20 Min Clean.m4a",
     isExplicit: true
   },
   {
@@ -395,8 +395,8 @@ window.STARLIGHT_SONGS = [
     title: "Solo",
     artist: "Future",
     cover: "https://i.ytimg.com/vi/nMyBLE874ro/hq720.jpg",
-    file: "./songs/Solo.m4a",
-    file_clean: "./songs/Solo Clean.m4a",
+    file: "/songs/Solo.m4a",
+    file_clean: "/songs/Solo Clean.m4a",
     isExplicit: true
   },
   {
@@ -404,7 +404,7 @@ window.STARLIGHT_SONGS = [
     title: "Goon",
     artist: "VICE (ft. Swoodeasu)",
     cover: "",
-    file: "./songs/Goon.m4a",
+    file: "/songs/Goon.m4a",
     isExplicit: false
   },
   {
@@ -412,8 +412,8 @@ window.STARLIGHT_SONGS = [
     title: "Bandit",
     artist: "Juice WRLD, YoungBoy Never Broke Again",
     cover: "https://i.ytimg.com/vi/M31wpVvlws8/hq720.jpg",
-    file: "./songs/Bandit.m4a",
-    file_clean: "./songs/Bandit Clean.m4a",
+    file: "/songs/Bandit.m4a",
+    file_clean: "/songs/Bandit Clean.m4a",
     isExplicit: true
   },
   {
@@ -421,7 +421,7 @@ window.STARLIGHT_SONGS = [
     title: "BUTTERFLY EFFECT",
     artist: "Travis Scott",
     cover: "https://i.ytimg.com/vi/d-JBBNg8YKs/hq720.jpg",
-    file: "./songs/BUTTERFLY EFFECT.m4a",
+    file: "/songs/BUTTERFLY EFFECT.m4a",
     isExplicit: false
   },
   {
@@ -429,8 +429,8 @@ window.STARLIGHT_SONGS = [
     title: "goosebumps",
     artist: "Travis Scott",
     cover: "https://i.ytimg.com/vi/OBSo462NeIA/hq720.jpg",
-    file: "./songs/goosebumps.m4a",
-    file_clean: "./songs/goosebumps Clean.m4a",
+    file: "/songs/goosebumps.m4a",
+    file_clean: "/songs/goosebumps Clean.m4a",
     isExplicit: true
   },
   {
@@ -438,8 +438,8 @@ window.STARLIGHT_SONGS = [
     title: "I Serve the Base",
     artist: "Future",
     cover: "https://i.ytimg.com/vi/K7ORh9z20BU/hq720.jpg",
-    file: "./songs/I Serve the Base.m4a",
-    file_clean: "./songs/I Serve the Base Clean.m4a",
+    file: "/songs/I Serve the Base.m4a",
+    file_clean: "/songs/I Serve the Base Clean.m4a",
     isExplicit: true
   },
   {
@@ -447,7 +447,7 @@ window.STARLIGHT_SONGS = [
     title: "YOSEMITE",
     artist: "Travis Scott",
     cover: "https://i.ytimg.com/vi/d-JBBNg8YKs/hq720.jpg",
-    file: "./songs/YOSEMITE.m4a",
+    file: "/songs/YOSEMITE.m4a",
     isExplicit: false
   },
   {
@@ -455,8 +455,8 @@ window.STARLIGHT_SONGS = [
     title: "Take Care",
     artist: "Drake (ft. Rihanna)",
     cover: "https://i.ytimg.com/vi/5bBcMt4mS2o/hq720.jpg",
-    file: "./songs/Take Care.m4a",
-    file_clean: "./songs/Take Care Clean.m4a",
+    file: "/songs/Take Care.m4a",
+    file_clean: "/songs/Take Care Clean.m4a",
     isExplicit: true
   },
   {
@@ -464,8 +464,8 @@ window.STARLIGHT_SONGS = [
     title: "Red Leather",
     artist: "Future, Metro Boomin, J. Cole",
     cover: "https://i.ytimg.com/vi/Y0Tr4IwbP70/hq720.jpg",
-    file: "./songs/Red Leather.m4a",
-    file_clean: "./songs/Red Leather Clean.m4a",
+    file: "/songs/Red Leather.m4a",
+    file_clean: "/songs/Red Leather Clean.m4a",
     isExplicit: true
   },
   {
@@ -473,7 +473,7 @@ window.STARLIGHT_SONGS = [
     title: "Cardigan",
     artist: "Don Toliver",
     cover: "https://i.ytimg.com/vi/l-lz3yqjWxc/hq720.jpg",
-    file: "./songs/Cardigan.m4a",
+    file: "/songs/Cardigan.m4a",
     isExplicit: false
   },
   {
@@ -481,7 +481,7 @@ window.STARLIGHT_SONGS = [
     title: "Starlight",
     artist: "Muse",
     cover: "https://i.ytimg.com/vi/_v8zDNNaWak/hq720.jpg",
-    file: "./songs/Starlight.m4a",
+    file: "/songs/Starlight.m4a",
     isExplicit: false
   },
   {
@@ -489,7 +489,7 @@ window.STARLIGHT_SONGS = [
     title: "Equals",
     artist: "Car Seat Headrest",
     cover: "https://i.ytimg.com/vi/aSR7lP-AnmY/hq720.jpg",
-    file: "./songs/Equals.m4a",
+    file: "/songs/Equals.m4a",
     isExplicit: false
   },
   {
@@ -497,7 +497,7 @@ window.STARLIGHT_SONGS = [
     title: "Great",
     artist: "Kelontae Gavin",
     cover: "https://i.ytimg.com/vi/CnS9PRw5cMo/hq720.jpg",
-    file: "./songs/Great.m4a",
+    file: "/songs/Great.m4a",
     isExplicit: false
   },
   {
@@ -505,8 +505,8 @@ window.STARLIGHT_SONGS = [
     title: "Voicemail",
     artist: "Knox",
     cover: "https://i.ytimg.com/vi/xTqX-dGZV7Y/hq720.jpg",
-    file: "./songs/Voicemail.m4a",
-    file_clean: "./songs/Voicemail Clean.m4a",
+    file: "/songs/Voicemail.m4a",
+    file_clean: "/songs/Voicemail Clean.m4a",
     isExplicit: true
   },
   {
@@ -514,7 +514,7 @@ window.STARLIGHT_SONGS = [
     title: "HAPPY",
     artist: "NF",
     cover: "https://i.ytimg.com/vi/vhumOLNSSJY/hq720.jpg",
-    file: "./songs/HAPPY.m4a",
+    file: "/songs/HAPPY.m4a",
     isExplicit: false
   },
   {
@@ -522,7 +522,7 @@ window.STARLIGHT_SONGS = [
     title: "Pick Your Poison",
     artist: "Knox",
     cover: "https://i.ytimg.com/vi/xTqX-dGZV7Y/hq720.jpg",
-    file: "./songs/Pick Your Poison.m4a",
+    file: "/songs/Pick Your Poison.m4a",
     isExplicit: false
   },
   {
@@ -530,8 +530,8 @@ window.STARLIGHT_SONGS = [
     title: "Trap Queen (1738)",
     artist: "Fetty Wap",
     cover: "https://i.ytimg.com/vi/nx_AXWQzk74/hq720.jpg",
-    file: "./songs/Trap Queen.m4a",
-    file_clean: "./songs/Trap Queen Clean.m4a",
+    file: "/songs/Trap Queen.m4a",
+    file_clean: "/songs/Trap Queen Clean.m4a",
     isExplicit: true
   },
   {
@@ -539,7 +539,7 @@ window.STARLIGHT_SONGS = [
     title: "Bound",
     artist: "The Ponderosa Twins Plus One",
     cover: "https://i.ytimg.com/vi/-E8ZU_sNGrM/hq720.jpg",
-    file: "./songs/Bound.m4a",
+    file: "/songs/Bound.m4a",
     isExplicit: false
   },
   {
@@ -547,7 +547,7 @@ window.STARLIGHT_SONGS = [
     title: "Goon 2 Me",
     artist: "Sophie Rain",
     cover: "",
-    file: "./songs/Goon 2 Me.m4a",
+    file: "/songs/Goon 2 Me.m4a",
     isExplicit: false
   },
   {
@@ -555,7 +555,7 @@ window.STARLIGHT_SONGS = [
     title: "4 Raws (Remix)",
     artist: "elude",
     cover: "https://i.ytimg.com/vi/9OS7Q4Kzkmg/hq720.jpg",
-    file: "./songs/4 Raws (Remix).m4a",
+    file: "/songs/4 Raws (Remix).m4a",
     isExplicit: false
   },
   {
@@ -563,8 +563,8 @@ window.STARLIGHT_SONGS = [
     title: "X-SLIDE",
     artist: "2ke & 808iuli",
     cover: "https://i.ytimg.com/vi/9OS7Q4Kzkmg/hq720.jpg",
-    file: "./songs/X-SLIDE.m4a",
-    file_clean: "./songs/X-SLIDE Clean.m4a",
+    file: "/songs/X-SLIDE.m4a",
+    file_clean: "/songs/X-SLIDE Clean.m4a",
     isExplicit: true
   },
   {
@@ -572,8 +572,8 @@ window.STARLIGHT_SONGS = [
     title: "Sum 2 Prove",
     artist: "Lil Baby",
     cover: "https://i.ytimg.com/vi/lr31Nq8B-Ho/hq720.jpg",
-    file: "./songs/Sum 2 Prove.m4a",
-    file_clean: "./songs/Sum 2 Prove Clean.m4a",
+    file: "/songs/Sum 2 Prove.m4a",
+    file_clean: "/songs/Sum 2 Prove Clean.m4a",
     isExplicit: true
   },
   {
@@ -581,8 +581,8 @@ window.STARLIGHT_SONGS = [
     title: "Life Goes On",
     artist: "Lil Baby (feat. Gunna & Lil Uzi Vert)",
     cover: "https://i.ytimg.com/vi/jy7yrpU_maM/hq720.jpg",
-    file: "./songs/Life Goes On.m4a",
-    file_clean: "./songs/Life Goes On Clean.m4a",
+    file: "/songs/Life Goes On.m4a",
+    file_clean: "/songs/Life Goes On Clean.m4a",
     isExplicit: true
   },
   {
@@ -590,8 +590,8 @@ window.STARLIGHT_SONGS = [
     title: "EVIL J0RDAN",
     artist: "Playboi Carti",
     cover: "https://i.ytimg.com/vi/1PH3m-Z50zk/hq720.jpg",
-    file: "./songs/EVIL J0RDAN.m4a",
-    file_clean: "./songs/EVIL J0RDAN Clean.m4a",
+    file: "/songs/EVIL J0RDAN.m4a",
+    file_clean: "/songs/EVIL J0RDAN Clean.m4a",
     isExplicit: true
   },
   {
@@ -599,8 +599,8 @@ window.STARLIGHT_SONGS = [
     title: "Popular",
     artist: "The Weeknd & Madonna (feat. Playboi Carti)",
     cover: "https://i.ytimg.com/vi/VPQlVGU2qmo/hq720.jpg",
-    file: "./songs/Popular.m4a",
-    file_clean: "./songs/Popular Clean.m4a",
+    file: "/songs/Popular.m4a",
+    file_clean: "/songs/Popular Clean.m4a",
     isExplicit: true
   },
   {
@@ -608,8 +608,8 @@ window.STARLIGHT_SONGS = [
     title: "HUMBLE.",
     artist: "Kendrick Lamar",
     cover: "https://i.ytimg.com/vi/ov4WobPqoSA/hq720.jpg",
-    file: "./songs/HUMBLE..m4a",
-    file_clean: "./songs/HUMBLE. Clean.m4a",
+    file: "/songs/HUMBLE..m4a",
+    file_clean: "/songs/HUMBLE. Clean.m4a",
     isExplicit: true
   },
   {
@@ -617,8 +617,8 @@ window.STARLIGHT_SONGS = [
     title: "Doot Doot (6 7)",
     artist: "Skrilla",
     cover: "https://i.ytimg.com/vi/B5-bA9f3YRs/hq720.jpg",
-    file: "./songs/Doot Doot (6 7).m4a",
-    file_clean: "./songs/Doot Doot (6 7) Clean.m4a",
+    file: "/songs/Doot Doot (6 7).m4a",
+    file_clean: "/songs/Doot Doot (6 7) Clean.m4a",
     isExplicit: true
   },
   {
@@ -626,7 +626,7 @@ window.STARLIGHT_SONGS = [
     title: "Look At Me!",
     artist: "XXXTENTACION",
     cover: "https://is1-ssl.mzstatic.com/image/thumb/Music82/v4/9a/4c/80/9a4c80e3-fd0d-5f27-eabf-5e15fc400df2/888915346167_cover.jpg/720x720bb.webp", // no yt cover :(
-    file: "./songs/Look At Me!.m4a",
+    file: "/songs/Look At Me!.m4a",
     isExplicit: false
   },
   {
@@ -634,7 +634,7 @@ window.STARLIGHT_SONGS = [
     title: "Cry For Me (WA WA WA)",
     artist: "Ironmouse, shirobeats & HalaCG (feat. Bubi)",
     cover: "https://i.ytimg.com/vi/tupuZFm3jo8/hq720.jpg",
-    file: "./songs/Cry For Me (WA WA WA).m4a",
+    file: "/songs/Cry For Me (WA WA WA).m4a",
     isExplicit: false
   },
   {
@@ -642,7 +642,7 @@ window.STARLIGHT_SONGS = [
     title: "Lie",
     artist: "NF",
     cover: "https://i.ytimg.com/vi/B1dmRjyN0CQ/hq720.jpg",
-    file: "./songs/Lie.m4a",
+    file: "/songs/Lie.m4a",
     isExplicit: false
   },
   {
@@ -650,7 +650,7 @@ window.STARLIGHT_SONGS = [
     title: "Let You Down",
     artist: "NF",
     cover: "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/6e/96/04/6e9604a8-3270-f86e-0c47-0127141545c3/17UM1IM17084.rgb.jpg/720x720bb.webp",
-    file: "./songs/Let You Down.m4a",
+    file: "/songs/Let You Down.m4a",
     isExplicit: false
   },
   {
@@ -658,7 +658,7 @@ window.STARLIGHT_SONGS = [
     title: "Ghost",
     artist: "Justin Bieber",
     cover: "https://is1-ssl.mzstatic.com/image/thumb/Video124/v4/5e/f1/fe/5ef1fef1-bb55-7a43-01d9-eb14a0a83d65/Job459d5992-31ae-4d3f-90ea-14f85f44cb55-110453921-PreviewImage_preview_image_nonvideo_sdr-Time1616778829905.png/720x720bb.webp",
-    file: "./songs/Ghost.m4a",
+    file: "/songs/Ghost.m4a",
     isExplicit: false
   },
   {
@@ -666,7 +666,7 @@ window.STARLIGHT_SONGS = [
     title: "Rescue Me",
     artist: "OneRepublic",
     cover: "https://i.ytimg.com/vi/YOrMAW4pKuA/hq720.jpg",
-    file: "./songs/Rescue Me.m4a",
+    file: "/songs/Rescue Me.m4a",
     isExplicit: false
   },
   {
@@ -674,7 +674,7 @@ window.STARLIGHT_SONGS = [
     title: "Hyperclocked",
     artist: "Schwank",
     cover: "https://i.ytimg.com/vi/nqXN3WFUPXQ/hq720.jpg",
-    file: "./songs/Hyperclocked.m4a",
+    file: "/songs/Hyperclocked.m4a",
     isExplicit: false
   },
   {
@@ -682,7 +682,7 @@ window.STARLIGHT_SONGS = [
     title: "Muffin",
     artist: "BadBoyHalo, CG5, and Hyper Potions (feat. Skeppy & CaptianPuffy)",
     cover: "https://i.ytimg.com/vi/DVxzYuIWVQE/hq720.jpg",
-    file: "./songs/Muffin.m4a",
+    file: "/songs/Muffin.m4a",
     isExplicit: false
   },
 ];
@@ -699,7 +699,7 @@ window.STARLIGHT_SONGS = [
         title: "Baby Shark",
         artist: "Pinkfong",
         cover: "https://i.ytimg.com/vi/XqZsoesa55w/hq720.jpg",
-        file: "./songs/Baby Shark.m4a",
+        file: "/songs/Baby Shark.m4a",
         isExplicit: false
       }
     ];

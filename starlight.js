@@ -685,6 +685,70 @@ window.STARLIGHT_SONGS = [
     file: "/songs/Muffin.m4a",
     isExplicit: false
   },
+  {
+    id: 82,
+    title: "We Are Charlie Kirk",
+    artist: "Spalexma",
+    cover: "https://i.ytimg.com/vi/ZUHpUXlsvbI/hq720.jpg",
+    file: "/songs/We Are Charlie Kirk.m4a",
+    isExplicit: false
+  },
+  {
+    id: 83,
+    title: "Shiawase (VIP)",
+    artist: "Dion Timmer",
+    cover: "https://i.ytimg.com/vi/suisIF4hwyw/hq720.jpg",
+    file: "/songs/Shiawase (VIP).m4a",
+    isExplicit: false
+  },
+  {
+    id: 84,
+    title: "Boogie",
+    artist: "Zachz Winner, фрози, and joyful",
+    cover: "https://i.ytimg.com/vi/6ZD8YHhy4Ho/hq720.jpg",
+    file: "/songs/Boogie.m4a",
+    isExplicit: false
+  },
+  {
+    id: 85,
+    title: "doodle",
+    artist: "Zachz Winner",
+    cover: "https://i.ytimg.com/vi/kNxGBYvP6jE/hq720.jpg",
+    file: "/songs/doodle.m4a",
+    isExplicit: false
+  },
+  {
+    id: 86,
+    title: "Sugar on My Tongue",
+    artist: "Tyler, The Creator",
+    cover: "https://i.ytimg.com/vi/OKVi6jPdE8c/hq720.jpg",
+    file: "/songs/Sugar on My Tongue.m4a",
+    isExplicit: false
+  },
+  {
+    id: 87,
+    title: "I Wanna Be a Machine",
+    artist: "Beat Saber and The Living Tombstone",
+    cover: "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/9f/66/52/9f665296-1912-ab35-74ac-9bc42e54e699/artwork.jpg/720x720bb.webp",
+    file: "/songs/I Wanna Be a Machine.m4a",
+    isExplicit: false
+  },
+  {
+    id: 88,
+    title: "Monday Not Sick Anymore",
+    artist: "Lindsey Stirling",
+    cover: "https://i.ytimg.com/vi/4Bxh6reSWlg/hq720.jpg",
+    file: "/songs/Monday Not Sick Anymore.m4a",
+    isExplicit: false
+  },
+  {
+    id: 89,
+    title: "The Master II: Blades Of Chaos",
+    artist: "Teminite and Boom Kitty (feat. Beat Saber)",
+    cover: "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/9c/ea/cd/9ceacd60-b6e2-e71e-aa5d-ade8de1ae56c/artwork.jpg/720x720bb.webp",
+    file: "/songs/The Master II.m4a",
+    isExplicit: false
+  },
 ];
 
 (() => {

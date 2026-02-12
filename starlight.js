@@ -749,6 +749,14 @@ window.STARLIGHT_SONGS = [
     file: "/songs/The Master II.m4a",
     isExplicit: false
   },
+  {
+    id: 90,
+    title: "The Outside",
+    artist: "Alex Warren",
+    cover: "https://i.ytimg.com/vi/vQ3wh6lXgnM/hq720.jpg",
+    file: "/songs/The Outside.m4a",
+    isExplicit: false
+  },
 ];
 
 (() => {

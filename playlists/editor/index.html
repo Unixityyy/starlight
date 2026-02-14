@@ -1,0 +1,129 @@
+<!DOCTYPE html><html lang="en" data-bs-theme="dark"><head>  <meta charset="UTF-8">  <title>Starlight Playlist Editor</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body { background-color:#1a1a2e; font-family:Inter,sans-serif; color: white; }
+    .card { background:#27273f; border:1px solid #3d3d5f; border-radius:12px; height: 85vh; }
+    header h1 { font-size:3rem; font-weight:bold; text-align:center; color:#0d6efd; }
+    .scroll-area { height: calc(85vh - 120px); overflow-y: auto; padding-right: 5px; }
+    .list-group-item { background:#1a1a2e; border:1px solid #3d3d5f; color: white; margin-bottom: 8px; border-radius: 8px !important; }
+    .btn-action { cursor: pointer; transition: 0.2s; font-size: 1.2rem; }
+    .btn-action:hover { color: #0d6efd; }
+  </style>
+</head>
+<body>
+
+<nav class="container mb-4 mt-3">
+    <ul class="nav nav-tabs justify-content-center border-0">
+        <li class="nav-item"> <a class="nav-link" href="/">Home</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="/player">Player</a> </li>
+        <li class="nav-item"> <a class="nav-link active" href="/playlists/">Playlists</a> </li>
+        <li class="nav-item auth-only d-none"><a class="nav-link" href="./request">Request Form</a></li>
+        <li class="nav-item auth-only d-none"><button class="nav-link text-danger" onclick="logoutUser()">Logout</button></li>
+        <li class="nav-item guest-only"><a class="nav-link text-warning" href="./login/">Login</a></li>
+    </ul>
+</nav>
+
+<div class="container py-4">
+  <header class="mb-5 text-center"> <h1>Playlist Editor</h1> 
+    <div class="d-flex justify-content-center gap-3 mt-3">
+        <a href="/player/" class="btn btn-outline-secondary">Back to Player</a>
+        <button class="btn btn-primary" onclick="exportSLP()">Export .slp</button>
+    </div>
+  </header>
+  <div class="row g-4">
+    <div class="col-md-6">
+      <div class="card p-4">
+        <h5 class="fw-bold mb-3">Library</h5>
+        <input type="text" id="search" class="form-control mb-3 bg-dark border-secondary text-white" placeholder="Search tracks...">
+        <div class="scroll-area" id="library"></div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card p-4">
+        <h5 class="fw-bold mb-3">Your Draft <small id="draftCount" class="text-secondary">(0)</small></h5>
+        <div class="scroll-area" id="draft"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="/starlight.js"></script>
+<script>
+  let draft = [];
+
+  function render(q = '') {
+    // Render Library Side
+    const libContainer = document.getElementById('library');
+    libContainer.innerHTML = '';
+    const filtered = window.STARLIGHT_SONGS.filter(s => 
+        s.title.toLowerCase().includes(q.toLowerCase()) || 
+        s.artist.toLowerCase().includes(q.toLowerCase())
+    );
+
+    filtered.forEach(song => {
+      const div = document.createElement('div');
+      div.className = 'list-group-item d-flex justify-content-between align-items-center p-2';
+      div.innerHTML = `<div class="d-flex align-items-center gap-3">
+        <img src="${song.cover || '/favicon.ico'}" style="width:40px;height:40px;border-radius:4px;object-fit:cover;">
+        <div><b>${song.title}</b><br><small class="text-secondary">${song.artist}</small></div>
+      </div><i class="bi bi-plus-circle-fill btn-action" onclick="addToDraft('${song.id}')"></i>`;
+      libContainer.appendChild(div);
+    });
+
+    // Render Draft Side
+    const draftContainer = document.getElementById('draft');
+    draftContainer.innerHTML = '';
+    document.getElementById('draftCount').innerText = `(${draft.length})`;
+    
+    draft.forEach((song, i) => {
+      const div = document.createElement('div');
+      div.className = 'list-group-item d-flex justify-content-between align-items-center p-2';
+      div.innerHTML = `<div class="d-flex align-items-center gap-3">
+        <img src="${song.cover || '/favicon.ico'}" style="width:40px;height:40px;border-radius:4px;object-fit:cover;">
+        <div><b>${song.title}</b></div>
+      </div>
+      <div class="d-flex gap-2">
+        <i class="bi bi-chevron-up btn-action" onclick="move(${i},-1)"></i>
+        <i class="bi bi-chevron-down btn-action" onclick="move(${i},1)"></i>
+        <i class="bi bi-x-circle btn-action text-danger" onclick="removeFromDraft(${i})"></i>
+      </div>`;
+      draftContainer.appendChild(div);
+    });
+  }
+
+  function addToDraft(id) {
+    const song = window.STARLIGHT_SONGS.find(s => s.id == id);
+    if (song) {
+        draft.push({...song}); // Push a copy
+        render(document.getElementById('search').value);
+    }
+  }
+
+  function removeFromDraft(index) {
+    draft.splice(index, 1);
+    render(document.getElementById('search').value);
+  }
+
+  function move(i, dir) {
+    let t = i + dir;
+    if(t >= 0 && t < draft.length) {
+        [draft[i], draft[t]] = [draft[t], draft[i]];
+        render(document.getElementById('search').value);
+    }
+  }
+
+  function exportSLP() {
+    if(!draft.length) return alert("Playlist is empty!");
+    const output = draft.map(s => s.id).join('\n');
+    const blob = new Blob([output], {type: 'text/plain'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = "playlist.slp";
+    a.click();
+  }
+
+  document.getElementById('search').oninput = (e) => render(e.target.value);
+
+  const init = () => { if(window.STARLIGHT_SONGS) render(); else setTimeout(init, 100); };
+  init();
+</script></body></html>

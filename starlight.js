@@ -757,6 +757,47 @@ window.STARLIGHT_SONGS = [
     file: "/songs/The Outside.m4a",
     isExplicit: false
   },
+  {
+    id: 91,
+    title: "Little Bit Better",
+    artist: "Caleb Hearn & ROSIE",
+    cover: "https://i.ytimg.com/vi/OZaHk0h_axE/hq720.jpg",
+    file: "/songs/Little Bit Better.m4a",
+    isExplicit: false
+  },
+  {
+    id: 92,
+    title: "Godzilla",
+    artist: "Eminem (ft. Juice WRLD)",
+    cover: "https://i.ytimg.com/vi/9XvXF1LrWgA/hq720.jpg",
+    file: "/songs/Godzilla.m4a",
+    file_clean: "/songs/Godzilla Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 93,
+    title: "Best",
+    artist: "Gracie Abrams",
+    cover: "https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/b8/82/fc/b882fcb4-359a-7207-9011-59ee228fdbbf/22UM1IM44923.rgb.jpg/1024x1024bb.jpg",
+    file: "/songs/Best.m4a",
+    isExplicit: false
+  },
+  {
+    id: 94,
+    title: "Website",
+    artist: "panin bean",
+    cover: "https://i.ytimg.com/vi/iP9f-GzDsog/hq720.jpg",
+    file: "/songs/Website.m4a",
+    isExplicit: false
+  },
+  {
+    id: 95,
+    title: "Ever",
+    artist: "After",
+    cover: "https://i.ytimg.com/vi/MjRvu8h4oHw/hq720.jpg",
+    file: "/songs/Ever.m4a",
+    isExplicit: false
+  },
 ];
 
 (() => {

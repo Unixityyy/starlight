@@ -798,6 +798,62 @@ window.STARLIGHT_SONGS = [
     file: "/songs/Ever.m4a",
     isExplicit: false
   },
+  {
+    id: 96,
+    title: "First Time On Earth",
+    artist: "Alex Warren",
+    cover: "https://i.ytimg.com/vi/vQ3wh6lXgnM/hq720.jpg",
+    file: "/songs/First Time On Earth.m4a",
+    isExplicit: false
+  },
+  {
+    id: 97,
+    title: "Belong Together",
+    artist: "Mark Ambor",
+    cover: "https://i.ytimg.com/vi/Q0ft9ieeAuo/hq720.jpg",
+    file: "/songs/Belong Together.m4a",
+    isExplicit: false
+  },
+  {
+    id: 98,
+    title: "Nice To Meet You",
+    artist: "Myles Smith",
+    cover: "https://i.ytimg.com/vi/wavKJA-qGzY/hq720.jpg",
+    file: "/songs/Nice To Meet You.m4a",
+    isExplicit: false
+  },
+  {
+    id: 99,
+    title: "You'll Be Alright, Kid",
+    artist: "Alex Warren",
+    cover: "https://i.ytimg.com/vi/vQ3wh6lXgnM/hq720.jpg",
+    file: "/songs/You'll Be Alright, Kid.m4a",
+    isExplicit: false
+  },
+  {
+    id: 100,
+    title: "Carry You Home",
+    artist: "Alex Warren",
+    cover: "https://i.ytimg.com/vi/vQ3wh6lXgnM/hq720.jpg",
+    file: "/songs/Carry You Home.m4a",
+    isExplicit: false
+  },
+  {
+    id: 101,
+    title: "The Ocean",
+    artist: "Mike Perry (ft. Shy Martin)",
+    cover: "https://i.ytimg.com/vi/k2G7cfWgje4/hq720.jpg",
+    file: "/songs/The Ocean.m4a",
+    isExplicit: false
+  },
+  {
+    id: 102,
+    title: "We Are The People",
+    artist: "Empire Of The Sun",
+    cover: "https://i.ytimg.com/vi/ADPcr2fubdw/hq720.jpg",
+    file: "/songs/We Are The People.m4a",
+    isExplicit: false
+  },
 ];
 
 (() => {

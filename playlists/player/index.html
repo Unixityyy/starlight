@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
+
 <head>
     <meta charset="UTF-8">
     <title>Starlight Playlist Player</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
@@ -98,69 +99,71 @@
             text-align: center;
             padding: 40px !important;
         }
-        
+
         .import-btn:hover {
             border-color: #0d6efd !important;
         }
     </style>
 </head>
+
 <body>
 
-<nav class="mb-4"></nav>
-<script type="module" src="/navbar.js"></script>
+    <nav class="mb-4"></nav>
+    <script type="module" src="/navbar.js"></script>
 
-<div class="container py-2">
-    <header class="mb-5">
-        <h1>Starlight Playlist Player</h1>
-        <div class="d-flex justify-content-center mt-3">
-            <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="cleanToggle">
-                <label class="form-check-label" for="cleanToggle">Clean Mode</label>
-            </div>
-        </div>
-    </header>
-
-    <div class="row g-4">
-        <div class="col-lg-5">
-            <div class="card p-4 shadow-lg sticky-top" style="top: 20px;">
-                <div class="text-center mb-4">
-                    <div id="playerStatus" class="small text-uppercase tracking-widest text-secondary mb-2">Now Playing</div>
-                    <h3 id="currentTitle" class="fw-bold text-primary mb-1">Waiting...</h3>
-                    <p id="currentArtist" class="text-secondary">Import a playlist to begin</p>
-                    <span id="currentExplicit" class="explicit-tag" style="display:none;">E</span>
-                </div>
-
-                <div class="progress mb-4" id="progressBar">
-                    <div class="progress-bar bg-primary" id="progress" style="width: 0%"></div>
-                </div>
-
-                <div class="d-flex justify-content-center align-items-center gap-4">
-                    <i id="loopBtn" class="bi bi-arrow-repeat icon-btn opacity-50" title="Toggle Loop"></i>
-                    <i id="playPause" class="bi bi-play-circle-fill icon-btn" style="font-size: 3.5rem;"></i>
-                    <label for="slpImport" title="Load .slp Playlist">
-                        <i class="bi bi-file-earmark-music icon-btn"></i>
-                    </label>
+    <div class="container py-2">
+        <header class="mb-5">
+            <h1>Starlight Playlist Player</h1>
+            <div class="d-flex justify-content-center mt-3">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="cleanToggle">
+                    <label class="form-check-label" for="cleanToggle">Clean Mode</label>
                 </div>
             </div>
-        </div>
+        </header>
 
-        <div class="col-lg-7">
-            <div class="card p-4">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="fw-bold m-0" id="libLabel">Playlist Queue</h5>
-                    <div id="libActions"></div>
-                </div>
-                <div class="list-group list-group-flush" id="library">
+        <div class="row g-4">
+            <div class="col-lg-5">
+                <div class="card p-4 shadow-lg sticky-top" style="top: 20px;">
+                    <div class="text-center mb-4">
+                        <div id="playerStatus" class="small text-uppercase tracking-widest text-secondary mb-2">Now
+                            Playing</div>
+                        <h3 id="currentTitle" class="fw-bold text-primary mb-1">Waiting...</h3>
+                        <p id="currentArtist" class="text-secondary">Import a playlist to begin</p>
+                        <span id="currentExplicit" class="explicit-tag" style="display:none;">E</span>
                     </div>
+
+                    <div class="progress mb-4" id="progressBar">
+                        <div class="progress-bar bg-primary" id="progress" style="width: 0%"></div>
+                    </div>
+
+                    <div class="d-flex justify-content-center align-items-center gap-4">
+                        <i id="loopBtn" class="bi bi-arrow-repeat icon-btn opacity-50" title="Toggle Loop"></i>
+                        <i id="playPause" class="bi bi-play-circle-fill icon-btn" style="font-size: 3.5rem;"></i>
+                        <label for="slpImport" title="Load .slp Playlist">
+                            <i class="bi bi-file-earmark-music icon-btn"></i>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="card p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold m-0" id="libLabel">Playlist Queue</h5>
+                        <div id="libActions"></div>
+                    </div>
+                    <div class="list-group list-group-flush" id="library">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<input type="file" id="slpImport" class="d-none" accept=".slp">
-<audio id="audio"></audio>
+    <input type="file" id="slpImport" class="d-none" accept=".slp">
+    <audio id="audio"></audio>
 
-<script src="/starlight.js"></script>
+    <script src="/starlight.js"></script>
 <script>
     const audio = document.getElementById('audio');
     const playPause = document.getElementById('playPause');
@@ -180,6 +183,7 @@
     cleanToggle.checked = cleanMode;
     
     let currentSong = null;
+    let currentTrackIndex = -1; 
     let activeQueue = [];
 
     // --- Helper Functions ---
@@ -188,47 +192,91 @@
         return (cleanMode && song.file_clean) ? song.file_clean : song.file;
     }
 
-    function updateMediaSession(song) {
+    /**
+     * Universal Square Cropper
+     * Processes ANY image URL and returns a base64 square-cropped version
+     */
+    async function getSquareArtwork(url) {
+        if (!url) return '/favicon.ico';
+
+        return new Promise((resolve) => {
+            const img = new Image();
+            // Allows processing images from different domains (CORS)
+            img.crossOrigin = "Anonymous"; 
+            img.src = url;
+
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                // We want a high-quality output for system players
+                const size = Math.min(img.width, img.height);
+                canvas.width = 512;
+                canvas.height = 512;
+                
+                const ctx = canvas.getContext('2d');
+                
+                // Calculate center-crop coordinates
+                // This works for both Landscape (Wide) and Portrait (Tall) images
+                const sourceX = (img.width - size) / 2;
+                const sourceY = (img.height - size) / 2;
+                
+                ctx.drawImage(img, sourceX, sourceY, size, size, 0, 0, 512, 512);
+                
+                resolve(canvas.toDataURL('image/jpeg', 0.8));
+            };
+
+            img.onerror = () => {
+                console.warn("Failed to process artwork, falling back to original URL.");
+                resolve(url);
+            };
+        });
+    }
+
+    async function updateMediaSession(song) {
         if ('mediaSession' in navigator) {
+            // This now forces EVERY image through the square cropper
+            const squareArt = await getSquareArtwork(song.cover);
+
             navigator.mediaSession.metadata = new MediaMetadata({
                 title: song.title,
                 artist: song.artist,
-                album: 'Starlight Sound',
-                // Enforce square artwork for system player
+                album: 'Starlight Playlist',
                 artwork: [
-                    { src: song.cover || '/favicon.ico', sizes: '512x512', type: 'image/jpeg' }
+                    { src: squareArt, sizes: '512x512', type: 'image/jpeg' }
                 ]
             });
 
-            // System Media Key Handlers
             navigator.mediaSession.setActionHandler('play', () => audio.play());
             navigator.mediaSession.setActionHandler('pause', () => audio.pause());
+            
             navigator.mediaSession.setActionHandler('previoustrack', () => {
-                const index = activeQueue.findIndex(s => s.id == currentSong.id);
-                if (index > 0) playSong(activeQueue[index - 1]);
+                if (currentTrackIndex > 0) {
+                    playSong(activeQueue[currentTrackIndex - 1], currentTrackIndex - 1);
+                }
             });
+
             navigator.mediaSession.setActionHandler('nexttrack', () => {
-                const index = activeQueue.findIndex(s => s.id == currentSong.id);
-                if (index < activeQueue.length - 1) playSong(activeQueue[index + 1]);
+                if (currentTrackIndex < activeQueue.length - 1) {
+                    playSong(activeQueue[currentTrackIndex + 1], currentTrackIndex + 1);
+                }
             });
         }
     }
 
-    function playSong(song) {
+    function playSong(song, index = -1) {
         if (!song) return;
-        currentSong = song;
         
-        // Update Audio Source
+        currentSong = song;
+        currentTrackIndex = (index !== -1) ? index : activeQueue.indexOf(song);
+
         audio.src = getSongFile(song);
         
-        // Update UI
         currentTitle.textContent = song.title;
         currentArtist.textContent = song.artist;
         currentExplicit.style.display = song.isExplicit ? 'inline-block' : 'none';
         
-        // Highlight active item in list
-        document.querySelectorAll('.list-group-item').forEach(el => {
-            el.classList.toggle('active-song', el.dataset.id == song.id);
+        // Highlight logic
+        document.querySelectorAll('.list-group-item').forEach((el, idx) => {
+            el.classList.toggle('active-song', idx === currentTrackIndex);
         });
         
         updateMediaSession(song);
@@ -239,7 +287,7 @@
 
     playPause.onclick = () => {
         if (!currentSong && activeQueue.length > 0) {
-            playSong(activeQueue[0]);
+            playSong(activeQueue[0], 0);
         } else {
             audio.paused ? audio.play() : audio.pause();
         }
@@ -250,9 +298,9 @@
 
     audio.onended = () => {
         if (audio.loop) return;
-        const index = activeQueue.findIndex(s => s.id == currentSong.id);
-        if (index !== -1 && index < activeQueue.length - 1) {
-            playSong(activeQueue[index + 1]);
+        const nextIndex = currentTrackIndex + 1;
+        if (nextIndex < activeQueue.length) {
+            playSong(activeQueue[nextIndex], nextIndex);
         }
     };
 
@@ -264,48 +312,39 @@
 
     audio.ontimeupdate = () => {
         if (audio.duration) {
-            const perc = (audio.currentTime / audio.duration) * 100;
-            progress.style.width = perc + '%';
+            progress.style.width = (audio.currentTime / audio.duration) * 100 + '%';
         }
     };
 
     progressBar.onclick = (e) => {
         const rect = progressBar.getBoundingClientRect();
-        const pos = (e.clientX - rect.left) / rect.width;
-        audio.currentTime = pos * audio.duration;
+        audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
     };
 
     cleanToggle.onchange = (e) => {
         cleanMode = e.target.checked;
         localStorage.setItem('cleanEnabled', cleanMode);
-        // If a song is currently playing, swap the source to the clean version if available
         if (currentSong) {
-            const currentTime = audio.currentTime;
-            const wasPlaying = !audio.paused;
+            const time = audio.currentTime;
+            const playing = !audio.paused;
             audio.src = getSongFile(currentSong);
-            audio.currentTime = currentTime;
-            if (wasPlaying) audio.play();
+            audio.currentTime = time;
+            if (playing) audio.play();
         }
     };
 
     slpImport.onchange = (e) => {
         const file = e.target.files[0];
         if (!file) return;
-
         const reader = new FileReader();
         reader.onload = (event) => {
-            const rawContent = event.target.result;
-            const ids = rawContent.split('\n')
+            const ids = event.target.result.split('\n')
                 .map(id => id.trim())
                 .filter(id => id.length > 0);
             
-            // Map IDs from file to the window.STARLIGHT_SONGS objects
-            activeQueue = ids.map(id => {
-                return window.STARLIGHT_SONGS.find(s => s.id == parseInt(id));
-            }).filter(Boolean);
-
+            activeQueue = ids.map(id => window.STARLIGHT_SONGS.find(s => s.id == parseInt(id))).filter(Boolean);
             renderQueue();
-            if (activeQueue.length > 0) playSong(activeQueue[0]);
+            if (activeQueue.length > 0) playSong(activeQueue[0], 0);
         };
         reader.readAsText(file);
     };
@@ -316,24 +355,19 @@
         
         if (activeQueue.length === 0) {
             actions.innerHTML = '';
-            const emptyState = document.createElement('div');
-            emptyState.className = 'list-group-item import-btn';
-            emptyState.innerHTML = `
-                <i class="bi bi-cloud-arrow-up text-primary d-block mb-2" style="font-size:3rem"></i>
-                <div class="fw-bold h5">No Songs Loaded</div>
-                <div class="text-secondary">Click the file icon or here to import .slp</div>
-            `;
-            emptyState.onclick = () => slpImport.click();
-            library.appendChild(emptyState);
+            const empty = document.createElement('div');
+            empty.className = 'list-group-item import-btn';
+            empty.innerHTML = `<i class="bi bi-cloud-arrow-up text-primary d-block mb-2" style="font-size:3rem"></i><div class="fw-bold h5">No Songs Loaded</div>`;
+            empty.onclick = () => slpImport.click();
+            library.appendChild(empty);
             return;
         }
 
-        actions.innerHTML = `<button class="btn btn-sm btn-outline-danger" onclick="activeQueue=[];renderQueue();">Clear Queue</button>`;
+        actions.innerHTML = `<button class="btn btn-sm btn-outline-danger" onclick="activeQueue=[];currentTrackIndex=-1;renderQueue();">Clear</button>`;
 
-        activeQueue.forEach(song => {
+        activeQueue.forEach((song, index) => {
             const li = document.createElement('div');
             li.className = 'list-group-item d-flex justify-content-between align-items-center p-3';
-            li.dataset.id = song.id;
             li.innerHTML = `
                 <div class="d-flex align-items-center gap-3">
                     <img src="${song.cover || '/favicon.ico'}" class="song-art">
@@ -344,19 +378,18 @@
                 </div>
                 ${song.isExplicit ? '<span class="explicit-tag">E</span>' : ''}
             `;
-            li.onclick = () => playSong(song);
+            li.onclick = () => playSong(song, index);
             library.appendChild(li);
         });
     }
-    
-    // Check if the script data is ready before rendering
+
     const checkData = setInterval(() => {
         if (window.STARLIGHT_SONGS) {
             clearInterval(checkData);
             renderQueue();
         }
     }, 100);
-
 </script>
 </body>
+
 </html>

@@ -51,10 +51,3 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         id: deployment
         uses: actions/deploy-pages@v4
-
-      # --- Electron Build Logic (Runs on all OS types) ---
-      - name: Build/Release Electron
-        uses: samuelmeuli/action-electron-builder@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          release: true

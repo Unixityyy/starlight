@@ -1,4 +1,4 @@
-name: Deploy Pages and Build Electron
+name: Deploy Pages
 
 on:
   push:

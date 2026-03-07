@@ -854,6 +854,38 @@ window.STARLIGHT_SONGS = [
     file: "/songs/We Are The People.m4a",
     isExplicit: false
   },
+  {
+    id: 103,
+    title: "Crab Rave",
+    artist: "Noisestorm",
+    cover: "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/3a/1b/be/3a1bbe2a-2895-ac1a-d17d-8fa9f1f169ec/8718857531050.png/720x720bb.webp",
+    file: "/songs/Crab Rave.m4a",
+    isExplicit: false
+  },
+  {
+    id: 104,
+    title: "this is what falling in love feels like",
+    artist: "JVKE",
+    cover: "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/8d/1a/7b/8d1a7b44-316f-7c7f-4380-935673fb697a/5056167175650.jpg/720x720bb.webp",
+    file: "/songs/this is what falling in love feels like.m4a",
+    isExplicit: false
+  },
+  {
+    id: 105,
+    title: "Femboy Friday",
+    artist: "indxgo",
+    cover: "https://i.ytimg.com/vi/-_JxRtKm5Ec/hq720.jpg",
+    file: "/songs/Femboy Friday.m4a",
+    isExplicit: false
+  },
+  {
+    id: 106,
+    title: "Home",
+    artist: "Philip Philips",
+    cover: "https://i.ytimg.com/vi/fzdUZn3DEt0/hq720.jpg",
+    file: "/songs/Home.m4a",
+    isExplicit: false
+  },
 ];
 
 (() => {

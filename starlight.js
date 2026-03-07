@@ -876,7 +876,8 @@ window.STARLIGHT_SONGS = [
     artist: "indxgo",
     cover: "https://i.ytimg.com/vi/-_JxRtKm5Ec/hq720.jpg",
     file: "/songs/Femboy Friday.m4a",
-    isExplicit: false
+    file_clean: "/songs/Femboy Friday Clean.m4a",
+    isExplicit: true
   },
   {
     id: 106,
@@ -884,6 +885,14 @@ window.STARLIGHT_SONGS = [
     artist: "Philip Philips",
     cover: "https://i.ytimg.com/vi/fzdUZn3DEt0/hq720.jpg",
     file: "/songs/Home.m4a",
+    isExplicit: false
+  },
+  {
+    id: 107,
+    title: "Home",
+    artist: "mgk, X Ambassadors, and Bebe Rexha",
+    cover: "https://i.ytimg.com/vi/mrukuuMUu_s/hq720.jpg",
+    file: "/songs/Home (From Bright, The Album).m4a",
     isExplicit: false
   },
 ];

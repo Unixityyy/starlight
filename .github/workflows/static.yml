@@ -1,4 +1,4 @@
-name: Deploy Pages and Build Electron
+name: Deploy Pages
 
 on:
   push:
@@ -18,7 +18,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest]
 
     steps:
       - name: Checkout
@@ -36,25 +36,14 @@ jobs:
       - name: Build Tailwind CSS
         run: npm run tailwind:build
 
-      # --- GitHub Pages Logic (Only runs on Ubuntu) ---
       - name: Setup Pages
-        if: matrix.os == 'ubuntu-latest'
         uses: actions/configure-pages@v5
 
       - name: Upload Pages artifact
-        if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-pages-artifact@v3
         with:
           path: '.'
 
       - name: Deploy to GitHub Pages
-        if: matrix.os == 'ubuntu-latest'
         id: deployment
         uses: actions/deploy-pages@v4
-
-      # --- Electron Build Logic (Runs on all OS types) ---
-      - name: Build/Release Electron
-        uses: samuelmeuli/action-electron-builder@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          release: true

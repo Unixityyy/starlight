@@ -892,7 +892,7 @@ window.STARLIGHT_SONGS = [
     title: "Home",
     artist: "mgk, X Ambassadors, and Bebe Rexha",
     cover: "https://i.ytimg.com/vi/mrukuuMUu_s/hq720.jpg",
-    file: "/songs/Home (From Bright, The Album).m4a",
+    file: "/songs/Home (from Bright, The Album).m4a",
     isExplicit: false
   },
 ];

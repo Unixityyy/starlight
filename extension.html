@@ -110,8 +110,15 @@
             document.getElementById('cur-title').textContent = document.getElementById('pl-title').textContent = song.title;
             document.getElementById('cur-artist').textContent = document.getElementById('pl-artist').textContent = song.artist;
 
-            // Send to extension background
-            handleCmd('PLAY', { song, queue, file: fileUrl, cover: coverUrl });
+            // Send to extension background (Formatted for your working offscreen.js)
+            if (window.parent !== window) {
+                window.parent.postMessage({
+                    command: 'play',
+                    song: song,
+                    url: fileUrl,
+                    queue: queue
+                }, "*");
+            }
 
             // Also play in fallback audio (in case we aren't in the extension)
             fallbackAudio.src = fileUrl;

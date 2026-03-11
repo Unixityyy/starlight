@@ -157,16 +157,41 @@
 
     <script type="module" src="https://unixityyy.github.io/starlight/starlight.js"></script>
     <script>
-        const BASE = "https://unixityyy.github.io/starlight";
+        let BASE = "";
         let localQueue = [];
         let localIdx = -1;
         let currentView = 'home';
         let currentSongData = null;
 
-        // Helper to fix URLs
+        // Helper to fix URLs using the detected BASE
         const fix = (p) => (p && p.startsWith('http')) ? p : BASE + (p ? (p.startsWith('/') ? p : '/' + p) : '');
 
-        // --- 1. NAVIGATION ---
+        // --- 1. DYNAMIC REDIRECT DETECTION ---
+        async function initBaseAndLoadData() {
+            try {
+                // Check where the short link points to
+                const response = await fetch("https://unixityyy.github.io/starlight", { method: 'HEAD' });
+                // Get the final URL (removing trailing slashes)
+                BASE = response.url.replace(/\/$/, "");
+                console.log("Detected Base URL:", BASE);
+
+                // Now inject starlight.js dynamically using the correct protocol/domain
+                const script = document.createElement('script');
+                script.src = `${BASE}/starlight.js`;
+                script.onload = () => startApp();
+                document.head.appendChild(script);
+            } catch (e) {
+                console.error("Failed to detect base or load starlight.js", e);
+                // Fallback to the known URL if the trace fails
+                BASE = "https://unixityyy.github.io/starlight";
+                const script = document.createElement('script');
+                script.src = `${BASE}/starlight.js`;
+                script.onload = () => startApp();
+                document.head.appendChild(script);
+            }
+        }
+
+        // --- 2. APP LOGIC ---
         function navigateTo(v, shouldPersist = true) {
             currentView = v;
             document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
@@ -175,36 +200,29 @@
             if (shouldPersist) saveState();
         }
 
-        // --- 2. PERSISTENCE HANDLERS ---
         function saveState() {
-            if (window.parent !== window) {
-                window.parent.postMessage({
-                    type: 'SAVE_STATE',
-                    payload: {
-                        view: currentView,
-                        song: currentSongData,
-                        queue: localQueue
-                    }
-                }, "*");
-            }
+            window.parent.postMessage({
+                type: 'SAVE_STATE',
+                payload: { view: currentView, song: currentSongData, queue: localQueue }
+            }, "*");
         }
 
-        // --- 3. PLAYBACK ENGINE ---
         function playSong(song, queue, isRestore = false) {
             if (!song) return;
-
             localQueue = queue || window.STARLIGHT_SONGS || [];
             localIdx = localQueue.findIndex(s => s.id == song.id);
             currentSongData = song;
 
-            // Update UI Text (Handles both Player and Playlist view labels)
-            const titleEls = [document.getElementById('cur-title'), document.getElementById('pl-title')];
-            const artistEls = [document.getElementById('cur-artist'), document.getElementById('pl-artist')];
+            // Update UI Text
+            ['cur-title', 'pl-title'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = song.title;
+            });
+            ['cur-artist', 'pl-artist'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.textContent = song.artist;
+            });
 
-            titleEls.forEach(el => { if (el) el.textContent = song.title });
-            artistEls.forEach(el => { if (el) el.textContent = song.artist });
-
-            // Command background player ONLY if not a restoration
             if (!isRestore) {
                 window.parent.postMessage({
                     target: 'offscreen',
@@ -213,11 +231,9 @@
                 }, "*");
             }
 
-            // Media Session (OS Level Controls)
             if ('mediaSession' in navigator) {
                 navigator.mediaSession.metadata = new MediaMetadata({
-                    title: song.title,
-                    artist: song.artist,
+                    title: song.title, artist: song.artist,
                     artwork: [{ src: fix(song.cover || 'icon.png') }]
                 });
                 navigator.mediaSession.setActionHandler('play', () => togglePlayback());
@@ -225,7 +241,6 @@
                 navigator.mediaSession.setActionHandler('nexttrack', () => skip(1));
                 navigator.mediaSession.setActionHandler('previoustrack', () => skip(-1));
             }
-
             if (!isRestore) saveState();
         }
 
@@ -238,19 +253,13 @@
             if (next) playSong(next, localQueue);
         }
 
-        // --- 4. EXTENSION MESSAGE HUB ---
+        // --- 3. COMMUNICATION ---
         window.addEventListener("message", (e) => {
-            // Restore logic
             if (e.data.type === 'RESTORE_STATE' && e.data.payload) {
                 const p = e.data.payload;
                 if (p.view) navigateTo(p.view, false);
-                if (p.song) {
-                    const q = (p.queue && p.queue.length) ? p.queue : window.STARLIGHT_SONGS;
-                    playSong(p.song, q, true);
-                }
+                if (p.song) playSong(p.song, p.queue || window.STARLIGHT_SONGS, true);
             }
-
-            // Progress bar updates
             if (e.data.type === 'prog') {
                 const pct = (e.data.c / e.data.d * 100) + '%';
                 ['bar-lib', 'bar-pl'].forEach(id => {
@@ -258,64 +267,42 @@
                     if (el) el.style.width = pct;
                 });
             }
-
-            // Icon updates (Play vs Pause)
             if (e.data.type === 'state') {
                 const icon = e.data.playing ? 'bi-pause-circle-fill' : 'bi-play-circle-fill';
-                const toggles = [document.getElementById('m-play'), document.getElementById('pl-play')];
-                toggles.forEach(el => { if (el) el.className = `bi ${icon} fs-1 text-primary` });
+                ['m-play', 'pl-play'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.className = `bi ${icon} fs-1 text-primary`;
+                });
             }
-
-            // Auto-next
             if (e.data.type === 'ended') skip(1);
         });
 
-        // --- 5. INITIALIZATION & RENDERING ---
+        // --- 4. STARTUP & RENDER ---
         function renderList(targetId, data, queueForClick) {
             const container = document.getElementById(targetId);
             if (!container) return;
             container.innerHTML = '';
-
             data.forEach(s => {
                 const div = document.createElement('div');
                 div.className = 'song-item';
-                div.innerHTML = `
-                <img src="${fix(s.cover)}" class="thumb">
-                <div class="text-truncate">
-                    <div class="fw-bold small">${s.title}</div>
-                    <div class="small text-secondary">${s.artist}</div>
-                </div>
-            `;
+                div.innerHTML = `<img src="${fix(s.cover)}" class="thumb"><div class="text-truncate"><div class="fw-bold small">${s.title}</div><div class="small text-secondary">${s.artist}</div></div>`;
                 div.onclick = () => playSong(s, queueForClick);
                 container.appendChild(div);
             });
         }
 
-        // SLP Import Logic
-        const slpInput = document.getElementById('slp-input');
-        if (slpInput) {
-            slpInput.onchange = (e) => {
-                const file = e.target.files[0];
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    const ids = event.target.result.split('\n').map(x => x.trim());
-                    const plQueue = ids.map(id => window.STARLIGHT_SONGS.find(s => s.id == id)).filter(Boolean);
-                    renderList('playlist-container', plQueue, plQueue);
-                    if (plQueue.length) playSong(plQueue[0], plQueue);
-                };
-                reader.readAsText(file);
-            };
+        function startApp() {
+            const check = setInterval(() => {
+                if (window.STARLIGHT_SONGS) {
+                    clearInterval(check);
+                    renderList('library-container', window.STARLIGHT_SONGS, window.STARLIGHT_SONGS);
+                    window.parent.postMessage({ type: 'GET_STATE' }, "*");
+                }
+            }, 50);
         }
 
-        // Startup: Wait for starlight.js, Render, then Restore
-        const initInterval = setInterval(() => {
-            if (window.STARLIGHT_SONGS && window.STARLIGHT_SONGS.length > 0) {
-                clearInterval(initInterval);
-                renderList('library-container', window.STARLIGHT_SONGS, window.STARLIGHT_SONGS);
-                // Ask extension for saved state AFTER rendering
-                window.parent.postMessage({ type: 'GET_STATE' }, "*");
-            }
-        }, 100);
+        // Run dynamic detection on load
+        initBaseAndLoadData();
     </script>
 </body>
 

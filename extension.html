@@ -165,86 +165,51 @@
 
         const fix = (p) => (p && p.startsWith('http')) ? p : BASE + (p ? (p.startsWith('/') ? p : '/' + p) : '');
 
-        // --- NAVIGATION ---
         function navigateTo(v, shouldPersist = true) {
             currentView = v;
             document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
-            const target = document.getElementById(v + '-view');
-            if (target) target.classList.add('active');
+            document.getElementById(v + '-view').classList.add('active');
             if (shouldPersist) saveState();
         }
 
-        // --- CORE MESSAGING ---
-        function sendToExtension(command, data = {}) {
-            if (window.parent !== window) {
-                window.parent.postMessage({
-                    target: 'offscreen',
-                    command: command,
-                    ...data
-                }, "*");
-            }
-        }
-
-        // --- PERSISTENCE LOGIC ---
         function saveState() {
-            if (window.parent !== window) {
-                window.parent.postMessage({
-                    type: 'SAVE_STATE',
-                    payload: {
-                        view: currentView,
-                        song: currentSongData,
-                        queue: localQueue,
-                        idx: localIdx
-                    }
-                }, "*");
-            }
+            window.parent.postMessage({
+                type: 'SAVE_STATE',
+                payload: { view: currentView, song: currentSongData, queue: localQueue }
+            }, "*");
         }
 
-        function requestState() {
-            if (window.parent !== window) {
-                window.parent.postMessage({ type: 'GET_STATE' }, "*");
-            }
-        }
-
-        // --- PLAYBACK ---
         function playSong(song, queue, isRestore = false) {
             localQueue = queue;
             localIdx = localQueue.findIndex(s => s.id == song.id);
             currentSongData = song;
 
-            const fileUrl = fix(song.file);
-
-            // Update UI labels
             document.getElementById('cur-title').textContent = document.getElementById('pl-title').textContent = song.title;
             document.getElementById('cur-artist').textContent = document.getElementById('pl-artist').textContent = song.artist;
 
-            // Only send 'play' command to audio engine if this ISN'T a state restore
             if (!isRestore) {
-                sendToExtension('play', {
-                    song: song,
-                    url: fileUrl,
-                    queue: queue
-                });
+                window.parent.postMessage({
+                    target: 'offscreen',
+                    command: 'play',
+                    url: fix(song.file)
+                }, "*");
             }
 
-            // Media Session (Updates controls on Windows/Mac/Mobile)
             if ('mediaSession' in navigator) {
                 navigator.mediaSession.metadata = new MediaMetadata({
-                    title: song.title,
-                    artist: song.artist,
+                    title: song.title, artist: song.artist,
                     artwork: [{ src: fix(song.cover || 'icon.png') }]
                 });
-                navigator.mediaSession.setActionHandler('play', () => sendToExtension('toggle'));
-                navigator.mediaSession.setActionHandler('pause', () => sendToExtension('toggle'));
+                navigator.mediaSession.setActionHandler('play', () => togglePlayback());
+                navigator.mediaSession.setActionHandler('pause', () => togglePlayback());
                 navigator.mediaSession.setActionHandler('nexttrack', () => skip(1));
                 navigator.mediaSession.setActionHandler('previoustrack', () => skip(-1));
             }
-
             saveState();
         }
 
         function togglePlayback() {
-            sendToExtension('toggle');
+            window.parent.postMessage({ target: 'offscreen', command: 'toggle' }, "*");
         }
 
         function skip(dir) {
@@ -252,69 +217,31 @@
             if (next) playSong(next, localQueue);
         }
 
-        // --- MESSAGE HUB (Listening for Extension) ---
         window.addEventListener("message", (e) => {
-            // 1. Restore State from Storage
-            if (e.data.type === 'RESTORE_STATE' && e.data.payload) {
+            if (e.data.type === 'RESTORE_STATE') {
                 const p = e.data.payload;
                 if (p.view) navigateTo(p.view, false);
-                if (p.song) {
-                    playSong(p.song, p.queue || [], true);
-                }
+                if (p.song) playSong(p.song, p.queue || [], true);
             }
-
-            // 2. Audio Progress Updates
             if (e.data.type === 'prog') {
-                const percent = (e.data.c / e.data.d) * 100 + '%';
-                if (document.getElementById('bar-lib')) document.getElementById('bar-lib').style.width = percent;
-                if (document.getElementById('bar-pl')) document.getElementById('bar-pl').style.width = percent;
+                const pct = (e.data.c / e.data.d * 100) + '%';
+                if (document.getElementById('bar-lib')) document.getElementById('bar-lib').style.width = pct;
+                if (document.getElementById('bar-pl')) document.getElementById('bar-pl').style.width = pct;
             }
-
-            // 3. Play/Pause State Updates
             if (e.data.type === 'state') {
                 const icon = e.data.playing ? 'bi-pause-circle-fill' : 'bi-play-circle-fill';
                 document.getElementById('m-play').className = `bi ${icon} fs-1 text-primary`;
                 document.getElementById('pl-play').className = `bi ${icon} fs-2 text-primary`;
             }
-
-            // 4. Track Finished
-            if (e.data.type === 'ended') {
-                skip(1);
-            }
+            if (e.data.type === 'ended') skip(1);
         });
 
-        // --- INITIALIZATION ---
-        function renderList(target, data, queue) {
-            const cont = document.getElementById(target);
-            if (!cont) return;
-            cont.innerHTML = '';
-            data.forEach(s => {
-                const d = document.createElement('div');
-                d.className = 'song-item';
-                d.innerHTML = `<img src="${fix(s.cover)}" class="thumb"><div class="text-truncate"><div class="fw-bold small">${s.title}</div><div class="small text-secondary">${s.artist}</div></div>`;
-                d.onclick = () => playSong(s, queue);
-                cont.appendChild(d);
-            });
-        }
-
-        document.getElementById('slp-input').onchange = (e) => {
-            const f = e.target.files[0];
-            const r = new FileReader();
-            r.onload = (ev) => {
-                const lines = ev.target.result.split('\n');
-                const pl = lines.map(id => window.STARLIGHT_SONGS.find(s => s.id == id.trim())).filter(Boolean);
-                renderList('playlist-container', pl, pl);
-                if (pl.length) playSong(pl[0], pl);
-            };
-            r.readAsText(f);
-        };
-
-        // Start Up
+        // Start-up sequence
         const check = setInterval(() => {
             if (window.STARLIGHT_SONGS) {
                 clearInterval(check);
-                renderList('library-container', window.STARLIGHT_SONGS, window.STARLIGHT_SONGS);
-                requestState(); // Ask the extension where we left off
+                // YOUR RENDER LOGIC HERE
+                window.parent.postMessage({ type: 'GET_STATE' }, "*");
             }
         }, 100);
     </script>

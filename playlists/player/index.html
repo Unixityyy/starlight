@@ -164,211 +164,218 @@
     <audio id="audio"></audio>
 
     <script src="/starlight.js"></script>
-<script>
-    const audio = document.getElementById('audio');
-    const playPause = document.getElementById('playPause');
-    const loopBtn = document.getElementById('loopBtn');
-    const progress = document.getElementById('progress');
-    const progressBar = document.getElementById('progressBar');
-    
-    const currentTitle = document.getElementById('currentTitle');
-    const currentArtist = document.getElementById('currentArtist');
-    const currentExplicit = document.getElementById('currentExplicit');
-    
-    const slpImport = document.getElementById('slpImport');
-    const library = document.getElementById('library');
-    const cleanToggle = document.getElementById('cleanToggle');
+    <script>
+        const audio = document.getElementById('audio');
+        const playPause = document.getElementById('playPause');
+        const loopBtn = document.getElementById('loopBtn');
+        const progress = document.getElementById('progress');
+        const progressBar = document.getElementById('progressBar');
 
-    let cleanMode = localStorage.getItem('cleanEnabled') === 'true';
-    cleanToggle.checked = cleanMode;
-    
-    let currentSong = null;
-    let currentTrackIndex = -1; 
-    let activeQueue = [];
+        const currentTitle = document.getElementById('currentTitle');
+        const currentArtist = document.getElementById('currentArtist');
+        const currentExplicit = document.getElementById('currentExplicit');
 
-    // --- Helper Functions ---
+        const slpImport = document.getElementById('slpImport');
+        const library = document.getElementById('library');
+        const cleanToggle = document.getElementById('cleanToggle');
 
-    function getSongFile(song) {
-        return (cleanMode && song.file_clean) ? song.file_clean : song.file;
-    }
+        let cleanMode = localStorage.getItem('cleanEnabled') === 'true';
+        cleanToggle.checked = cleanMode;
 
-    /**
-     * Universal Square Cropper
-     * Processes ANY image URL and returns a base64 square-cropped version
-     */
-    async function getSquareArtwork(url) {
-        if (!url) return '/favicon.ico';
+        let currentSong = null;
+        let currentTrackIndex = -1;
+        let activeQueue = [];
 
-        return new Promise((resolve) => {
-            const img = new Image();
-            // Allows processing images from different domains (CORS)
-            img.crossOrigin = "Anonymous"; 
-            img.src = url;
+        // --- Helper Functions ---
 
-            img.onload = () => {
-                const canvas = document.createElement('canvas');
-                // We want a high-quality output for system players
-                const size = Math.min(img.width, img.height);
-                canvas.width = 512;
-                canvas.height = 512;
-                
-                const ctx = canvas.getContext('2d');
-                
-                // Calculate center-crop coordinates
-                // This works for both Landscape (Wide) and Portrait (Tall) images
-                const sourceX = (img.width - size) / 2;
-                const sourceY = (img.height - size) / 2;
-                
-                ctx.drawImage(img, sourceX, sourceY, size, size, 0, 0, 512, 512);
-                
-                resolve(canvas.toDataURL('image/jpeg', 0.8));
-            };
+        function getSongFile(song) {
+            return (cleanMode && song.file_clean) ? song.file_clean : song.file;
+        }
 
-            img.onerror = () => {
-                console.warn("Failed to process artwork, falling back to original URL.");
-                resolve(url);
-            };
-        });
-    }
+        /**
+         * Universal Square Cropper
+         * Processes ANY image URL and returns a base64 square-cropped version
+         */
+        async function getSquareArtwork(url) {
+            if (!url) return '/favicon.ico';
 
-    async function updateMediaSession(song) {
-        if ('mediaSession' in navigator) {
-            // This now forces EVERY image through the square cropper
-            const squareArt = await getSquareArtwork(song.cover);
+            return new Promise((resolve) => {
+                const img = new Image();
+                // Allows processing images from different domains (CORS)
+                img.crossOrigin = "Anonymous";
+                img.src = url;
 
-            navigator.mediaSession.metadata = new MediaMetadata({
-                title: song.title,
-                artist: song.artist,
-                album: 'Starlight Playlist',
-                artwork: [
-                    { src: squareArt, sizes: '512x512', type: 'image/jpeg' }
-                ]
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    // We want a high-quality output for system players
+                    const size = Math.min(img.width, img.height);
+                    canvas.width = 512;
+                    canvas.height = 512;
+
+                    const ctx = canvas.getContext('2d');
+
+                    // Calculate center-crop coordinates
+                    // This works for both Landscape (Wide) and Portrait (Tall) images
+                    const sourceX = (img.width - size) / 2;
+                    const sourceY = (img.height - size) / 2;
+
+                    ctx.drawImage(img, sourceX, sourceY, size, size, 0, 0, 512, 512);
+
+                    resolve(canvas.toDataURL('image/jpeg', 0.8));
+                };
+
+                img.onerror = () => {
+                    console.warn("Failed to process artwork, falling back to original URL.");
+                    resolve(url);
+                };
             });
+        }
 
-            navigator.mediaSession.setActionHandler('play', () => audio.play());
-            navigator.mediaSession.setActionHandler('pause', () => audio.pause());
-            
-            navigator.mediaSession.setActionHandler('previoustrack', () => {
-                if (currentTrackIndex > 0) {
-                    playSong(activeQueue[currentTrackIndex - 1], currentTrackIndex - 1);
+        async function updateMediaSession(song) {
+            if ('mediaSession' in navigator) {
+                // This now forces EVERY image through the square cropper
+                const squareArt = await getSquareArtwork(song.cover);
+
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: song.title,
+                    artist: song.artist,
+                    album: 'Starlight Playlist',
+                    artwork: [
+                        { src: squareArt, sizes: '512x512', type: 'image/jpeg' }
+                    ]
+                });
+
+                if (window.starlightAPI) {
+                    window.starlightAPI.updateDiscord({
+                        title: song.title,
+                        artist: song.artist
+                    });
                 }
+
+                navigator.mediaSession.setActionHandler('play', () => audio.play());
+                navigator.mediaSession.setActionHandler('pause', () => audio.pause());
+
+                navigator.mediaSession.setActionHandler('previoustrack', () => {
+                    if (currentTrackIndex > 0) {
+                        playSong(activeQueue[currentTrackIndex - 1], currentTrackIndex - 1);
+                    }
+                });
+
+                navigator.mediaSession.setActionHandler('nexttrack', () => {
+                    if (currentTrackIndex < activeQueue.length - 1) {
+                        playSong(activeQueue[currentTrackIndex + 1], currentTrackIndex + 1);
+                    }
+                });
+            }
+        }
+
+        function playSong(song, index = -1) {
+            if (!song) return;
+
+            currentSong = song;
+            currentTrackIndex = (index !== -1) ? index : activeQueue.indexOf(song);
+
+            audio.src = getSongFile(song);
+
+            currentTitle.textContent = song.title;
+            currentArtist.textContent = song.artist;
+            currentExplicit.style.display = song.isExplicit ? 'inline-block' : 'none';
+
+            // Highlight logic
+            document.querySelectorAll('.list-group-item').forEach((el, idx) => {
+                el.classList.toggle('active-song', idx === currentTrackIndex);
             });
 
-            navigator.mediaSession.setActionHandler('nexttrack', () => {
-                if (currentTrackIndex < activeQueue.length - 1) {
-                    playSong(activeQueue[currentTrackIndex + 1], currentTrackIndex + 1);
-                }
-            });
+            updateMediaSession(song);
+            audio.play();
         }
-    }
 
-    function playSong(song, index = -1) {
-        if (!song) return;
-        
-        currentSong = song;
-        currentTrackIndex = (index !== -1) ? index : activeQueue.indexOf(song);
+        // --- Event Handlers ---
 
-        audio.src = getSongFile(song);
-        
-        currentTitle.textContent = song.title;
-        currentArtist.textContent = song.artist;
-        currentExplicit.style.display = song.isExplicit ? 'inline-block' : 'none';
-        
-        // Highlight logic
-        document.querySelectorAll('.list-group-item').forEach((el, idx) => {
-            el.classList.toggle('active-song', idx === currentTrackIndex);
-        });
-        
-        updateMediaSession(song);
-        audio.play();
-    }
-
-    // --- Event Handlers ---
-
-    playPause.onclick = () => {
-        if (!currentSong && activeQueue.length > 0) {
-            playSong(activeQueue[0], 0);
-        } else {
-            audio.paused ? audio.play() : audio.pause();
-        }
-    };
-
-    audio.onplay = () => playPause.className = 'bi bi-pause-circle-fill icon-btn';
-    audio.onpause = () => playPause.className = 'bi bi-play-circle-fill icon-btn';
-
-    audio.onended = () => {
-        if (audio.loop) return;
-        const nextIndex = currentTrackIndex + 1;
-        if (nextIndex < activeQueue.length) {
-            playSong(activeQueue[nextIndex], nextIndex);
-        }
-    };
-
-    loopBtn.onclick = () => {
-        audio.loop = !audio.loop;
-        loopBtn.classList.toggle('opacity-50', !audio.loop);
-        loopBtn.classList.toggle('text-primary', audio.loop);
-    };
-
-    audio.ontimeupdate = () => {
-        if (audio.duration) {
-            progress.style.width = (audio.currentTime / audio.duration) * 100 + '%';
-        }
-    };
-
-    progressBar.onclick = (e) => {
-        const rect = progressBar.getBoundingClientRect();
-        audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
-    };
-
-    cleanToggle.onchange = (e) => {
-        cleanMode = e.target.checked;
-        localStorage.setItem('cleanEnabled', cleanMode);
-        if (currentSong) {
-            const time = audio.currentTime;
-            const playing = !audio.paused;
-            audio.src = getSongFile(currentSong);
-            audio.currentTime = time;
-            if (playing) audio.play();
-        }
-    };
-
-    slpImport.onchange = (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            const ids = event.target.result.split('\n')
-                .map(id => id.trim())
-                .filter(id => id.length > 0);
-            
-            activeQueue = ids.map(id => window.STARLIGHT_SONGS.find(s => s.id == parseInt(id))).filter(Boolean);
-            renderQueue();
-            if (activeQueue.length > 0) playSong(activeQueue[0], 0);
+        playPause.onclick = () => {
+            if (!currentSong && activeQueue.length > 0) {
+                playSong(activeQueue[0], 0);
+            } else {
+                audio.paused ? audio.play() : audio.pause();
+            }
         };
-        reader.readAsText(file);
-    };
 
-    function renderQueue() {
-        library.innerHTML = '';
-        const actions = document.getElementById('libActions');
-        
-        if (activeQueue.length === 0) {
-            actions.innerHTML = '';
-            const empty = document.createElement('div');
-            empty.className = 'list-group-item import-btn';
-            empty.innerHTML = `<i class="bi bi-cloud-arrow-up text-primary d-block mb-2" style="font-size:3rem"></i><div class="fw-bold h5">No Songs Loaded</div>`;
-            empty.onclick = () => slpImport.click();
-            library.appendChild(empty);
-            return;
-        }
+        audio.onplay = () => playPause.className = 'bi bi-pause-circle-fill icon-btn';
+        audio.onpause = () => playPause.className = 'bi bi-play-circle-fill icon-btn';
 
-        actions.innerHTML = `<button class="btn btn-sm btn-outline-danger" onclick="activeQueue=[];currentTrackIndex=-1;renderQueue();">Clear</button>`;
+        audio.onended = () => {
+            if (audio.loop) return;
+            const nextIndex = currentTrackIndex + 1;
+            if (nextIndex < activeQueue.length) {
+                playSong(activeQueue[nextIndex], nextIndex);
+            }
+        };
 
-        activeQueue.forEach((song, index) => {
-            const li = document.createElement('div');
-            li.className = 'list-group-item d-flex justify-content-between align-items-center p-3';
-            li.innerHTML = `
+        loopBtn.onclick = () => {
+            audio.loop = !audio.loop;
+            loopBtn.classList.toggle('opacity-50', !audio.loop);
+            loopBtn.classList.toggle('text-primary', audio.loop);
+        };
+
+        audio.ontimeupdate = () => {
+            if (audio.duration) {
+                progress.style.width = (audio.currentTime / audio.duration) * 100 + '%';
+            }
+        };
+
+        progressBar.onclick = (e) => {
+            const rect = progressBar.getBoundingClientRect();
+            audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
+        };
+
+        cleanToggle.onchange = (e) => {
+            cleanMode = e.target.checked;
+            localStorage.setItem('cleanEnabled', cleanMode);
+            if (currentSong) {
+                const time = audio.currentTime;
+                const playing = !audio.paused;
+                audio.src = getSongFile(currentSong);
+                audio.currentTime = time;
+                if (playing) audio.play();
+            }
+        };
+
+        slpImport.onchange = (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const ids = event.target.result.split('\n')
+                    .map(id => id.trim())
+                    .filter(id => id.length > 0);
+
+                activeQueue = ids.map(id => window.STARLIGHT_SONGS.find(s => s.id == parseInt(id))).filter(Boolean);
+                renderQueue();
+                if (activeQueue.length > 0) playSong(activeQueue[0], 0);
+            };
+            reader.readAsText(file);
+        };
+
+        function renderQueue() {
+            library.innerHTML = '';
+            const actions = document.getElementById('libActions');
+
+            if (activeQueue.length === 0) {
+                actions.innerHTML = '';
+                const empty = document.createElement('div');
+                empty.className = 'list-group-item import-btn';
+                empty.innerHTML = `<i class="bi bi-cloud-arrow-up text-primary d-block mb-2" style="font-size:3rem"></i><div class="fw-bold h5">No Songs Loaded</div>`;
+                empty.onclick = () => slpImport.click();
+                library.appendChild(empty);
+                return;
+            }
+
+            actions.innerHTML = `<button class="btn btn-sm btn-outline-danger" onclick="activeQueue=[];currentTrackIndex=-1;renderQueue();">Clear</button>`;
+
+            activeQueue.forEach((song, index) => {
+                const li = document.createElement('div');
+                li.className = 'list-group-item d-flex justify-content-between align-items-center p-3';
+                li.innerHTML = `
                 <div class="d-flex align-items-center gap-3">
                     <img src="${song.cover || '/favicon.ico'}" class="song-art">
                     <div>
@@ -378,18 +385,18 @@
                 </div>
                 ${song.isExplicit ? '<span class="explicit-tag">E</span>' : ''}
             `;
-            li.onclick = () => playSong(song, index);
-            library.appendChild(li);
-        });
-    }
-
-    const checkData = setInterval(() => {
-        if (window.STARLIGHT_SONGS) {
-            clearInterval(checkData);
-            renderQueue();
+                li.onclick = () => playSong(song, index);
+                library.appendChild(li);
+            });
         }
-    }, 100);
-</script>
+
+        const checkData = setInterval(() => {
+            if (window.STARLIGHT_SONGS) {
+                clearInterval(checkData);
+                renderQueue();
+            }
+        }, 100);
+    </script>
 </body>
 
 </html>

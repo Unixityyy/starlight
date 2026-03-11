@@ -1,32 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Starlight Sound Library</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-        html, body { background-color: #1a1a2e !important; width: 100%; height: 100%; margin: 0; overflow: hidden; color: white !important; font-family: 'Inter', sans-serif; }
-        .view { display: none; height: 100vh; width: 100%; flex-direction: column; }
-        .view.active { display: flex; }
-        .now-playing-card { background-color: #27273f !important; border-bottom: 1px solid #3d3d5f !important; padding: 15px; text-align: center; flex-shrink: 0; }
-        .menu-btn { background-color: #27273f !important; border: 1px solid #3d3d5f !important; color: white !important; padding: 15px; width: 250px; margin: 10px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.2s; }
-        .menu-btn:hover { border-color: #0d6efd !important; color: #0d6efd !important; }
-        .scroll-list { background-color: #1a1a2e !important; flex: 1; overflow-y: auto; padding: 10px; }
-        .song-item { background-color: #27273f !important; border: 1px solid #3d3d5f !important; border-radius: 8px; padding: 10px; margin-bottom: 8px; display: flex; align-items: center; gap: 12px; cursor: pointer; }
-        .song-item:hover { border-color: #0d6efd !important; }
-        .thumb { width: 40px; height: 40px; border-radius: 4px; object-fit: cover; }
-        .progress { height: 6px; background-color: #1a1a2e; border-radius: 3px; margin: 10px 0; overflow: hidden; }
-        .progress-bar { width: 0%; height: 100%; background-color: #0d6efd; transition: width 0.1s linear; }
-        .footer-credit { color: #6c757d !important; font-size: 11px; text-align: center; padding: 8px; }
-        h1 { color: #0d6efd !important; font-weight: 800; }
+        html,
+        body {
+            background-color: #1a1a2e !important;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            color: white !important;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .view {
+            display: none;
+            height: 100vh;
+            width: 100%;
+            flex-direction: column;
+        }
+
+        .view.active {
+            display: flex;
+        }
+
+        .now-playing-card {
+            background-color: #27273f !important;
+            border-bottom: 1px solid #3d3d5f !important;
+            padding: 15px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .menu-btn {
+            background-color: #27273f !important;
+            border: 1px solid #3d3d5f !important;
+            color: white !important;
+            padding: 15px;
+            width: 250px;
+            margin: 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: 0.2s;
+        }
+
+        .menu-btn:hover {
+            border-color: #0d6efd !important;
+            color: #0d6efd !important;
+            transform: translateY(-2px);
+        }
+
+        .scroll-list {
+            background-color: #1a1a2e !important;
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .song-item {
+            background-color: #27273f !important;
+            border: 1px solid #3d3d5f !important;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .song-item:hover {
+            border-color: #0d6efd !important;
+            background-color: #2d2d4d !important;
+        }
+
+        .thumb {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            object-fit: cover;
+        }
+
+        .footer-credit {
+            color: #6c757d !important;
+            font-size: 11px;
+            text-align: center;
+            padding: 8px;
+        }
+
+        h1 {
+            color: #0d6efd !important;
+            font-weight: 800;
+        }
     </style>
 </head>
+
 <body>
 
     <div id="home-view" class="view active justify-content-center align-items-center">
         <h1>Starlight</h1>
-        <div class="menu-btn" onclick="navigateTo('player')"><i class="bi bi-play-circle"></i> Library</div>
+        <div class="menu-btn" onclick="navigateTo('player')"><i class="bi bi-play-circle"></i> Player</div>
         <div class="menu-btn" onclick="navigateTo('playlist')"><i class="bi bi-music-note-list"></i> Playlists</div>
         <div class="footer-credit mt-4">ported to extension by pwR</div>
     </div>
@@ -35,21 +117,20 @@
         <div class="now-playing-card">
             <div class="d-flex justify-content-between mb-2">
                 <i class="bi bi-chevron-left fs-5" style="cursor:pointer" onclick="navigateTo('home')"></i>
-                <span class="small opacity-50">STREAMS</span>
+                <span class="small opacity-50">LIBRARY</span>
                 <div style="width:20px"></div>
             </div>
             <h6 id="cur-title" class="fw-bold text-primary mb-0 text-truncate">Select a Song</h6>
-            <p id="cur-artist" class="small text-secondary mb-1">Starlight Library</p>
-            
-            <div class="progress"><div id="bar-lib" class="progress-bar"></div></div>
-
+            <p id="cur-artist" class="small text-secondary mb-2">Starlight Library</p>
             <div class="d-flex justify-content-center align-items-center gap-3">
-                <i class="bi bi-skip-start-fill fs-3" style="cursor:pointer" onclick="skip(-1)"></i>
-                <i id="m-play" class="bi bi-play-circle-fill fs-1 text-primary" style="cursor:pointer" onclick="togglePlayback()"></i>
-                <i class="bi bi-skip-end-fill fs-3" style="cursor:pointer" onclick="skip(1)"></i>
+                <i class="bi bi-skip-start-fill fs-3" style="cursor:pointer" onclick="handleCmd('PREV')"></i>
+                <i id="m-play" class="bi bi-play-circle-fill fs-1 text-primary" style="cursor:pointer"
+                    onclick="handleCmd('TOGGLE')"></i>
+                <i class="bi bi-skip-end-fill fs-3" style="cursor:pointer" onclick="handleCmd('NEXT')"></i>
             </div>
         </div>
         <div class="scroll-list" id="library-container"></div>
+        <div class="footer-credit">ported to extension by pwR</div>
     </div>
 
     <div id="playlist-view" class="view">
@@ -59,34 +140,41 @@
                 <label for="slp-input" class="btn btn-primary btn-sm py-0" style="font-size: 11px;">Import .slp</label>
                 <input type="file" id="slp-input" class="d-none" accept=".slp">
             </div>
-            <h6 id="pl-title" class="fw-bold text-primary mb-0 text-truncate">No Playlist</h6>
-            <p id="pl-artist" class="small text-secondary mb-1">Load file</p>
-
-            <div class="progress"><div id="bar-pl" class="progress-bar"></div></div>
-
+            <h6 id="pl-title" class="fw-bold text-primary mb-0">No Playlist</h6>
+            <p id="pl-artist" class="small text-secondary mb-2">Load file</p>
             <div class="d-flex justify-content-center align-items-center gap-3">
-                <i class="bi bi-skip-start-fill fs-4" style="cursor:pointer" onclick="skip(-1)"></i>
-                <i id="pl-play" class="bi bi-play-circle-fill fs-2 text-primary" style="cursor:pointer" onclick="togglePlayback()"></i>
-                <i class="bi bi-skip-end-fill fs-4" style="cursor:pointer" onclick="skip(1)"></i>
+                <i class="bi bi-skip-start-fill fs-4" style="cursor:pointer" onclick="handleCmd('PREV')"></i>
+                <i id="pl-play" class="bi bi-play-circle-fill fs-2 text-primary" style="cursor:pointer"
+                    onclick="handleCmd('TOGGLE')"></i>
+                <i class="bi bi-skip-end-fill fs-4" style="cursor:pointer" onclick="handleCmd('NEXT')"></i>
             </div>
         </div>
         <div class="scroll-list" id="playlist-container"></div>
+        <div class="footer-credit">ported to extension by pwR</div>
     </div>
+
+    <audio id="fallback-audio"></audio>
 
     <script src="https://unixityyy.github.io/starlight/starlight.js"></script>
     <script>
         const BASE = "https://unixityyy.github.io/starlight";
         let localQueue = [];
         let localIdx = -1;
+        let currentView = 'home';
+        let currentSongData = null;
 
         const fix = (p) => (p && p.startsWith('http')) ? p : BASE + (p ? (p.startsWith('/') ? p : '/' + p) : '');
 
-        function navigateTo(v) { 
+        // --- NAVIGATION ---
+        function navigateTo(v, shouldPersist = true) {
+            currentView = v;
             document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
-            document.getElementById(v + '-view').classList.add('active');
+            const target = document.getElementById(v + '-view');
+            if (target) target.classList.add('active');
+            if (shouldPersist) saveState();
         }
 
-        // --- THE ONLY COMMAND PATHWAY ---
+        // --- CORE MESSAGING ---
         function sendToExtension(command, data = {}) {
             if (window.parent !== window) {
                 window.parent.postMessage({
@@ -97,34 +185,62 @@
             }
         }
 
-        function playSong(song, queue) {
+        // --- PERSISTENCE LOGIC ---
+        function saveState() {
+            if (window.parent !== window) {
+                window.parent.postMessage({
+                    type: 'SAVE_STATE',
+                    payload: {
+                        view: currentView,
+                        song: currentSongData,
+                        queue: localQueue,
+                        idx: localIdx
+                    }
+                }, "*");
+            }
+        }
+
+        function requestState() {
+            if (window.parent !== window) {
+                window.parent.postMessage({ type: 'GET_STATE' }, "*");
+            }
+        }
+
+        // --- PLAYBACK ---
+        function playSong(song, queue, isRestore = false) {
             localQueue = queue;
             localIdx = localQueue.findIndex(s => s.id == song.id);
+            currentSongData = song;
+
             const fileUrl = fix(song.file);
 
-            // Update UI
+            // Update UI labels
             document.getElementById('cur-title').textContent = document.getElementById('pl-title').textContent = song.title;
             document.getElementById('cur-artist').textContent = document.getElementById('pl-artist').textContent = song.artist;
 
-            // Command background player
-            sendToExtension('play', {
-                song: song,
-                url: fileUrl,
-                queue: queue
-            });
+            // Only send 'play' command to audio engine if this ISN'T a state restore
+            if (!isRestore) {
+                sendToExtension('play', {
+                    song: song,
+                    url: fileUrl,
+                    queue: queue
+                });
+            }
 
-            // Handle Media Session in the Iframe
+            // Media Session (Updates controls on Windows/Mac/Mobile)
             if ('mediaSession' in navigator) {
                 navigator.mediaSession.metadata = new MediaMetadata({
                     title: song.title,
                     artist: song.artist,
                     artwork: [{ src: fix(song.cover || 'icon.png') }]
                 });
-                navigator.mediaSession.setActionHandler('play', () => sendToExtension('play'));
-                navigator.mediaSession.setActionHandler('pause', () => sendToExtension('pause'));
+                navigator.mediaSession.setActionHandler('play', () => sendToExtension('toggle'));
+                navigator.mediaSession.setActionHandler('pause', () => sendToExtension('toggle'));
                 navigator.mediaSession.setActionHandler('nexttrack', () => skip(1));
                 navigator.mediaSession.setActionHandler('previoustrack', () => skip(-1));
             }
+
+            saveState();
         }
 
         function togglePlayback() {
@@ -136,28 +252,41 @@
             if (next) playSong(next, localQueue);
         }
 
-        // --- RELAY FROM EXTENSION ---
+        // --- MESSAGE HUB (Listening for Extension) ---
         window.addEventListener("message", (e) => {
-            // Update Progress Bars
+            // 1. Restore State from Storage
+            if (e.data.type === 'RESTORE_STATE' && e.data.payload) {
+                const p = e.data.payload;
+                if (p.view) navigateTo(p.view, false);
+                if (p.song) {
+                    playSong(p.song, p.queue || [], true);
+                }
+            }
+
+            // 2. Audio Progress Updates
             if (e.data.type === 'prog') {
                 const percent = (e.data.c / e.data.d) * 100 + '%';
-                document.getElementById('bar-lib').style.width = percent;
-                document.getElementById('bar-pl').style.width = percent;
+                if (document.getElementById('bar-lib')) document.getElementById('bar-lib').style.width = percent;
+                if (document.getElementById('bar-pl')) document.getElementById('bar-pl').style.width = percent;
             }
-            // Update Play/Pause Icons
+
+            // 3. Play/Pause State Updates
             if (e.data.type === 'state') {
                 const icon = e.data.playing ? 'bi-pause-circle-fill' : 'bi-play-circle-fill';
                 document.getElementById('m-play').className = `bi ${icon} fs-1 text-primary`;
                 document.getElementById('pl-play').className = `bi ${icon} fs-2 text-primary`;
             }
-            // Auto-advance
+
+            // 4. Track Finished
             if (e.data.type === 'ended') {
                 skip(1);
             }
         });
 
+        // --- INITIALIZATION ---
         function renderList(target, data, queue) {
             const cont = document.getElementById(target);
+            if (!cont) return;
             cont.innerHTML = '';
             data.forEach(s => {
                 const d = document.createElement('div');
@@ -180,12 +309,15 @@
             r.readAsText(f);
         };
 
-        const check = setInterval(() => { 
-            if(window.STARLIGHT_SONGS) { 
-                clearInterval(check); 
-                renderList('library-container', window.STARLIGHT_SONGS, window.STARLIGHT_SONGS); 
-            } 
+        // Start Up
+        const check = setInterval(() => {
+            if (window.STARLIGHT_SONGS) {
+                clearInterval(check);
+                renderList('library-container', window.STARLIGHT_SONGS, window.STARLIGHT_SONGS);
+                requestState(); // Ask the extension where we left off
+            }
         }, 100);
     </script>
 </body>
+
 </html>

@@ -201,13 +201,11 @@
 
             if (e.data.type === 'state') {
                 const icon = e.data.playing ? 'bi-pause-circle-fill' : 'bi-play-circle-fill';
-                ['m-play', 'pl-play'].forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el) el.className = `bi ${icon} fs-1 text-primary`;
-                });
+                const toggles = [document.getElementById('m-play'), document.getElementById('pl-play')];
+                toggles.forEach(el => { if (el) el.className = `bi ${icon} fs-1 text-primary` });
             }
 
-            if (e.data.type === 'ended') skip(1);
+        if (e.data.type === 'ended') skip(1);
         });
 
         // --- 2. LOGIC ---

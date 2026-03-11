@@ -1,200 +1,273 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
   <style>
-    body { background-color:#1a1a2e; font-family:Inter,sans-serif; overflow-x: hidden; color: white; }
-    .card { background:#27273f; border:1px solid #3d3d5f; border-radius:12px; }
-    .view { display: none; padding-bottom: 140px; }
-    .view.active { display: block; }
-    .menu-card { cursor: pointer; transition: 0.3s; background: #27273f; border: 2px solid #3d3d5f; padding: 40px 20px; text-align: center; }
-    .menu-card:hover { border-color: #0d6efd; transform: translateY(-5px); background: #2d2d4d; }
-    .menu-card i { font-size: 3.5rem; color: #0d6efd; display: block; margin-bottom: 10px; }
-    .list-group-item { background:#27273f; border:1px solid #3d3d5f; color: white; transition: 0.2s; cursor: pointer; margin-bottom: 8px; border-radius: 8px !important; }
-    .list-group-item:hover { background:#3d3d5f; border-color: #0d6efd; }
-    .list-group-item.active-song { border-left: 5px solid #0d6efd; background: #2d2d4d; }
-    .progress { height:8px; cursor:pointer; background: #1a1a2e; }
-    .mini-player-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #27273f; border-top: 2px solid #0d6efd; padding: 15px; z-index: 1000; display: none; box-shadow: 0 -10px 20px rgba(0,0,0,0.4); }
+    :root {
+      --bg: #0f0f1e;
+      --card: #1a1a2e;
+      --accent: #0d6efd;
+      --text-muted: #9494b8;
+    }
+    body { 
+      background: var(--bg); 
+      color: white; 
+      font-family: 'Inter', system-ui, sans-serif;
+      height: 600px; width: 400px; /* Fixed Extension Dimensions */
+      overflow: hidden; margin: 0;
+    }
+
+    /* Views */
+    .view { display: none; height: 100%; flex-direction: column; padding: 20px; animation: fadeIn 0.3s ease; }
+    .view.active { display: flex; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-thumb { background: #3d3d5f; border-radius: 10px; }
+
+    /* Menu Cards */
+    .menu-item {
+      background: var(--card); border: 1px solid #3d3d5f;
+      border-radius: 16px; padding: 25px; cursor: pointer;
+      transition: all 0.2s; text-align: center; margin-bottom: 15px;
+    }
+    .menu-item:hover { border-color: var(--accent); background: #22223d; transform: scale(1.02); }
+    .menu-item i { font-size: 2.5rem; color: var(--accent); margin-bottom: 10px; display: block; }
+
+    /* Song List */
+    .scroll-area { flex: 1; overflow-y: auto; margin-top: 15px; padding-right: 5px; }
+    .song-card {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px; border-radius: 12px; cursor: pointer;
+      transition: 0.2s; margin-bottom: 8px; border: 1px solid transparent;
+    }
+    .song-card:hover { background: rgba(255,255,255,0.05); }
+    .song-card.active { background: rgba(13, 110, 253, 0.15); border-color: rgba(13, 110, 253, 0.3); }
+    .song-card img { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; }
+    
+    /* Player Bar */
+    .player-bar {
+      background: rgba(26, 26, 46, 0.95);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid #3d3d5f;
+      padding: 12px 20px; position: absolute; bottom: 0; width: 100%;
+      display: none; z-index: 100;
+    }
+    .progress-minimal {
+      height: 4px; background: #3d3d5f; border-radius: 2px;
+      width: 100%; cursor: pointer; margin-top: 8px; overflow: hidden;
+    }
+    .progress-inner { height: 100%; background: var(--accent); width: 0%; transition: width 0.1s linear; }
+
+    /* Icons */
+    .btn-icon { cursor: pointer; transition: 0.2s; font-size: 1.4rem; }
+    .btn-icon:hover { color: var(--accent); }
+    .explicit { font-size: 10px; background: #5d3587; padding: 1px 4px; border-radius: 3px; font-weight: bold; }
   </style>
 </head>
 <body>
 
-<div class="container py-4">
-  <div id="view-menu" class="view active">
-    <header class="mb-5 text-center">
-      <h1 class="display-3 fw-bold text-primary">Starlight</h1>
-      <p class="text-secondary">Seamless Audio Everywhere</p>
-    </header>
-    <div class="row g-4 justify-content-center">
-      <div class="col-md-5"><div class="card menu-card shadow-lg" onclick="openLibrary()"><i class="bi bi-music-note-list"></i><h3>Library</h3></div></div>
-      <div class="col-md-5"><div class="card menu-card shadow-lg" onclick="showView('view-playlists')"><i class="bi bi-collection-play"></i><h3>Playlists</h3></div></div>
+  <div id="v-menu" class="view active">
+    <div class="text-center mb-4">
+      <h2 class="fw-bold text-primary mb-0">Starlight</h2>
+      <small class="text-secondary">Sound System v3.0</small>
+    </div>
+    <div class="menu-item" onclick="changeView('v-library', 'all')">
+      <i class="bi bi-music-note-list"></i>
+      <h5 class="mb-0">Your Library</h5>
+    </div>
+    <div class="menu-item" onclick="document.getElementById('slp-file').click()">
+      <i class="bi bi-file-earmark-music"></i>
+      <h5 class="mb-0">Import Playlist</h5>
+      <input type="file" id="slp-file" hidden accept=".slp">
     </div>
   </div>
 
-  <div id="view-content" class="view">
-    <div class="d-flex align-items-center justify-content-between mb-4">
-        <div class="d-flex align-items-center">
-            <button class="btn btn-outline-primary me-3" onclick="showView('view-menu')"><i class="bi bi-chevron-left"></i></button>
-            <h2 id="content-title" class="m-0">Library</h2>
-        </div>
-        <button id="unload-btn" class="btn btn-danger btn-sm d-none" onclick="unloadPlaylist()">Unload SLP</button>
+  <div id="v-list" class="view">
+    <div class="d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-2">
+        <i class="bi bi-chevron-left btn-icon" onclick="changeView('v-menu')"></i>
+        <h4 id="list-title" class="m-0 fw-bold">Library</h4>
+      </div>
+      <button id="unload-btn" class="btn btn-sm btn-outline-danger py-0" onclick="unloadSLP()" style="display:none">Unload</button>
     </div>
-    <div class="card p-3"><div class="list-group list-group-flush" id="song-list"></div></div>
+    <div class="scroll-area" id="song-container"></div>
   </div>
 
-  <div id="view-playlists" class="view">
-    <div class="d-flex align-items-center mb-4"><button class="btn btn-outline-primary me-3" onclick="showView('view-menu')"><i class="bi bi-chevron-left"></i></button><h2>Playlists</h2></div>
-    <div class="card p-5 text-center">
-        <i class="bi bi-file-earmark-arrow-up text-primary display-1 mb-3"></i>
-        <h4>Load .SLP File</h4>
-        <input type="file" id="slp-upload" hidden accept=".slp">
-        <button class="btn btn-primary btn-lg mt-3" onclick="document.getElementById('slp-upload').click()">Choose File</button>
+  <div class="player-bar" id="p-bar">
+    <div class="d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-3 overflow-hidden">
+        <img id="p-cover" src="" alt="">
+        <div class="text-truncate">
+          <div id="p-title" class="fw-bold text-truncate" style="font-size: 14px;">Title</div>
+          <div id="p-artist" class="text-secondary text-truncate" style="font-size: 12px;">Artist</div>
+        </div>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <i id="btn-loop" class="bi bi-repeat btn-icon text-secondary" style="font-size: 1rem;" onclick="toggleLoop()"></i>
+        <i id="btn-play" class="bi bi-play-fill btn-icon" style="font-size: 2rem;" onclick="togglePlay()"></i>
+        <i class="bi bi-skip-end-fill btn-icon" onclick="skip(1)"></i>
+      </div>
+    </div>
+    <div class="progress-minimal" id="p-seek-bg" onclick="handleSeek(event)">
+      <div class="progress-inner" id="p-progress"></div>
     </div>
   </div>
-</div>
 
-<div class="mini-player-bar" id="player-bar">
-    <div class="container"><div class="row align-items-center">
-        <div class="col-4 d-flex align-items-center gap-3">
-            <img id="bar-cover" src="" style="width:45px; height:45px; border-radius:6px; object-fit:cover;">
-            <div class="text-truncate"><h6 id="bar-title" class="m-0 text-primary fw-bold text-truncate">Title</h6><small id="bar-artist" class="text-secondary text-truncate">Artist</small></div>
-        </div>
-        <div class="col-5">
-            <div class="progress mb-1" id="progressBar" onclick="seek(event)"><div class="progress-bar bg-primary" id="progress" style="width: 0%"></div></div>
-            <div class="d-flex justify-content-between small text-secondary"><span id="time-cur">0:00</span><span id="time-dur">0:00</span></div>
-        </div>
-        <div class="col-3 d-flex justify-content-end align-items-center gap-3">
-            <i id="loopBtn" class="bi bi-arrow-repeat fs-4 opacity-50" onclick="toggleLoop()" style="cursor:pointer"></i>
-            <i id="playPause" class="bi bi-play-circle-fill text-primary" style="font-size: 2.5rem; cursor:pointer;" onclick="togglePlay()"></i>
-            <i class="bi bi-skip-end-fill fs-3" style="cursor:pointer;" onclick="skip(1)"></i>
-        </div>
-    </div></div>
-</div>
+  <script src="https://unixityyy.github.io/starlight/starlight.js"></script>
+  <script>
+    const BASE = "https://unixityyy.github.io/starlight";
+    let state = {
+      queue: [],
+      current: null,
+      mode: 'library', // 'library' or 'playlist'
+      view: 'v-menu',
+      looping: false
+    };
 
-<script src="https://unixityyy.github.io/starlight/starlight.js"></script>
-<script>
-  const BASE = "https://unixityyy.github.io/starlight";
-  let curQueue = [], idx = -1, curSong = null, isLooping = false, activeView = 'view-menu';
-  let isPlaylistMode = false;
+    const fix = (p) => (p && p.startsWith('http')) ? p : BASE + (p ? (p.startsWith('/') ? p : '/' + p) : '');
 
-  const fix = (p) => (p && p.startsWith('http')) ? p : BASE + (p ? (p.startsWith('/') ? p : '/' + p) : '');
-  const fmt = (s) => { if(!s || isNaN(s)) return "0:00"; const m=Math.floor(s/60), r=Math.floor(s%60); return `${m}:${r<10?'0':''}${r}`; };
+    // --- UI ENGINE ---
+    function changeView(id, type) {
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      state.view = id;
 
-  function showView(id) {
-    activeView = id;
-    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    saveState();
-  }
+      if (type === 'all') {
+        state.mode = 'library';
+        state.queue = window.STARLIGHT_SONGS;
+        document.getElementById('list-title').innerText = "Library";
+        document.getElementById('unload-btn').style.display = 'none';
+        renderSongs();
+      }
+      save();
+    }
 
-  function openLibrary() {
-    isPlaylistMode = false;
-    document.getElementById('content-title').textContent = "Library";
-    document.getElementById('unload-btn').classList.add('d-none');
-    curQueue = window.STARLIGHT_SONGS;
-    renderSongs(curQueue);
-    showView('view-content');
-  }
+    function renderSongs() {
+      const container = document.getElementById('song-container');
+      container.innerHTML = '';
+      state.queue.forEach(s => {
+        const div = document.createElement('div');
+        div.className = `song-card ${state.current?.id === s.id ? 'active' : ''}`;
+        div.innerHTML = `
+          <img src="${fix(s.cover)}">
+          <div class="flex-grow-1 text-truncate">
+            <div class="fw-bold text-truncate">${s.title}</div>
+            <div class="text-secondary small">${s.artist} ${s.isExplicit ? '<span class="explicit">E</span>' : ''}</div>
+          </div>
+        `;
+        div.onclick = () => play(s);
+        container.appendChild(div);
+      });
+    }
 
-  function renderSongs(songs) {
-    const list = document.getElementById('song-list');
-    list.innerHTML = '';
-    songs.forEach(s => {
-      const li = document.createElement('div');
-      li.className = `list-group-item d-flex justify-content-between align-items-center p-3 ${curSong?.id === s.id ? 'active-song' : ''}`;
-      li.innerHTML = `<div class="d-flex align-items-center gap-3"><img src="${fix(s.cover)}" style="width:40px; height:40px; border-radius:4px; object-fit:cover;"><div><div class="fw-bold text-truncate">${s.title}</div><div class="small text-secondary text-truncate">${s.artist}</div></div></div>`;
-      li.onclick = () => playSong(s, songs);
-      list.appendChild(li);
-    });
-  }
+    // --- AUDIO LOGIC ---
+    function play(song, isRestore = false) {
+      state.current = song;
+      document.getElementById('p-bar').style.display = 'block';
+      document.getElementById('p-title').innerText = song.title;
+      document.getElementById('p-artist').innerText = song.artist;
+      document.getElementById('p-cover').src = fix(song.cover);
+      
+      if (!isRestore) {
+        window.parent.postMessage({ target: 'offscreen', command: 'play', url: fix(song.file), song: song }, "*");
+      }
+      renderSongs();
+      save();
+    }
 
-  function playSong(song, queue, isRestore = false) {
-    if(!song) return;
-    curSong = song; curQueue = queue;
-    idx = curQueue.findIndex(s => s.id === song.id);
-    document.getElementById('player-bar').style.display = 'block';
-    document.getElementById('bar-title').textContent = song.title;
-    document.getElementById('bar-artist').textContent = song.artist;
-    document.getElementById('bar-cover').src = fix(song.cover);
-    if (!isRestore) window.parent.postMessage({ target: 'offscreen', command: 'play', url: fix(song.file), song: song }, "*");
-    saveState();
-  }
+    function togglePlay() { window.parent.postMessage({ target: 'offscreen', command: 'toggle' }, "*"); }
+    function toggleLoop() {
+      state.looping = !state.looping;
+      document.getElementById('btn-loop').classList.toggle('text-primary', state.looping);
+      document.getElementById('btn-loop').classList.toggle('text-secondary', !state.looping);
+      window.parent.postMessage({ target: 'offscreen', command: 'loop', state: state.looping }, "*");
+      save();
+    }
 
-  function unloadPlaylist() { openLibrary(); }
-  function togglePlay() { window.parent.postMessage({ target: 'offscreen', command: 'toggle' }, "*"); }
-  function toggleLoop() { isLooping = !isLooping; document.getElementById('loopBtn').classList.toggle('opacity-50', !isLooping); window.parent.postMessage({ target: 'offscreen', command: 'loop', state: isLooping }, "*"); }
-  function seek(e) { const pct = e.offsetX / e.currentTarget.clientWidth; window.parent.postMessage({ target: 'offscreen', command: 'seek', pct }, "*"); }
-  function skip(d) { const n = curQueue[idx + d]; if(n) playSong(n, curQueue); }
+    function skip(d) {
+      const idx = state.queue.findIndex(s => s.id === state.current?.id);
+      const next = state.queue[idx + d];
+      if (next) play(next);
+    }
 
-  function saveState() {
-    // We save the IDs of the queue so we can rebuild it later
-    const queueIds = curQueue.map(s => s.id);
-    window.parent.postMessage({ type: 'SAVE_STATE', payload: { song: curSong, queueIds, view: activeView, isPlaylistMode } }, "*");
-  }
+    function handleSeek(e) {
+      const pct = e.offsetX / document.getElementById('p-seek-bg').clientWidth;
+      window.parent.postMessage({ target: 'offscreen', command: 'seek', pct }, "*");
+    }
 
-  document.getElementById('slp-upload').onchange = (e) => {
+    function unloadSLP() {
+      state.mode = 'library';
+      changeView('v-list', 'all');
+    }
+
+    // --- SLP IMPORT ---
+    document.getElementById('slp-file').onchange = (e) => {
       const reader = new FileReader();
       reader.onload = (ev) => {
-          const ids = ev.target.result.split('\n').map(x => x.trim());
-          const pl = ids.map(id => window.STARLIGHT_SONGS.find(s => s.id == id)).filter(Boolean);
-          if (pl.length) {
-              isPlaylistMode = true;
-              document.getElementById('content-title').textContent = "Playlist Mode";
-              document.getElementById('unload-btn').classList.remove('d-none');
-              renderSongs(pl); 
-              showView('view-content'); 
-              playSong(pl[0], pl);
-          }
+        const ids = ev.target.result.split('\n').map(x => x.trim());
+        const pl = ids.map(id => window.STARLIGHT_SONGS.find(s => s.id == id)).filter(Boolean);
+        if (pl.length) {
+          state.queue = pl;
+          state.mode = 'playlist';
+          document.getElementById('list-title').innerText = "Playlist";
+          document.getElementById('unload-btn').style.display = 'block';
+          changeView('v-list');
+          renderSongs();
+          play(pl[0]);
+        }
       };
       reader.readAsText(e.target.files[0]);
-  };
+    };
 
-  window.addEventListener("message", (e) => {
-    if (e.data.type === 'UI_STATE') document.getElementById('playPause').className = e.data.playing ? 'bi bi-pause-circle-fill' : 'bi bi-play-circle-fill';
-    if (e.data.type === 'UI_PROG') {
-      document.getElementById('progress').style.width = `${(e.data.c / e.data.d) * 100}%`;
-      document.getElementById('time-cur').textContent = fmt(e.data.c);
-      document.getElementById('time-dur').textContent = fmt(e.data.d);
+    // --- PERSISTENCE ---
+    function save() {
+      const payload = { 
+        view: state.view, 
+        current: state.current, 
+        mode: state.mode, 
+        queueIds: state.queue.map(s => s.id),
+        looping: state.looping
+      };
+      window.parent.postMessage({ type: 'SAVE_STATE', payload }, "*");
     }
-    if (e.data.type === 'UI_NEXT') skip(1);
 
-    // --- RESTORATION LOGIC ---
-    if (e.data.type === 'RESTORE_STATE' && e.data.payload) {
+    window.addEventListener("message", (e) => {
+      if (e.data.type === 'UI_STATE') {
+        document.getElementById('btn-play').className = e.data.playing ? 'bi bi-pause-fill btn-icon' : 'bi bi-play-fill btn-icon';
+      }
+      if (e.data.type === 'UI_PROG') {
+        document.getElementById('p-progress').style.width = `${(e.data.c / e.data.d) * 100}%`;
+      }
+      if (e.data.type === 'UI_NEXT') skip(1);
+      
+      if (e.data.type === 'RESTORE_STATE' && e.data.payload) {
         const d = e.data.payload;
+        state.mode = d.mode;
+        state.looping = d.looping;
+        state.queue = d.queueIds.map(id => window.STARLIGHT_SONGS.find(s => s.id == id)).filter(Boolean);
         
-        // 1. Rebuild the Queue from Saved IDs
-        if (d.queueIds && d.queueIds.length > 0) {
-            curQueue = d.queueIds.map(id => window.STARLIGHT_SONGS.find(s => s.id == id)).filter(Boolean);
-        } else {
-            curQueue = window.STARLIGHT_SONGS;
+        if (state.mode === 'playlist') {
+          document.getElementById('list-title').innerText = "Playlist";
+          document.getElementById('unload-btn').style.display = 'block';
         }
-
-        // 2. Setup Playlist UI if needed
-        isPlaylistMode = d.isPlaylistMode;
-        if (isPlaylistMode) {
-            document.getElementById('content-title').textContent = "Playlist Mode";
-            document.getElementById('unload-btn').classList.remove('d-none');
-        }
-
-        // 3. Restore the View and Song
-        if (d.song) playSong(d.song, curQueue, true);
+        
+        if (d.current) play(d.current, true);
         if (d.view) {
-            activeView = d.view;
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.getElementById(d.view).classList.add('active');
+          document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+          document.getElementById(d.view).classList.add('active');
+          state.view = d.view;
         }
-        renderSongs(curQueue);
-    }
-  });
+        renderSongs();
+      }
+    });
 
-  window.onload = () => { 
-      // Delay state request slightly to ensure library is loaded
-      setTimeout(() => {
-          window.parent.postMessage({ type: 'GET_STATE' }, "*"); 
-      }, 100);
-  };
-</script>
+    window.onload = () => {
+      setTimeout(() => window.parent.postMessage({ type: 'GET_STATE' }, "*"), 100);
+    };
+  </script>
 </body>
 </html>

@@ -5,83 +5,44 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
   <style>
-    :root {
-      --bg: #0f0f1e;
-      --card: #1a1a2e;
-      --accent: #0d6efd;
-      --text-muted: #9494b8;
-    }
+    :root { --bg: #0f0f1e; --card: #1a1a2e; --accent: #0d6efd; }
     body { 
-      background: var(--bg); 
-      color: white; 
-      font-family: 'Inter', system-ui, sans-serif;
-      height: 600px; width: 400px; /* Fixed Extension Dimensions */
-      overflow: hidden; margin: 0;
+      background: var(--bg); color: white; font-family: 'Inter', sans-serif;
+      height: 600px; width: 400px; overflow: hidden; margin: 0;
     }
-
-    /* Views */
-    .view { display: none; height: 100%; flex-direction: column; padding: 20px; animation: fadeIn 0.3s ease; }
+    .view { display: none; height: 100%; flex-direction: column; padding: 20px; }
     .view.active { display: flex; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-
-    /* Scrollbar */
-    ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-thumb { background: #3d3d5f; border-radius: 10px; }
-
-    /* Menu Cards */
     .menu-item {
       background: var(--card); border: 1px solid #3d3d5f;
       border-radius: 16px; padding: 25px; cursor: pointer;
-      transition: all 0.2s; text-align: center; margin-bottom: 15px;
+      transition: 0.2s; text-align: center; margin-bottom: 15px;
     }
-    .menu-item:hover { border-color: var(--accent); background: #22223d; transform: scale(1.02); }
+    .menu-item:hover { border-color: var(--accent); background: #22223d; }
     .menu-item i { font-size: 2.5rem; color: var(--accent); margin-bottom: 10px; display: block; }
-
-    /* Song List */
-    .scroll-area { flex: 1; overflow-y: auto; margin-top: 15px; padding-right: 5px; }
+    .scroll-area { flex: 1; overflow-y: auto; margin-top: 15px; }
     .song-card {
       display: flex; align-items: center; gap: 12px;
       padding: 10px; border-radius: 12px; cursor: pointer;
-      transition: 0.2s; margin-bottom: 8px; border: 1px solid transparent;
+      margin-bottom: 8px; border: 1px solid transparent;
     }
-    .song-card:hover { background: rgba(255,255,255,0.05); }
-    .song-card.active { background: rgba(13, 110, 253, 0.15); border-color: rgba(13, 110, 253, 0.3); }
+    .song-card.active { background: rgba(13, 110, 253, 0.15); border-color: var(--accent); }
     .song-card img { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; }
-    
-    /* Player Bar */
     .player-bar {
-      background: rgba(26, 26, 46, 0.95);
-      backdrop-filter: blur(10px);
-      border-top: 1px solid #3d3d5f;
+      background: #1a1a2e; border-top: 1px solid #3d3d5f;
       padding: 12px 20px; position: absolute; bottom: 0; width: 100%;
       display: none; z-index: 100;
     }
-    .progress-minimal {
-      height: 4px; background: #3d3d5f; border-radius: 2px;
-      width: 100%; cursor: pointer; margin-top: 8px; overflow: hidden;
-    }
-    .progress-inner { height: 100%; background: var(--accent); width: 0%; transition: width 0.1s linear; }
-
-    /* Icons */
-    .btn-icon { cursor: pointer; transition: 0.2s; font-size: 1.4rem; }
-    .btn-icon:hover { color: var(--accent); }
-    .explicit { font-size: 10px; background: #5d3587; padding: 1px 4px; border-radius: 3px; font-weight: bold; }
+    .progress-minimal { height: 4px; background: #3d3d5f; width: 100%; cursor: pointer; margin-top: 8px; }
+    .progress-inner { height: 100%; background: var(--accent); width: 0%; }
   </style>
 </head>
 <body>
 
   <div id="v-menu" class="view active">
-    <div class="text-center mb-4">
-      <h2 class="fw-bold text-primary mb-0">Starlight</h2>
-      <small class="text-secondary">Sound System v3.0</small>
-    </div>
-    <div class="menu-item" onclick="changeView('v-library', 'all')">
-      <i class="bi bi-music-note-list"></i>
-      <h5 class="mb-0">Your Library</h5>
-    </div>
+    <div class="text-center mb-4"><h2 class="fw-bold text-primary">Starlight</h2></div>
+    <div class="menu-item" onclick="initView('library')"><i class="bi bi-music-note-list"></i><h5>Library</h5></div>
     <div class="menu-item" onclick="document.getElementById('slp-file').click()">
-      <i class="bi bi-file-earmark-music"></i>
-      <h5 class="mb-0">Import Playlist</h5>
+      <i class="bi bi-file-earmark-music"></i><h5>Import SLP</h5>
       <input type="file" id="slp-file" hidden accept=".slp">
     </div>
   </div>
@@ -89,10 +50,10 @@
   <div id="v-list" class="view">
     <div class="d-flex align-items-center justify-content-between">
       <div class="d-flex align-items-center gap-2">
-        <i class="bi bi-chevron-left btn-icon" onclick="changeView('v-menu')"></i>
+        <i class="bi bi-chevron-left" style="cursor:pointer" onclick="goHome()"></i>
         <h4 id="list-title" class="m-0 fw-bold">Library</h4>
       </div>
-      <button id="unload-btn" class="btn btn-sm btn-outline-danger py-0" onclick="unloadSLP()" style="display:none">Unload</button>
+      <button id="unload-btn" class="btn btn-sm btn-outline-danger" onclick="unloadSLP()" style="display:none">Unload</button>
     </div>
     <div class="scroll-area" id="song-container"></div>
   </div>
@@ -100,174 +61,140 @@
   <div class="player-bar" id="p-bar">
     <div class="d-flex align-items-center justify-content-between">
       <div class="d-flex align-items-center gap-3 overflow-hidden">
-        <img id="p-cover" src="" alt="">
+        <img id="p-cover" src="" style="width:40px; height:40px; border-radius:4px;">
         <div class="text-truncate">
-          <div id="p-title" class="fw-bold text-truncate" style="font-size: 14px;">Title</div>
-          <div id="p-artist" class="text-secondary text-truncate" style="font-size: 12px;">Artist</div>
+          <div id="p-title" class="fw-bold small text-truncate">Title</div>
+          <div id="p-artist" class="text-secondary style='font-size:10px;'" class="text-truncate">Artist</div>
         </div>
       </div>
       <div class="d-flex align-items-center gap-3">
-        <i id="btn-loop" class="bi bi-repeat btn-icon text-secondary" style="font-size: 1rem;" onclick="toggleLoop()"></i>
-        <i id="btn-play" class="bi bi-play-fill btn-icon" style="font-size: 2rem;" onclick="togglePlay()"></i>
-        <i class="bi bi-skip-end-fill btn-icon" onclick="skip(1)"></i>
+        <i id="btn-play" class="bi bi-play-fill fs-2" onclick="togglePlay()"></i>
+        <i class="bi bi-skip-end-fill fs-3" onclick="skip(1)"></i>
       </div>
     </div>
-    <div class="progress-minimal" id="p-seek-bg" onclick="handleSeek(event)">
-      <div class="progress-inner" id="p-progress"></div>
-    </div>
+    <div class="progress-minimal" onclick="handleSeek(event)"><div class="progress-inner" id="p-progress"></div></div>
   </div>
 
   <script src="https://unixityyy.github.io/starlight/starlight.js"></script>
   <script>
     const BASE = "https://unixityyy.github.io/starlight";
-    let state = {
-      queue: [],
-      current: null,
-      mode: 'library', // 'library' or 'playlist'
-      view: 'v-menu',
-      looping: false
-    };
+    let queue = [], currentSong = null, activeView = 'menu', isPlaylist = false;
 
     const fix = (p) => (p && p.startsWith('http')) ? p : BASE + (p ? (p.startsWith('/') ? p : '/' + p) : '');
 
-    // --- UI ENGINE ---
-    function changeView(id, type) {
-      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-      state.view = id;
-
-      if (type === 'all') {
-        state.mode = 'library';
-        state.queue = window.STARLIGHT_SONGS;
-        document.getElementById('list-title').innerText = "Library";
-        document.getElementById('unload-btn').style.display = 'none';
-        renderSongs();
-      }
-      save();
+    function saveToLocal() {
+      const data = {
+        view: activeView,
+        currentId: currentSong ? currentSong.id : null,
+        queueIds: queue.map(s => s.id),
+        isPlaylist: isPlaylist
+      };
+      localStorage.setItem('starlight_cache', JSON.stringify(data));
     }
 
-    function renderSongs() {
+    function initView(mode) {
+      activeView = 'list';
+      if (mode === 'library') {
+        queue = window.STARLIGHT_SONGS;
+        isPlaylist = false;
+        document.getElementById('list-title').innerText = "Library";
+        document.getElementById('unload-btn').style.display = 'none';
+      }
+      render();
+      switchDOM();
+    }
+
+    function goHome() { activeView = 'menu'; switchDOM(); }
+
+    function switchDOM() {
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.getElementById(activeView === 'menu' ? 'v-menu' : 'v-list').classList.add('active');
+      saveToLocal();
+    }
+
+    function render() {
       const container = document.getElementById('song-container');
       container.innerHTML = '';
-      state.queue.forEach(s => {
+      queue.forEach(s => {
         const div = document.createElement('div');
-        div.className = `song-card ${state.current?.id === s.id ? 'active' : ''}`;
-        div.innerHTML = `
-          <img src="${fix(s.cover)}">
-          <div class="flex-grow-1 text-truncate">
-            <div class="fw-bold text-truncate">${s.title}</div>
-            <div class="text-secondary small">${s.artist} ${s.isExplicit ? '<span class="explicit">E</span>' : ''}</div>
-          </div>
-        `;
+        div.className = `song-card ${currentSong?.id === s.id ? 'active' : ''}`;
+        div.innerHTML = `<img src="${fix(s.cover)}"><div class="text-truncate"><div class="fw-bold">${s.title}</div><div class="small text-secondary">${s.artist}</div></div>`;
         div.onclick = () => play(s);
         container.appendChild(div);
       });
     }
 
-    // --- AUDIO LOGIC ---
     function play(song, isRestore = false) {
-      state.current = song;
+      currentSong = song;
       document.getElementById('p-bar').style.display = 'block';
       document.getElementById('p-title').innerText = song.title;
       document.getElementById('p-artist').innerText = song.artist;
       document.getElementById('p-cover').src = fix(song.cover);
-      
-      if (!isRestore) {
-        window.parent.postMessage({ target: 'offscreen', command: 'play', url: fix(song.file), song: song }, "*");
-      }
-      renderSongs();
-      save();
+      if (!isRestore) window.parent.postMessage({ target: 'offscreen', command: 'play', url: fix(song.file), song: song }, "*");
+      render();
+      saveToLocal();
     }
 
+    function unloadSLP() { initView('library'); }
     function togglePlay() { window.parent.postMessage({ target: 'offscreen', command: 'toggle' }, "*"); }
-    function toggleLoop() {
-      state.looping = !state.looping;
-      document.getElementById('btn-loop').classList.toggle('text-primary', state.looping);
-      document.getElementById('btn-loop').classList.toggle('text-secondary', !state.looping);
-      window.parent.postMessage({ target: 'offscreen', command: 'loop', state: state.looping }, "*");
-      save();
-    }
-
     function skip(d) {
-      const idx = state.queue.findIndex(s => s.id === state.current?.id);
-      const next = state.queue[idx + d];
-      if (next) play(next);
+      const idx = queue.findIndex(s => s.id === currentSong?.id);
+      if (queue[idx + d]) play(queue[idx + d]);
     }
-
     function handleSeek(e) {
-      const pct = e.offsetX / document.getElementById('p-seek-bg').clientWidth;
+      const pct = e.offsetX / e.currentTarget.clientWidth;
       window.parent.postMessage({ target: 'offscreen', command: 'seek', pct }, "*");
     }
 
-    function unloadSLP() {
-      state.mode = 'library';
-      changeView('v-list', 'all');
-    }
-
-    // --- SLP IMPORT ---
     document.getElementById('slp-file').onchange = (e) => {
       const reader = new FileReader();
       reader.onload = (ev) => {
         const ids = ev.target.result.split('\n').map(x => x.trim());
         const pl = ids.map(id => window.STARLIGHT_SONGS.find(s => s.id == id)).filter(Boolean);
         if (pl.length) {
-          state.queue = pl;
-          state.mode = 'playlist';
+          queue = pl; isPlaylist = true;
           document.getElementById('list-title').innerText = "Playlist";
           document.getElementById('unload-btn').style.display = 'block';
-          changeView('v-list');
-          renderSongs();
-          play(pl[0]);
+          activeView = 'list'; render(); play(pl[0]);
         }
       };
       reader.readAsText(e.target.files[0]);
     };
 
-    // --- PERSISTENCE ---
-    function save() {
-      const payload = { 
-        view: state.view, 
-        current: state.current, 
-        mode: state.mode, 
-        queueIds: state.queue.map(s => s.id),
-        looping: state.looping
-      };
-      window.parent.postMessage({ type: 'SAVE_STATE', payload }, "*");
-    }
-
-    window.addEventListener("message", (e) => {
-      if (e.data.type === 'UI_STATE') {
-        document.getElementById('btn-play').className = e.data.playing ? 'bi bi-pause-fill btn-icon' : 'bi bi-play-fill btn-icon';
-      }
-      if (e.data.type === 'UI_PROG') {
-        document.getElementById('p-progress').style.width = `${(e.data.c / e.data.d) * 100}%`;
-      }
-      if (e.data.type === 'UI_NEXT') skip(1);
-      
-      if (e.data.type === 'RESTORE_STATE' && e.data.payload) {
-        const d = e.data.payload;
-        state.mode = d.mode;
-        state.looping = d.looping;
-        state.queue = d.queueIds.map(id => window.STARLIGHT_SONGS.find(s => s.id == id)).filter(Boolean);
+    // --- THE FIX: RESTORE FROM LOCALSTORAGE ---
+    window.onload = () => {
+      const cached = localStorage.getItem('starlight_cache');
+      if (cached) {
+        const d = JSON.parse(cached);
+        activeView = d.view || 'menu';
+        isPlaylist = d.isPlaylist;
         
-        if (state.mode === 'playlist') {
+        if (d.queueIds && d.queueIds.length > 0) {
+            queue = d.queueIds.map(id => window.STARLIGHT_SONGS.find(s => s.id == id)).filter(Boolean);
+        } else {
+            queue = window.STARLIGHT_SONGS;
+        }
+
+        if (isPlaylist) {
           document.getElementById('list-title').innerText = "Playlist";
           document.getElementById('unload-btn').style.display = 'block';
         }
-        
-        if (d.current) play(d.current, true);
-        if (d.view) {
-          document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-          document.getElementById(d.view).classList.add('active');
-          state.view = d.view;
-        }
-        renderSongs();
-      }
-    });
 
-    window.onload = () => {
-      setTimeout(() => window.parent.postMessage({ type: 'GET_STATE' }, "*"), 100);
+        if (d.currentId) {
+          const s = window.STARLIGHT_SONGS.find(x => x.id == d.currentId);
+          if (s) play(s, true);
+        }
+        
+        render();
+        switchDOM();
+      }
     };
+
+    window.addEventListener("message", (e) => {
+      if (e.data.type === 'UI_STATE') document.getElementById('btn-play').className = e.data.playing ? 'bi bi-pause-fill' : 'bi bi-play-fill';
+      if (e.data.type === 'UI_PROG') document.getElementById('p-progress').style.width = `${(e.data.c / e.data.d) * 100}%`;
+      if (e.data.type === 'UI_NEXT') skip(1);
+    });
   </script>
 </body>
 </html>

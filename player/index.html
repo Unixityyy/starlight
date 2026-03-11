@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
+
 <head>
   <meta charset="UTF-8">
   <title>Starlight Sound Player</title>
@@ -13,54 +14,66 @@
 
   <style>
     body {
-      background-color:#1a1a2e;
-      font-family:Inter,sans-serif;
+      background-color: #1a1a2e;
+      font-family: Inter, sans-serif;
     }
 
     .card {
-      background:#27273f;
-      border:1px solid #3d3d5f;
-      border-radius:12px;
+      background: #27273f;
+      border: 1px solid #3d3d5f;
+      border-radius: 12px;
     }
 
     header h1 {
-      font-size:3rem;
-      font-weight:bold;
-      text-align:center;
-      color:#0d6efd;
-      margin-bottom:.5rem;
+      font-size: 3rem;
+      font-weight: bold;
+      text-align: center;
+      color: #0d6efd;
+      margin-bottom: .5rem;
     }
 
     header p {
-      text-align:center;
-      color:#c0c0ff;
-      margin-bottom:.25rem;
+      text-align: center;
+      color: #c0c0ff;
+      margin-bottom: .25rem;
     }
 
     .explicit-tag {
-      background:#5d3587;
-      color:white;
-      font-size:.75rem;
-      padding:1px 4px;
-      border-radius:3px;
-      font-weight:700;
+      background: #5d3587;
+      color: white;
+      font-size: .75rem;
+      padding: 1px 4px;
+      border-radius: 3px;
+      font-weight: 700;
     }
 
     /* Player Specifics */
-    .progress { height:8px; cursor:pointer; background: #1a1a2e; }
-    .icon-btn { font-size:1.8rem; cursor:pointer; transition: 0.2s; }
-    .icon-btn:hover { color:#0d6efd; }
-    
+    .progress {
+      height: 8px;
+      cursor: pointer;
+      background: #1a1a2e;
+    }
+
+    .icon-btn {
+      font-size: 1.8rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .icon-btn:hover {
+      color: #0d6efd;
+    }
+
     .list-group-item {
-      background:#27273f;
-      border:1px solid #3d3d5f;
+      background: #27273f;
+      border: 1px solid #3d3d5f;
       color: white;
       transition: 0.2s;
       cursor: pointer;
     }
-    
+
     .list-group-item:hover {
-      background:#3d3d5f;
+      background: #3d3d5f;
     }
 
     .list-group-item.active-song {
@@ -72,210 +85,217 @@
 
 <body class="text-white">
 
-<nav class="mb-4"></nav>
-<script type="module" src="/navbar.js"></script>
+  <nav class="mb-4"></nav>
+  <script type="module" src="/navbar.js"></script>
 
-<div class="container py-4">
+  <div class="container py-4">
 
-  <header class="mb-5">
-    <h1>Starlight Sound Player</h1>
-    <p>Listen to your favorite tracks seamlessly.</p>
-    
-    <div class="d-flex justify-content-center mt-3">
-      <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" id="cleanToggle">
-        <label class="form-check-label" for="cleanToggle">Clean</label>
-      </div>
-    </div>
-  </header>
+    <header class="mb-5">
+      <h1>Starlight Sound Player</h1>
+      <p>Listen to your favorite tracks seamlessly.</p>
 
-  <div class="row g-4">
-    <div class="col-lg-5">
-      <div class="card p-4 shadow-lg sticky-top" style="top: 20px;">
-        <div class="text-center mb-4">
-          <div id="playerStatus" class="small text-uppercase tracking-widest text-secondary mb-2">Now Playing</div>
-          <h3 id="currentTitle" class="fw-bold text-primary mb-1">Nothing playing</h3>
-          <p id="currentArtist" class="text-secondary">Select a song</p>
-          <span id="currentExplicit" class="explicit-tag" style="display:none;">E</span>
-        </div>
-
-        <div class="progress mb-3" id="progressBar">
-          <div class="progress-bar bg-primary" id="progress" style="width: 0%"></div>
-        </div>
-
-        <div class="d-flex justify-content-center align-items-center gap-4">
-          <i id="loopBtn" class="bi bi-arrow-repeat icon-btn opacity-50" title="Loop"></i>
-          <i id="playPause" class="bi bi-play-circle-fill icon-btn" style="font-size: 3rem;"></i>
-          <label for="upload" title="Upload Local File">
-            <i class="bi bi-cloud-upload icon-btn"></i>
-          </label>
-          <input type="file" id="upload" class="d-none" accept="audio/*">
+      <div class="d-flex justify-content-center mt-3">
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" id="cleanToggle">
+          <label class="form-check-label" for="cleanToggle">Clean</label>
         </div>
       </div>
-    </div>
+    </header>
 
-    <div class="col-lg-7">
-      <div class="card p-4">
-        <h5 class="fw-bold mb-3">Library</h5>
-        <div class="list-group list-group-flush" id="library">
+    <div class="row g-4">
+      <div class="col-lg-5">
+        <div class="card p-4 shadow-lg sticky-top" style="top: 20px;">
+          <div class="text-center mb-4">
+            <div id="playerStatus" class="small text-uppercase tracking-widest text-secondary mb-2">Now Playing</div>
+            <h3 id="currentTitle" class="fw-bold text-primary mb-1">Nothing playing</h3>
+            <p id="currentArtist" class="text-secondary">Select a song</p>
+            <span id="currentExplicit" class="explicit-tag" style="display:none;">E</span>
           </div>
+
+          <div class="progress mb-3" id="progressBar">
+            <div class="progress-bar bg-primary" id="progress" style="width: 0%"></div>
+          </div>
+
+          <div class="d-flex justify-content-center align-items-center gap-4">
+            <i id="loopBtn" class="bi bi-arrow-repeat icon-btn opacity-50" title="Loop"></i>
+            <i id="playPause" class="bi bi-play-circle-fill icon-btn" style="font-size: 3rem;"></i>
+            <label for="upload" title="Upload Local File">
+              <i class="bi bi-cloud-upload icon-btn"></i>
+            </label>
+            <input type="file" id="upload" class="d-none" accept="audio/*">
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-7">
+        <div class="card p-4">
+          <h5 class="fw-bold mb-3">Library</h5>
+          <div class="list-group list-group-flush" id="library">
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<audio id="audio"></audio>
+  <audio id="audio"></audio>
 
-<script src="../starlight.js"></script>
+  <script src="../starlight.js"></script>
 
-<script>
-  const audio = document.getElementById('audio');
-  const playPause = document.getElementById('playPause');
-  const loopBtn = document.getElementById('loopBtn');
-  const progress = document.getElementById('progress');
-  const progressBar = document.getElementById('progressBar');
-  const currentTitle = document.getElementById('currentTitle');
-  const currentArtist = document.getElementById('currentArtist');
-  const currentExplicit = document.getElementById('currentExplicit');
-  const upload = document.getElementById('upload');
-  const library = document.getElementById('library');
-  const cleanToggle = document.getElementById('cleanToggle');
+  <script>
+    const audio = document.getElementById('audio');
+    const playPause = document.getElementById('playPause');
+    const loopBtn = document.getElementById('loopBtn');
+    const progress = document.getElementById('progress');
+    const progressBar = document.getElementById('progressBar');
+    const currentTitle = document.getElementById('currentTitle');
+    const currentArtist = document.getElementById('currentArtist');
+    const currentExplicit = document.getElementById('currentExplicit');
+    const upload = document.getElementById('upload');
+    const library = document.getElementById('library');
+    const cleanToggle = document.getElementById('cleanToggle');
 
-  let cleanMode = localStorage.getItem('cleanEnabled') === 'true';
-  cleanToggle.checked = cleanMode;
-  let currentSong = null;
+    let cleanMode = localStorage.getItem('cleanEnabled') === 'true';
+    cleanToggle.checked = cleanMode;
+    let currentSong = null;
 
-  function getSongFile(song) {
-    return (cleanMode && song.file_clean) ? song.file_clean : song.file;
-  }
+    function getSongFile(song) {
+      return (cleanMode && song.file_clean) ? song.file_clean : song.file;
+    }
 
-async function getSquareArtwork(url) {
-  if (!url || !url.includes('ytimg.com')) return url;
+    async function getSquareArtwork(url) {
+      if (!url || !url.includes('ytimg.com')) return url;
 
-  return new Promise((resolve) => {
-    const img = new Image();
-    img.crossOrigin = "Anonymous";
-    img.src = url;
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      const size = img.height;
-      canvas.width = size;
-      canvas.height = size;
-      const ctx = canvas.getContext('2d');
-      
-      const offset = (img.width - img.height) / 2;
-      ctx.drawImage(img, offset, 0, size, size, 0, 0, size, size);
-      
-      resolve(canvas.toDataURL('image/jpeg'));
-    };
-    img.onerror = () => resolve(url);
-  });
-}
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.crossOrigin = "Anonymous";
+        img.src = url;
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const size = img.height;
+          canvas.width = size;
+          canvas.height = size;
+          const ctx = canvas.getContext('2d');
 
-  async function updateMediaSession(song) {
-    if ('mediaSession' in navigator) {
-      const squareArt = await getSquareArtwork(song.cover);
+          const offset = (img.width - img.height) / 2;
+          ctx.drawImage(img, offset, 0, size, size, 0, 0, size, size);
 
-      navigator.mediaSession.metadata = new MediaMetadata({
-        title: song.title,
-        artist: song.artist,
-        album: 'Starlight Sound',
-        artwork: [
-          { src: squareArt || '../favicon.ico', sizes: '512x512', type: 'image/jpeg' }
-        ]
-      });
-
-      navigator.mediaSession.setActionHandler('play', () => audio.play());
-      navigator.mediaSession.setActionHandler('pause', () => audio.pause());
-      
-      navigator.mediaSession.setActionHandler('previoustrack', () => {
-        const index = window.STARLIGHT_SONGS.findIndex(s => s.id === song.id);
-        if (index > 0) playSong(window.STARLIGHT_SONGS[index - 1]);
-      });
-
-      navigator.mediaSession.setActionHandler('nexttrack', () => {
-        const index = window.STARLIGHT_SONGS.findIndex(s => s.id === song.id);
-        if (index < window.STARLIGHT_SONGS.length - 1) playSong(window.STARLIGHT_SONGS[index + 1]);
+          resolve(canvas.toDataURL('image/jpeg'));
+        };
+        img.onerror = () => resolve(url);
       });
     }
-  }
 
-  function updateUI(title, artist, isExplicit) {
-    currentTitle.textContent = title;
-    currentArtist.textContent = artist;
-    currentExplicit.style.display = isExplicit ? 'inline-block' : 'none';
-    
-    document.querySelectorAll('.list-group-item').forEach(el => {
-      el.classList.toggle('active-song', el.dataset.title === title);
-    });
-  }
+    async function updateMediaSession(song) {
+      if ('mediaSession' in navigator) {
+        const squareArt = await getSquareArtwork(song.cover);
 
-  function playSong(song) {
-    currentSong = song;
-    audio.src = `../${getSongFile(song)}`;
-    updateUI(song.title, song.artist, song.isExplicit);
-    updateMediaSession(song);
-    audio.play();
-  }
+        navigator.mediaSession.metadata = new MediaMetadata({
+          title: song.title,
+          artist: song.artist,
+          album: 'Starlight Sound',
+          artwork: [
+            { src: squareArt || '../favicon.ico', sizes: '512x512', type: 'image/jpeg' }
+          ]
+        });
 
-  playPause.onclick = () => audio.paused ? audio.play() : audio.pause();
-  audio.onplay = () => playPause.className = 'bi bi-pause-circle-fill icon-btn';
-  audio.onpause = () => playPause.className = 'bi bi-play-circle-fill icon-btn';
+        if (window.starlightAPI) {
+          window.starlightAPI.updateDiscord({
+            title: song.title,
+            artist: song.artist
+          });
+        }
 
-  audio.onended = () => {
-    if (audio.loop) return;
-    const index = window.STARLIGHT_SONGS.findIndex(s => s.id === currentSong.id);
-    if (index !== -1 && index < window.STARLIGHT_SONGS.length - 1) {
-      playSong(window.STARLIGHT_SONGS[index + 1]);
+        navigator.mediaSession.setActionHandler('play', () => audio.play());
+        navigator.mediaSession.setActionHandler('pause', () => audio.pause());
+
+        navigator.mediaSession.setActionHandler('previoustrack', () => {
+          const index = window.STARLIGHT_SONGS.findIndex(s => s.id === song.id);
+          if (index > 0) playSong(window.STARLIGHT_SONGS[index - 1]);
+        });
+
+        navigator.mediaSession.setActionHandler('nexttrack', () => {
+          const index = window.STARLIGHT_SONGS.findIndex(s => s.id === song.id);
+          if (index < window.STARLIGHT_SONGS.length - 1) playSong(window.STARLIGHT_SONGS[index + 1]);
+        });
+      }
     }
-  };
 
-  loopBtn.onclick = () => {
-    audio.loop = !audio.loop;
-    loopBtn.classList.toggle('opacity-50', !audio.loop);
-    loopBtn.classList.toggle('text-primary', audio.loop);
-  };
+    function updateUI(title, artist, isExplicit) {
+      currentTitle.textContent = title;
+      currentArtist.textContent = artist;
+      currentExplicit.style.display = isExplicit ? 'inline-block' : 'none';
 
-  audio.ontimeupdate = () => {
-    if (!audio.duration) return;
-    progress.style.width = `${(audio.currentTime / audio.duration) * 100}%`;
-  };
-
-  progressBar.onclick = e => {
-    const rect = progressBar.getBoundingClientRect();
-    audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
-  };
-
-  upload.onchange = e => {
-    const file = e.target.files[0];
-    if (!file) return;
-    currentSong = null;
-    audio.src = URL.createObjectURL(file);
-    updateUI(file.name, 'Local File', false);
-    if ('mediaSession' in navigator) {
-      navigator.mediaSession.metadata = new MediaMetadata({ title: file.name, artist: 'Local' });
+      document.querySelectorAll('.list-group-item').forEach(el => {
+        el.classList.toggle('active-song', el.dataset.title === title);
+      });
     }
-    audio.play();
-  };
 
-  cleanToggle.onchange = () => {
-    cleanMode = cleanToggle.checked;
-    localStorage.setItem('cleanEnabled', cleanMode);
-    if (currentSong) {
-      const time = audio.currentTime;
-      audio.src = `../${getSongFile(currentSong)}`;
-      audio.currentTime = time;
+    function playSong(song) {
+      currentSong = song;
+      audio.src = `../${getSongFile(song)}`;
+      updateUI(song.title, song.artist, song.isExplicit);
+      updateMediaSession(song);
       audio.play();
     }
-  };
 
-  function renderLibrary() {
-    library.innerHTML = '';
-    window.STARLIGHT_SONGS.forEach(song => {
-      const li = document.createElement('div');
-      li.className = 'list-group-item d-flex justify-content-between align-items-center p-3 mb-2 rounded';
-      li.dataset.title = song.title;
-      li.innerHTML = `
+    playPause.onclick = () => audio.paused ? audio.play() : audio.pause();
+    audio.onplay = () => playPause.className = 'bi bi-pause-circle-fill icon-btn';
+    audio.onpause = () => playPause.className = 'bi bi-play-circle-fill icon-btn';
+
+    audio.onended = () => {
+      if (audio.loop) return;
+      const index = window.STARLIGHT_SONGS.findIndex(s => s.id === currentSong.id);
+      if (index !== -1 && index < window.STARLIGHT_SONGS.length - 1) {
+        playSong(window.STARLIGHT_SONGS[index + 1]);
+      }
+    };
+
+    loopBtn.onclick = () => {
+      audio.loop = !audio.loop;
+      loopBtn.classList.toggle('opacity-50', !audio.loop);
+      loopBtn.classList.toggle('text-primary', audio.loop);
+    };
+
+    audio.ontimeupdate = () => {
+      if (!audio.duration) return;
+      progress.style.width = `${(audio.currentTime / audio.duration) * 100}%`;
+    };
+
+    progressBar.onclick = e => {
+      const rect = progressBar.getBoundingClientRect();
+      audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
+    };
+
+    upload.onchange = e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      currentSong = null;
+      audio.src = URL.createObjectURL(file);
+      updateUI(file.name, 'Local File', false);
+      if ('mediaSession' in navigator) {
+        navigator.mediaSession.metadata = new MediaMetadata({ title: file.name, artist: 'Local' });
+      }
+      audio.play();
+    };
+
+    cleanToggle.onchange = () => {
+      cleanMode = cleanToggle.checked;
+      localStorage.setItem('cleanEnabled', cleanMode);
+      if (currentSong) {
+        const time = audio.currentTime;
+        audio.src = `../${getSongFile(currentSong)}`;
+        audio.currentTime = time;
+        audio.play();
+      }
+    };
+
+    function renderLibrary() {
+      library.innerHTML = '';
+      window.STARLIGHT_SONGS.forEach(song => {
+        const li = document.createElement('div');
+        li.className = 'list-group-item d-flex justify-content-between align-items-center p-3 mb-2 rounded';
+        li.dataset.title = song.title;
+        li.innerHTML = `
         <div class="d-flex align-items-center gap-3">
           <img src="${song.cover || '../favicon.ico'}" style="width:40px; height:40px; border-radius:4px; object-fit:cover;">
           <div>
@@ -286,12 +306,13 @@ async function getSquareArtwork(url) {
         ${song.isExplicit ? '<span class="explicit-tag">E</span>' : ''}
       `;
 
-      li.onclick = () => playSong(song);
-      library.appendChild(li);
-    });
-  }
+        li.onclick = () => playSong(song);
+        library.appendChild(li);
+      });
+    }
 
-  renderLibrary();
-</script>
+    renderLibrary();
+  </script>
 </body>
+
 </html>

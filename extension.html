@@ -159,20 +159,19 @@
         let BASE = "https://unixityyy.github.io/starlight";
         let localQueue = [];
         let localIdx = -1;
+        let currentSong = null;
         let currentView = 'home';
-        let currentSongData = null;
 
         const fix = (p) => (p && p.startsWith('http')) ? p : BASE + (p ? (p.startsWith('/') ? p : '/' + p) : '');
 
-        // --- 1. DATA LOADING (Bypassing CORS) ---
-        function init() {
-            window.parent.postMessage({ type: 'FETCH_LIBRARY', url: `${BASE}/starlight.js` }, "*");
-        }
+        // 1. Start: Request library from extension
+        window.parent.postMessage({ type: 'FETCH_LIBRARY', url: `${BASE}/starlight.js` }, "*");
 
         window.addEventListener("message", (e) => {
-            if (e.data.type === 'LIBRARY_DATA') {
+            // Catch Library Data
+            if (e.data.type === 'LIB_DATA') {
                 const script = document.createElement('script');
-                script.text = e.data.data; // Inject the fetched code
+                script.text = e.data.data;
                 document.head.appendChild(script);
 
                 const check = setInterval(() => {
@@ -184,59 +183,64 @@
                 }, 50);
             }
 
-            if (e.data.type === 'RESTORE_STATE') {
+            // Catch State Restoration
+            if (e.data.type === 'RESTORE') {
                 const p = e.data.payload;
                 if (p.view) navigateTo(p.view, false);
-                if (p.song) playSong(p.song, p.queue || window.STARLIGHT_SONGS, true);
+                if (p.song) playSong(p.song, p.queue, true);
             }
 
-            // Progress/UI updates
+            // Catch Audio Progress
             if (e.data.type === 'prog') {
                 const pct = (e.data.c / e.data.d * 100) + '%';
                 ['bar-lib', 'bar-pl'].forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el) el.style.width = pct;
+                    const el = document.getElementById(id); if (el) el.style.width = pct;
                 });
             }
 
+            // Catch Play/Pause icons
             if (e.data.type === 'state') {
                 const icon = e.data.playing ? 'bi-pause-circle-fill' : 'bi-play-circle-fill';
-                const toggles = [document.getElementById('m-play'), document.getElementById('pl-play')];
-                toggles.forEach(el => { if (el) el.className = `bi ${icon} fs-1 text-primary` });
+                ['m-play', 'pl-play'].forEach(id => {
+                    const el = document.getElementById(id); if (el) el.className = `bi ${icon} fs-1 text-primary`;
+                });
             }
 
-        if (e.data.type === 'ended') skip(1);
+            if (e.data.type === 'ended') skip(1);
         });
 
-        // --- 2. LOGIC ---
-        function navigateTo(v, shouldPersist = true) {
-            currentView = v;
-            document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
-            const target = document.getElementById(v + '-view');
-            if (target) target.classList.add('active');
-            if (shouldPersist) saveState();
-        }
-
-        function saveState() {
-            window.parent.postMessage({
-                type: 'SAVE_STATE',
-                payload: { view: currentView, song: currentSongData, queue: localQueue }
-            }, "*");
+        function renderList(tid, data, q) {
+            const c = document.getElementById(tid);
+            if (!c) return; c.innerHTML = '';
+            data.forEach(s => {
+                const d = document.createElement('div');
+                d.className = 'song-item';
+                d.innerHTML = `<img src="${fix(s.cover)}" class="thumb"><div class="text-truncate"><div class="fw-bold small">${s.title}</div><div class="small text-secondary">${s.artist}</div></div>`;
+                d.onclick = () => playSong(s, q);
+                c.appendChild(d);
+            });
         }
 
         function playSong(song, queue, isRestore = false) {
             if (!song) return;
             localQueue = queue || window.STARLIGHT_SONGS;
             localIdx = localQueue.findIndex(s => s.id == song.id);
-            currentSongData = song;
+            currentSong = song;
 
             ['cur-title', 'pl-title'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = song.title; });
             ['cur-artist', 'pl-artist'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = song.artist; });
 
             if (!isRestore) {
-                window.parent.postMessage({ target: 'offscreen', command: 'play', url: fix(song.file) }, "*");
+                window.parent.postMessage({ target: 'offscreen', command: 'play', url: fix(song.file), song: song }, "*");
             }
             saveState();
+        }
+
+        function navigateTo(v, persist = true) {
+            currentView = v;
+            document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+            document.getElementById(v + '-view').classList.add('active');
+            if (persist) saveState();
         }
 
         function togglePlayback() {
@@ -248,20 +252,9 @@
             if (next) playSong(next, localQueue);
         }
 
-        function renderList(tid, data, q) {
-            const c = document.getElementById(tid);
-            if (!c) return;
-            c.innerHTML = '';
-            data.forEach(s => {
-                const d = document.createElement('div');
-                d.className = 'song-item';
-                d.innerHTML = `<img src="${fix(s.cover)}" class="thumb"><div class="text-truncate"><div class="fw-bold small">${s.title}</div><div class="small text-secondary">${s.artist}</div></div>`;
-                d.onclick = () => playSong(s, q);
-                c.appendChild(d);
-            });
+        function saveState() {
+            window.parent.postMessage({ type: 'SAVE_STATE', payload: { view: currentView, song: currentSong, queue: localQueue } }, "*");
         }
-
-        init();
     </script>
 </body>
 

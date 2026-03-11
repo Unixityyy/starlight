@@ -156,7 +156,6 @@
     <audio id="fallback-audio"></audio>
 
     <script src="https://unixityyy.github.io/starlight/starlight.js"></script>
-
     <script>
         const BASE = "https://unixityyy.github.io/starlight";
         let localQueue = [];
@@ -164,68 +163,33 @@
         let currentView = 'home';
         let currentSongData = null;
 
+        // Helper to fix URLs for covers/audio
         const fix = (p) => (p && p.startsWith('http')) ? p : BASE + (p ? (p.startsWith('/') ? p : '/' + p) : '');
 
-        // --- STARTUP ---
-        window.onload = () => {
-            if (window.STARLIGHT_SONGS) {
-                renderList('library-container', window.STARLIGHT_SONGS, window.STARLIGHT_SONGS);
-                // Ask extension for saved view/song
-                window.parent.postMessage({ type: 'GET_STATE' }, "*");
-            } else {
-                console.error("Library script failed to load window.STARLIGHT_SONGS");
-            }
-        };
-
-        // --- MESSAGE HUB ---
-        window.addEventListener("message", (e) => {
-            if (e.data.type === 'RESTORE_STATE') {
-                const p = e.data.payload;
-                if (p.view) navigateTo(p.view, false);
-                if (p.song) playSong(p.song, p.queue || window.STARLIGHT_SONGS, true);
-            }
-
-            if (e.data.type === 'prog') {
-                const pct = (e.data.c / e.data.d * 100) + '%';
-                ['bar-lib', 'bar-pl'].forEach(id => {
-                    const el = document.getElementById(id); if (el) el.style.width = pct;
-                });
-            }
-
-            if (e.data.type === 'state') {
-                const icon = e.data.playing ? 'bi-pause-circle-fill' : 'bi-play-circle-fill';
-                ['m-play', 'pl-play'].forEach(id => {
-                    const el = document.getElementById(id); if (el) el.className = `bi ${icon} fs-1 text-primary`;
-                });
-            }
-
-            if (e.data.type === 'ended') skip(1);
-        });
-
-        // --- CORE LOGIC ---
-        function renderList(tid, data, q) {
-            const c = document.getElementById(tid);
-            if (!c) return;
-            c.innerHTML = '';
-            data.forEach(s => {
-                const d = document.createElement('div');
-                d.className = 'song-item';
-                d.innerHTML = `<img src="${fix(s.cover)}" class="thumb"><div><div class="fw-bold small">${s.title}</div><div class="small text-secondary">${s.artist}</div></div>`;
-                d.onclick = () => playSong(s, q);
-                c.appendChild(d);
-            });
+        // --- 1. CORE NAVIGATION ---
+        function navigateTo(v, shouldPersist = true) {
+            currentView = v;
+            document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+            const target = document.getElementById(v + '-view');
+            if (target) target.classList.add('active');
+            if (shouldPersist) saveState();
         }
 
+        // --- 2. THE PLAYBACK ENGINE ---
         function playSong(song, queue, isRestore = false) {
             if (!song) return;
-            localQueue = queue || window.STARLIGHT_SONGS;
+
+            localQueue = queue || window.STARLIGHT_SONGS || [];
             localIdx = localQueue.findIndex(s => s.id == song.id);
             currentSongData = song;
 
-            // Update Text
-            ['cur-title', 'pl-title'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = song.title; });
-            ['cur-artist', 'pl-artist'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = song.artist; });
+            // Update UI Labels
+            const titles = document.querySelectorAll('#cur-title, #pl-title');
+            const artists = document.querySelectorAll('#cur-artist, #pl-artist');
+            titles.forEach(el => el.textContent = song.title);
+            artists.forEach(el => el.textContent = song.artist);
 
+            // Only send the "PLAY" command if we aren't just restoring the UI
             if (!isRestore) {
                 window.parent.postMessage({
                     target: 'offscreen',
@@ -234,18 +198,16 @@
                     song: song
                 }, "*");
             }
+
             saveState();
         }
 
-        function navigateTo(v, persist = true) {
-            currentView = v;
-            document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
-            document.getElementById(v + '-view').classList.add('active');
-            if (persist) saveState();
-        }
-
         function togglePlayback() {
-            window.parent.postMessage({ target: 'offscreen', command: 'toggle' }, "*");
+            // We send "toggle" and let the Service Worker decide to Play or Pause
+            window.parent.postMessage({
+                target: 'offscreen',
+                command: 'toggle'
+            }, "*");
         }
 
         function skip(dir) {
@@ -253,12 +215,85 @@
             if (next) playSong(next, localQueue);
         }
 
+        // --- 3. MESSAGE & STATE HUB ---
+        window.addEventListener("message", (e) => {
+            // Handle restoration from Chrome Storage
+            if (e.data.type === 'RESTORE_STATE' && e.data.payload) {
+                const p = e.data.payload;
+                if (p.view) navigateTo(p.view, false);
+                if (p.song) playSong(p.song, p.queue, true);
+            }
+
+            // Handle Live Progress from Offscreen Audio
+            if (e.data.type === 'prog') {
+                const pct = (e.data.c / e.data.d * 100) + '%';
+                const bars = document.querySelectorAll('#bar-lib, #bar-pl');
+                bars.forEach(bar => bar.style.width = pct);
+            }
+
+            // Handle Play/Pause Icon Updates
+            if (e.data.type === 'state') {
+                const icon = e.data.playing ? 'bi-pause-circle-fill' : 'bi-play-circle-fill';
+                const btns = document.querySelectorAll('#m-play, #pl-play');
+                btns.forEach(btn => btn.className = `bi ${icon} fs-1 text-primary`);
+            }
+
+            // Auto-play next song
+            if (e.data.type === 'ended') skip(1);
+        });
+
+        // --- 4. DATA PERSISTENCE ---
         function saveState() {
             window.parent.postMessage({
                 type: 'SAVE_STATE',
-                payload: { view: currentView, song: currentSongData, queue: localQueue }
+                payload: {
+                    view: currentView,
+                    song: currentSongData,
+                    queue: localQueue
+                }
             }, "*");
         }
+
+        // --- 5. UI RENDERING ---
+        function renderList(targetId, data, queueForClick) {
+            const container = document.getElementById(targetId);
+            if (!container) return;
+            container.innerHTML = '';
+
+            data.forEach(s => {
+                const div = document.createElement('div');
+                div.className = 'song-item d-flex align-items-center p-2 mb-2 border-bottom';
+                div.style.cursor = 'pointer';
+                div.innerHTML = `
+                <img src="${fix(s.cover)}" class="thumb me-3" style="width:50px; height:50px; object-fit:cover; border-radius:4px;">
+                <div class="text-truncate">
+                    <div class="fw-bold small text-white">${s.title}</div>
+                    <div class="small text-secondary">${s.artist}</div>
+                </div>
+            `;
+                div.onclick = () => playSong(s, queueForClick);
+                container.appendChild(div);
+            });
+        }
+
+        // --- 6. INITIALIZATION ---
+        function init() {
+            // Wait for starlight.js (which defines window.STARLIGHT_SONGS)
+            const checkLibrary = setInterval(() => {
+                if (window.STARLIGHT_SONGS && window.STARLIGHT_SONGS.length > 0) {
+                    clearInterval(checkLibrary);
+
+                    // Render the Library
+                    renderList('library-container', window.STARLIGHT_SONGS, window.STARLIGHT_SONGS);
+
+                    // Request the last saved state from Chrome Storage
+                    window.parent.postMessage({ type: 'GET_STATE' }, "*");
+                }
+            }, 100);
+        }
+
+        // Launch!
+        init();
     </script>
 </body>
 

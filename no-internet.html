@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>No Internet</title>
+  <style>
+    /* 1. RESET & BASE STYLES */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      background-color: #1a1a2e;
+      font-family: 'Inter', -apple-system, system-ui, sans-serif;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      text-align: center;
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    header h1 {
+      font-size: clamp(2rem, 8vw, 5rem);
+      font-weight: bold;
+      color: #0d6efd;
+      margin-bottom: 1rem;
+    }
+
+    header p {
+      font-size: 1.25rem;
+      color: #c0c0ff;
+      max-width: 600px;
+      line-height: 1.5;
+    }
+
+    .btn-home, .btn-game {
+      margin-top: 30px;
+      display: inline-block;
+      text-decoration: none;
+      background: transparent;
+      color: white;
+      border: 1px solid white;
+      font-weight: 600;
+      padding: 0.75rem 2rem;
+      border-radius: 12px;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .btn-home:hover, .btn-game:hover {
+      background: white;
+      color: #1a1a2e;
+    }
+
+    .container { display: flex; flex-direction: column; align-items: center; }
+
+    /* GAME UI */
+    #secret-o { cursor: pointer; transition: color 0.1s; }
+    #secret-o:hover { color: #ffc107; text-shadow: 0 0 10px #ffc107; }
+    
+    #game-wrapper { display: none; position: relative; }
+    #gameCanvas { background: #161625; border: 2px solid #0d6efd; border-radius: 12px; cursor: none; }
+    
+    #exit-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 5px 12px;
+      font-size: 0.8rem;
+      margin: 0;
+      border-color: rgba(255,255,255,0.3);
+    }
+
+    /* CUSTOM POPUP */
+    #game-over-popup {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #27273f;
+      border: 2px solid #ffc107;
+      border-radius: 12px;
+      padding: 30px;
+      z-index: 10;
+      box-shadow: 0 0 30px rgba(0,0,0,0.8);
+      min-width: 250px;
+    }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="main-content">
+    <header>
+      <h1>You Are <span id="secret-o">O</span>ffline.</h1>
+      <p>Please connect to the internet to use Starlight.</p>
+    </header>
+    <a href="javascript:window.location.reload()" class="btn-home">Try Again</a>
+  </div>
+
+  <div id="game-wrapper">
+    <button id="exit-btn" class="btn-game">Quit Game</button>
+    <canvas id="gameCanvas" width="600" height="400"></canvas>
+    
+    <div id="game-over-popup">
+        <h2 style="color: #ffc107; margin-bottom: 10px;">GAME OVER</h2>
+        <p id="final-score" style="margin-bottom: 20px;">Score: 0</p>
+        <button class="btn-game" onclick="start()" style="margin: 5px;">Restart</button>
+        <button class="btn-game" onclick="quit()" style="margin: 5px; border-color: #ff4444; color: #ff4444;">Exit</button>
+    </div>
+  </div>
+
+  <script>
+    const o = document.getElementById('secret-o');
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const mainContent = document.getElementById('main-content');
+    const gameWrapper = document.getElementById('game-wrapper');
+    const exitBtn = document.getElementById('exit-btn');
+    const popup = document.getElementById('game-over-popup');
+    const finalScoreTxt = document.getElementById('final-score');
+
+    let playing = false;
+    let score = 0;
+    let player = { x: 300, y: 200, r: 10 };
+    let obstacles = [];
+    let audioCtx;
+
+    function sfx(freq, type, duration, vol) {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+    }
+
+    o.onclick = () => { if (!playing) { sfx(523, 'sine', 0.2, 0.1); start(); } };
+    exitBtn.onclick = quit;
+
+    function start() {
+      playing = true;
+      mainContent.classList.add('hidden');
+      gameWrapper.style.display = 'block';
+      popup.style.display = 'none';
+      score = 0;
+      obstacles = [];
+      loop();
+    }
+
+    function quit() {
+      playing = false;
+      gameWrapper.style.display = 'none';
+      mainContent.classList.remove('hidden');
+    }
+
+    canvas.onmousemove = (e) => {
+      const rect = canvas.getBoundingClientRect();
+      player.x = e.clientX - rect.left;
+      player.y = e.clientY - rect.top;
+    };
+
+    function loop() {
+      if (!playing) return;
+      ctx.fillStyle = '#1a1a2e';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = '#0d6efd';
+      ctx.beginPath();
+      ctx.arc(player.x, player.y, player.r, 0, Math.PI * 2);
+      ctx.fill();
+
+      if (Math.random() < 0.05) {
+        obstacles.push({ x: canvas.width, y: Math.random() * canvas.height, s: 15 + Math.random() * 20, v: 3 + Math.random() * 5 });
+      }
+
+      obstacles.forEach((ob, i) => {
+        ob.x -= ob.v;
+        ctx.fillStyle = '#ff4444';
+        ctx.fillRect(ob.x, ob.y, ob.s, ob.s);
+
+        if (player.x + player.r > ob.x && player.x - player.r < ob.x + ob.s && player.y + player.r > ob.y && player.y - player.r < ob.y + ob.s) {
+          gameOver();
+        }
+      });
+
+      obstacles = obstacles.filter(ob => ob.x + ob.s > 0);
+      score++;
+      
+      ctx.fillStyle = "white";
+      ctx.fillText("Score: " + score, 10, 20);
+      
+      requestAnimationFrame(loop);
+    }
+
+    function gameOver() {
+      playing = false;
+      sfx(150, 'sawtooth', 0.4, 0.1); // Low death sound
+      finalScoreTxt.innerText = "Final Score: " + score;
+      popup.style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>

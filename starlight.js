@@ -895,7 +895,6 @@ window.STARLIGHT_SONGS = [
     file: "/songs/Home (from Bright, The Album).m4a",
     isExplicit: false
   },
-  [
   {
     id: 108,
     title: "Doubt",
@@ -979,7 +978,6 @@ window.STARLIGHT_SONGS = [
     isExplicit: true
   },
 */
-]
 ];
 
 (() => {

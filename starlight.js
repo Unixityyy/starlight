@@ -895,6 +895,91 @@ window.STARLIGHT_SONGS = [
     file: "/songs/Home (from Bright, The Album).m4a",
     isExplicit: false
   },
+  [
+  {
+    id: 108,
+    title: "Doubt",
+    artist: "twenty one pilots",
+    cover: "https://i.ytimg.com/vi/F-C81j75Rmk/hq720.jpg",
+    file: "/songs/Doubt.m4a",
+    isExplicit: false
+  },
+  {
+    id: 109,
+    title: "Rich Love",
+    artist: "OneRepublic (ft. Seeb)",
+    cover: "https://i.ytimg.com/vi/sJ6hAQjW9Aw/hq720.jpg",
+    file: "/songs/Rich Love.m4a",
+    isExplicit: false
+  },
+  {
+    id: 110,
+    title: "The Greatest Show",
+    artist: "Hugh Jackman (ft. Keala Settle, Zac Efron, Zendaya)",
+    cover: "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/a6/63/54/a6635418-7d49-b237-d1c9-ba85fa57dbc6/075679886613.jpg/720x720bb.webp",
+    file: "/songs/The Greatest Show.m4a",
+    isExplicit: false
+  },
+  {
+    id: 111,
+    title: "A Million Dreams",
+    artist: "Ziv Zaifman (ft. Hugh Jackman, Michelle Williams)",
+    cover: "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/a6/63/54/a6635418-7d49-b237-d1c9-ba85fa57dbc6/075679886613.jpg/720x720bb.webp",
+    file: "/songs/A Million Dreams.m4a",
+    isExplicit: false
+  },
+  {
+    id: 112,
+    title: "Rewrite the Stars",
+    artist: "Zac Efron (ft. Zendaya)",
+    cover: "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/a6/63/54/a6635418-7d49-b237-d1c9-ba85fa57dbc6/075679886613.jpg/720x720bb.webp",
+    file: "/songs/Rewrite the Stars.m4a",
+    isExplicit: false
+  },
+  {
+    id: 113,
+    title: "This Is Me",
+    artist: "Keala Settle (ft. The Greatest Showman Ensemble)",
+    cover: "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/a6/63/54/a6635418-7d49-b237-d1c9-ba85fa57dbc6/075679886613.jpg/720x720bb.webp",
+    file: "/songs/This Is Me.m4a",
+    isExplicit: false
+  },
+  {
+    id: 114,
+    title: "Silence",
+    artist: "Marshmello (ft. Khalid)",
+    cover: "https://i.ytimg.com/vi/3zb99ZktMDM/hq720.jpg",
+    file: "/songs/Silence.m4a",
+    isExplicit: false
+  },
+  {
+    id: 115,
+    title: "Heroes (we could be)",
+    artist: "Alesso (ft. Tove Lo)",
+    cover: "https://i.ytimg.com/vi/y0VAozNZN3Q/hq720.jpg",
+    file: "/songs/Heroes (we could be).m4a",
+    isExplicit: false
+  },
+  {
+    id: 116,
+    title: "Missing Piece",
+    artist: "Vance Joy",
+    cover: "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/56/59/cf/5659cf61-1182-69d4-aeae-f4b3760c409d/075679753540.jpg/720x720bb.webp",
+    file: "/songs/Missing Piece.m4a",
+    isExplicit: false
+  },
+/*
+  {
+    id: 117,
+    title: "Kim Jung Goon",
+    artist: "Jung Seo-Jun",
+    cover: "https://i.ytimg.com/vi/wR5cVwA05wE/hq720.jpg",
+    file: "/songs/Kim Jung Goon.m4a",
+    file_clean: "/songs/Kim Jung Goon Clean.m4a", could not get a clean version :( - will maybe add later
+    isExplicit: true
+  },
+*/
+]
 ];
 
 (() => {

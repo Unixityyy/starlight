@@ -967,17 +967,15 @@ window.STARLIGHT_SONGS = [
     file: "/songs/Missing Piece.m4a",
     isExplicit: false
   },
-/*
   {
     id: 117,
     title: "Kim Jung Goon",
     artist: "Jung Seo-Jun",
     cover: "https://i.ytimg.com/vi/wR5cVwA05wE/hq720.jpg",
     file: "/songs/Kim Jung Goon.m4a",
-    file_clean: "/songs/Kim Jung Goon Clean.m4a", could not get a clean version :( - will maybe add later
+    file_clean: "/songs/Kim Jung Goon Clean.m4a",
     isExplicit: true
   },
-*/
 ];
 
 (() => {

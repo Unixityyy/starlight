@@ -1059,6 +1059,14 @@ window.STARLIGHT_SONGS = [
     file: "/songs/Shop.m4a",
     isExplicit: false
   },
+  {
+    id: 128,
+    title: "Your New Home",
+    artist: "Elyndrax & Gooseworx",
+    cover: "https://i.ytimg.com/vi/KuwXDLmLXRU/hq720.jpg",
+    file: "/songs/Your New Home.m4a",
+    isExplicit: false
+  },
 ];
 
 (() => {

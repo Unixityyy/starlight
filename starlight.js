@@ -976,6 +976,89 @@ window.STARLIGHT_SONGS = [
     file_clean: "/songs/Kim Jung Goon Clean.m4a",
     isExplicit: true
   },
+  {
+    id: 118,
+    title: "Jumper",
+    artist: "Waterflame",
+    cover: "https://i.ytimg.com/vi/Teogpa2h09g/hq720.jpg",
+    file: "/songs/Jumper.m4a",
+    isExplicit: false
+  },
+  {
+    id: 119,
+    title: "NUEVAYoL",
+    artist: "Bad Bunny",
+    cover: "https://i.ytimg.com/vi/wR5cVwA05wE/hq720.jpg",
+    file: "/songs/NUEVAYoL.m4a",
+    isExplicit: false
+  },
+  {
+    id: 120,
+    title: "Tití Me Preguntó (Mixed)",
+    artist: "Bad Bunny",
+    cover: "https://i.ytimg.com/vi/juRFjpB5Ppg/hq720.jpg",
+    file: "/songs/Titi Me Pregunto (Mixed).m4a",
+    file_clean: "/songs/Titi Me Pregunto (Mixed) Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 121,
+    title: "BAILE INoLVIDABLE (English Cover)",
+    artist: "zaniiel",
+    cover: "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/4c/07/eb/4c07eb8b-5f17-7460-4840-850065aa7113/artwork.jpg/600x600bb.webp",
+    file: "BAILE INoLVIDABLE (English Cover).m4a",
+    isExplicit: false
+  },
+  {
+    id: 122,
+    title: "Dtmf (Instrumental)",
+    artist: "Anderson Gt",
+    cover: "https://i.ytimg.com/vi/A4MSZEN44Ts/hq720.jpg",
+    file: "/songs/Dtmf.m4a",
+    isExplicit: false
+  },
+  {
+    id: 123,
+    title: "Ni**as in Paris",
+    artist: "JAŸ-Z & Kanye West",
+    cover: "https://i.ytimg.com/vi/gTDCMd-O2Yk/hq720.jpg",
+    file: "/songs/Ni##as in Paris.m4a",
+    file_clean: "/songs/Ni##as in Paris Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 124,
+    title: "HEAVENLY JUMPSTYLE (Slowed)",
+    artist: "TWXNY, Sxilwix & Innxcence",
+    cover: "https://i.ytimg.com/vi/pSkW_rR65-g/hq720.jpg",
+    file: "/songs/HEAVENLY JUMPSTYLE (Slowed).m4a",
+    isExplicit: false
+  },
+  {
+    id: 125,
+    title: "The One Who's Running the Show",
+    artist: "Gooseworx",
+    cover: "https://i.ytimg.com/vi/0cBHeagy-S4/hq720.jpg",
+    file: "/songs/The One Who's Running the Show.m4a",
+    isExplicit: true
+  },
+  {
+    id: 126,
+    title: "Take Your Mask Off",
+    artist: "Tyler, The Creator (ft. Dabuek Caesar & Latoiya Williams)",
+    cover: "https://i.ytimg.com/vi/JPOjiXoPmOk/hq720.jpg",
+    file: "/songs/Take Your Mask Off.m4a",
+    file_clean: "/songs/Take Your Mask Off Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 127,
+    title: "Shop",
+    artist: "nicopatty",
+    cover: "https://i.ytimg.com/vi/mD5JWiHmkiI/hq720.jpg",
+    file: "/songs/Shop.m4a",
+    isExplicit: false
+  },
 ];
 
 (() => {

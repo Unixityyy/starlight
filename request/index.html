@@ -66,6 +66,7 @@
         <form id="songForm">
           <input type="hidden" id="songName" name="songName">
           <input type="hidden" id="songArtist" name="songArtist">
+          <input type="hidden" id="songLink" name="songLink">
           
           <div id="selectedSongPreview" class="mb-4 d-none">
             <p class="small text-muted mb-2 text-center">Ready to Submit:</p>
@@ -90,7 +91,6 @@
 </div>
 
 <script type="module">
-// Import auth from your config file
 import { auth } from '../auth.js';
 
 const songSearch = document.getElementById('songSearch');
@@ -98,6 +98,7 @@ const searchResults = document.getElementById('searchResults');
 const songForm = document.getElementById('songForm');
 const songNameInput = document.getElementById('songName');
 const songArtistInput = document.getElementById('songArtist');
+const songLinkInput = document.getElementById('songLink'); // Link reference
 const selectedSongPreview = document.getElementById('selectedSongPreview');
 const displayTitle = document.getElementById('displayTitle');
 const displayArtist = document.getElementById('displayArtist');
@@ -136,16 +137,18 @@ songSearch.addEventListener('input', () => {
               <div class="text-secondary small text-truncate">${track.artistName}</div>
             </div>
           `;
-          item.onclick = () => selectSong(track.trackName, track.artistName, track.artworkUrl100, isExplicit);
+          // Passing track.trackViewUrl to the selection function
+          item.onclick = () => selectSong(track.trackName, track.artistName, track.artworkUrl100, isExplicit, track.trackViewUrl);
           searchResults.appendChild(item);
         });
       });
   }, 400);
 });
 
-function selectSong(name, artist, artUrl, isExplicit) {
+function selectSong(name, artist, artUrl, isExplicit, trackUrl) {
   songNameInput.value = name;
   songArtistInput.value = artist;
+  songLinkInput.value = trackUrl; // Store the Apple Music URL
   displayTitle.textContent = name;
   displayArtist.textContent = artist;
   displayArt.src = artUrl;
@@ -167,14 +170,16 @@ songForm.addEventListener('submit', async e => {
 
   const userEmail = user?.email || user?.displayName || "Anonymous";
 
+  // Build the payload including the Link
   const data = new URLSearchParams({
     'Song Name': songNameInput.value,
     'Song Artist': songArtistInput.value,
-    'Email': userEmail
+    'Email': userEmail,
+    'Link': songLinkInput.value // Sends the link to Column E
   });
 
   try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycbzfRUdzvAEgiZriAuNkn-hfyv2omEcy6rWHHLsPtI0U-nTjg8SPuU69lf1-Mhg4LCZN/exec', {
+    const response = await fetch('https://script.google.com/macros/s/AKfycby24mZSCCmyYzE7u8R0JctZY-ARBnOAIGtlc8ZPo-j6y_GFxem64VdsB_lsfW23-2ou/exec', {
       method: 'POST',
       body: data,
       headers: {'Content-Type': 'application/x-www-form-urlencoded'}

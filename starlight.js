@@ -1040,7 +1040,7 @@ window.STARLIGHT_SONGS = [
     artist: "Gooseworx",
     cover: "https://i.ytimg.com/vi/0cBHeagy-S4/hq720.jpg",
     file: "/songs/The One Who's Running the Show.m4a",
-    isExplicit: true
+    isExplicit: false
   },
   {
     id: 126,
@@ -1065,6 +1065,54 @@ window.STARLIGHT_SONGS = [
     artist: "Elyndrax & Gooseworx",
     cover: "https://i.ytimg.com/vi/KuwXDLmLXRU/hq720.jpg",
     file: "/songs/Your New Home.m4a",
+    isExplicit: false
+  },
+  {
+    id: 129,
+    title: "Digital Days",
+    artist: "Gooseworx & Evan Alderete",
+    cover: "https://i.ytimg.com/vi/k8skFgGFV_8/hq720.jpg",
+    file: "/songs/Digital Days.m4a",
+    isExplicit: false
+  },
+  {
+    id: 130,
+    title: "Another Wild N****r from the Bronx",
+    artist: "Fat Joe (feat. Gismo, Kieth Kieth, & King Sun)",
+    cover: "https://i.ytimg.com/vi/tX2aoeb0E-o/hq720.jpg",
+    file: "/songs/Another Wild N####r from the Bronx.m4a",
+    isExplicit: false
+  },
+  {
+    id: 131,
+    title: "LUNA BALA (Slowed)",
+    artist: "Yb Wasg'ood & Ariis",
+    cover: "https://i.ytimg.com/vi/dukNdSgaLtc/hq720.jpg",
+    file: "/songs/LUNA BALA (Slowed).m4a",
+    isExplicit: false
+  },
+  {
+    id: 132,
+    title: "Happier",
+    artist: "Marshmello & Bastille",
+    cover: "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/a3/40/42/a3404244-60e9-222b-9da1-4dbcb8e5b8d9/cover.jpg/720x720bb.webp",
+    file: "/songs/Happier.m4a",
+    isExplicit: false
+  },
+  {
+    id: 133,
+    title: "Weatherman",
+    artist: "Zach Hood",
+    cover: "https://i.ytimg.com/vi/HWMvL-3xWAA/hq720.jpg",
+    file: "/songs/Weatherman.m4a",
+    isExplicit: false
+  },
+  {
+    id: 134,
+    title: "cliché",
+    artist: "mgk",
+    cover: "https://i.ytimg.com/vi/jAmurFZqsxU/hq720.jpg",
+    file: "/songs/cliché.m4a",
     isExplicit: false
   },
 ];

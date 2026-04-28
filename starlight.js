@@ -1115,6 +1115,134 @@ window.STARLIGHT_SONGS = [
     file: "/songs/cliché.m4a",
     isExplicit: false
   },
+{
+    id: 135,
+    title: "Stupid Song",
+    artist: "Hot Chelle Rae",
+    cover: "https://i.ytimg.com/vi/2AdRUjf9KCk/hq720.jpg",
+    file: "/songs/Stupid Song.m4a",
+    isExplicit: false
+  },
+  {
+    id: 136,
+    title: "Guardian",
+    artist: "Toby Fox",
+    cover: "https://i.ytimg.com/vi/buF6hDTf_z0/hq720.jpg",
+    file: "/songs/Guardian.m4a",
+    isExplicit: false
+  },
+  {
+    id: 137,
+    title: "Babydoll",
+    artist: "Dominic Fike",
+    cover: "https://i.ytimg.com/vi/UnuEzP1rDLY/hq720.jpg",
+    file: "/songs/Babydoll.m4a",
+    isExplicit: false
+  },
+  {
+    id: 138,
+    title: "Machine Love",
+    artist: "Jamie Paige",
+    cover: "https://i.ytimg.com/vi/9KfKbr_wiNQ/hq720.jpg",
+    file: "/songs/Machine Love.m4a",
+    isExplicit: false
+  },
+  {
+    id: 139,
+    title: "Radiant Revival",
+    artist: "Jamie Paige (ft. Hatsune Miku)",
+    cover: "https://i.ytimg.com/vi/aoD1ViXjmW8/hq720.jpg",
+    file: "/songs/Radiant Revival.m4a",
+    isExplicit: false
+  },
+  {
+    id: 140,
+    title: "Dance Delightful",
+    artist: "Jamie Paige",
+    cover: "https://i.ytimg.com/vi/YU0zJmMfyUQ/hq720.jpg",
+    file: "/songs/Dance Delightful.m4a",
+    isExplicit: false
+  },
+  {
+    id: 141,
+    title: "Dyad",
+    artist: "Jamie Paige",
+    cover: "https://i.ytimg.com/vi/9KfKbr_wiNQ/hq720.jpg",
+    file: "/songs/Dyad.m4a",
+    isExplicit: false
+  },
+  {
+    id: 142,
+    title: "Manifesto",
+    artist: "Jamie Paige",
+    cover: "https://i.ytimg.com/vi/g7rbq4XSOeg/hq720.jpg",
+    file: "/songs/Manifesto.m4a",
+    isExplicit: false
+  },
+  {
+    id: 143,
+    title: "Goth Girl",
+    artist: "Alterclad",
+    cover: "https://i.ytimg.com/vi/eAdKK7Xs4OI/hq720.jpg",
+    file: "/songs/Goth Girl.m4a",
+    isExplicit: false
+  },
+  {
+    id: 144,
+    title: "Mesmerizer",
+    artist: "Satsuki, Hatsune Miku, & Kasane Teto",
+    cover: "https://i.ytimg.com/vi/ibjWftkJrd4/hq720.jpg",
+    file: "/songs/Mesmerizer.m4a",
+    isExplicit: false
+  },
+  {
+    id: 145,
+    title: "LABUBU FUNK",
+    artist: "Kairo X",
+    cover: "https://i.ytimg.com/vi/qCrhIYxPGLY/hq720.jpg",
+    file: "/songs/LABUBU FUNK.m4a",
+    isExplicit: false
+  },
+  {
+    id: 146,
+    title: "XDDCC",
+    artist: "Gooseworx & Evan Alderete)",
+    cover: "https://i.ytimg.com/vi/2kyDrjeQyEs/hq720.jpg",
+    file: "/songs/XDDCC.m4a",
+    isExplicit: false
+  },
+  {
+    id: 147,
+    title: "Jax Vs. Skibidi Toilet Epic Mewing Battle",
+    artist: "Lilbittacringe",
+    cover: "https://i.ytimg.com/vi/Cfs7gWL6Ru4/hq720.jpg",
+    file: "/songs/Jax Vs. Skibidi Toilet Epic Mewing Battle.m4a",
+    isExplicit: false
+  },
+  {
+    id: 148,
+    title: "Balling",
+    artist: "Jace!",
+    cover: "https://i.ytimg.com/vi/nolPxliKvM0/hq720.jpg",
+    file: "/songs/Balling.m4a",
+    isExplicit: false
+  },
+  {
+    id: 149,
+    title: "I Just Hit the Jackpot",
+    artist: "xonthebeat",
+    cover: "https://i.ytimg.com/vi/oLt08SSatfg/hq720.jpg",
+    file: "/songs/I Just Hit the Jackpot.m4a",
+    isExplicit: false
+  },
+  {
+    id: 150,
+    title: "TORE UP",
+    artist: "Don Toliver",
+    cover: "https://i.ytimg.com/vi/2vySRN3VQDs/hq720.jpg",
+    file: "/songs/TORE UP.m4a",
+    isExplicit: false
+  },
 ];
 
 (() => {

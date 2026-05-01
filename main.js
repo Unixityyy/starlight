@@ -20,20 +20,18 @@ function createWindow() {
     }
   });
 
-  win.setMenu(null);
+  win.setAutoHideMenuBar(true);
+  win.setMenuBarVisibility(false);
 
-  // Force external links to open in the default system browser
   win.webContents.setWindowOpenHandler(({ url }) => {
     shell.openExternal(url);
     return { action: 'deny' };
   });
 
-  // Offline fallback if the remote URL fails to load
   win.webContents.on('did-fail-load', (event, errorCode) => {
     if (errorCode === -106) win.loadFile('no-internet.html');
   });
 
-  // Handle music track downloads with a native save dialog
   win.webContents.session.on('will-download', (event, item) => {
     const savePath = dialog.showSaveDialogSync(win, {
       title: "Save Starlight Track",
@@ -45,7 +43,6 @@ function createWindow() {
   win.loadURL(REMOTE_URL);
 }
 
-// Initialize Discord Rich Presence
 function initDiscord() {
   rpc = new RPC.Client({ transport: 'ipc' });
 
@@ -68,7 +65,6 @@ function updatePresence(details, state) {
   });
 }
 
-// Listen for playback data from the web app to update Discord status
 ipcMain.on('sync-discord', (event, data) => {
   updatePresence(data.title, data.artist);
 });

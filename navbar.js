@@ -10,6 +10,21 @@ const NAV_ITEMS = [
   { label: "Logout", path: "#", guestOnly: false, authOnly: true, colorClass: "text-danger", isLogout: true }
 ];
 
+function googlefemboylitics() {
+  const headElem = document.querySelector('head');
+  headElem.innerHTML = `
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZC4JL0QNQ8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-ZC4JL0QNQ8');
+</script>
+` + headElem.innerHTML;
+}
+
 function renderNavbar(user) {
   const navContainer = document.querySelector('nav');
   if (!navContainer) return;
@@ -52,6 +67,9 @@ function renderNavbar(user) {
 }
 
 // Listen for Firebase Auth changes to re-render the navbar automatically
-onAuthStateChanged(auth, (user) => {
-  renderNavbar(user);
-});
+googlefemboylitics();
+if (!document.documentElement.hasAttribute('data-no-nav')) {
+  onAuthStateChanged(auth, (user) => {
+    renderNavbar(user);
+  });
+}

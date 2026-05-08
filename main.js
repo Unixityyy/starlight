@@ -7,7 +7,7 @@ const REMOTE_URL = 'https://unixityyy.github.io/starlight/';
 let win;
 let rpc;
 
-function createWindow() {
+async function createWindow() {
   win = new BrowserWindow({
     width: 1200,
     height: 800,
@@ -34,13 +34,20 @@ function createWindow() {
 
   win.webContents.session.on('will-download', (event, item) => {
     const savePath = dialog.showSaveDialogSync(win, {
-      title: "Save Starlight Track",
+      title: "Starlight Song Download",
       defaultPath: item.getFilename()
     });
     if (savePath) item.setSavePath(savePath); else item.cancel();
   });
 
-  win.loadURL(REMOTE_URL);
+  try {
+    const response = await fetch('https://raw.githubusercontent.com/Unixityyy/starlight/refs/heads/main/CNAME');
+    if (!response.ok) throw new Error();
+    const customDomain = (await response.text()).trim();
+    win.loadURL(`https://${customDomain}`);
+  } catch (e) {
+    win.loadURL('https://unixityyy.github.io/starlight/');
+  }
 }
 
 function initDiscord() {

@@ -144,31 +144,49 @@
   }
 
   let pickedshit;
-  let shitstobepicked = [
-    "Better than Google Slides with music.",
-    `${window.STARLIGHT_SONGS.length} songs in total!`,
-    "\"yes teach this is educational\"",
-    "cheese",
-    "do yo balls hang low do they wobble to the flo",
-    "mister alvarez is a meanie",
-    "made with html, css, javascript, and <b><i>love</i></b>",
-    "no this is not a proxy",
-    "unixityyy was here",
-    "skibidi dop dop dop yes yes",
-    "<a href=\"https://github.com/Unixityyy/starlight\" target=\"_blank\">https://github.com/Unixityyy/starlight</a>",
-    "im a new soul i came to this strange world",
-    "i just hit the jackpotttttttt",
-    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    "gurt: yo",
-    "yo: gurt",
-    "i use arch btw",
-    "i have $0.30 to my name",
-    "<img src=\"https://placehold.co/500x100/3a3a3a/FFFFFF?text=butt+cream\">"
-  ];
+  const today = new Date();
+  const isLastDay =
+    today.getMonth() === 4 && today.getDate() === 21;
+  let shitstobepicked = [];
+  if (isLastDay) {
+    // b64 so i dont have to manually encode as string
+    shitstobepicked = [
+      atob("PHN0eWxlPgogIC5mbGFzaC1jb250YWluZXIgewogICAgZGlzcGxheTogaW5saW5lLWZsZXg7CiAgfQoKICAuZmxhc2gtY29udGFpbmVyIC5sMSB7IG9yZGVyOiAxOyB9CiAgLmZsYXNoLWNvbnRhaW5lciAubDIgeyBvcmRlcjogMjsgfQogIC5mbGFzaC1jb250YWluZXIgLmwzIHsgb3JkZXI6IDM7IH0KICAuZmxhc2gtY29udGFpbmVyIC5sNCB7IG9yZGVyOiA0OyB9CiAgLmZsYXNoLWNvbnRhaW5lciAubDUgeyBvcmRlcjogNTsgfQoKICAuZmxhc2gtY29udGFpbmVyIHNwYW4gewogICAgZm9udC1mYW1pbHk6ICdBcmlhbCBCbGFjaycsIHNhbnMtc2VyaWY7CiAgICBmb250LXdlaWdodDogOTAwOwogICAgZm9udC1zaXplOiA0NXB4OwogICAgdHJhbnNpdGlvbjogbm9uZSAhaW1wb3J0YW50OwogIH0KPC9zdHlsZT4KPGgxPm1yIGFsdmFyZXogaXMgYSAKICA8c3BhbiBjbGFzcz0iZmxhc2gtY29udGFpbmVyIiBpZD0idGFyZ2V0Ij4KICAgIDxzcGFuIGNsYXNzPSJsNSIgaWQ9ImI1Ij5oPC9zcGFuPgogICAgPHNwYW4gY2xhc3M9ImwzIiBpZD0iYjMiPnQ8L3NwYW4+CiAgICA8c3BhbiBjbGFzcz0ibDEiIGlkPSJiMSI+Yjwvc3Bhbj4KICAgIDxzcGFuIGNsYXNzPSJsNCIgaWQ9ImI0Ij5jPC9zcGFuPgogICAgPHNwYW4gY2xhc3M9ImwyIiBpZD0iYjIiPmk8L3NwYW4+CiAgPC9zcGFuPgo8L2gxPgoKPHNjcmlwdD4KICBjb25zdCBpZHMgPSBbJ2IxJywgJ2IyJywgJ2IzJywgJ2I0JywgJ2I1J107CiAgbGV0IGN1cnJlbnRJbmRleCA9IDA7CiAgCiAgZnVuY3Rpb24gZmxhc2goKSB7CiAgICBjb25zdCBwcmV2SW5kZXggPSAoY3VycmVudEluZGV4IC0gMSArIGlkcy5sZW5ndGgpICUgaWRzLmxlbmd0aDsKCiAgICBpZHMuZm9yRWFjaCgoaWQsIGluZGV4KSA9PiB7CiAgICAgIGNvbnN0IGVsID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoaWQpOwogICAgICBpZiAoaW5kZXggPT09IGN1cnJlbnRJbmRleCB8fCBpbmRleCA9PT0gcHJldkluZGV4KSB7CiAgICAgICAgZWwuc3R5bGUuY29sb3IgPSAnIzBkNmVmZCc7CiAgICAgIH0gZWxzZSB7CiAgICAgICAgZWwuc3R5bGUuY29sb3IgPSAnIzFhMWEyZSc7CiAgICAgIH0KICAgIH0pOwogICAgCiAgICBjdXJyZW50SW5kZXggPSAoY3VycmVudEluZGV4ICsgMSkgJSBpZHMubGVuZ3RoOwogICAgcmVxdWVzdEFuaW1hdGlvbkZyYW1lKGZsYXNoKTsKICB9CiAgCiAgZmxhc2goKTsKPC9zY3JpcHQ+")
+    ]
+  } else {
+    shitstobepicked = [
+      "Better than Google Slides with music.",
+      `${window.STARLIGHT_SONGS.length} songs in total!`,
+      "\"yes teach this is educational\"",
+      "cheese",
+      "do yo balls hang low do they wobble to the flo",
+      "mister alvarez is a meanie",
+      "made with html, css, javascript, and <b><i>love</i></b>",
+      "no this is not a proxy",
+      "unixityyy was here",
+      "skibidi dop dop dop yes yes",
+      "<a href=\"https://github.com/Unixityyy/starlight\" target=\"_blank\">https://github.com/Unixityyy/starlight</a>",
+      "im a new soul i came to this strange world",
+      "i just hit the jackpotttttttt",
+      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "gurt: yo",
+      "yo: gurt",
+      "i use arch btw",
+      "i have $0.30 to my name",
+      "<img src=\"https://placehold.co/500x100/3a3a3a/FFFFFF?text=butt+cream\">"
+    ];
+  }
 
   pickedshit = shitstobepicked[Math.floor(Math.random() * shitstobepicked.length)];
 
   document.getElementById("shitidk").innerHTML = pickedshit;
+  if (isLastDay) {
+    document.getElementById("shitidk").querySelectorAll("script").forEach(oldScript => {
+      const newScript = document.createElement("script");
+      newScript.textContent = oldScript.textContent;
+      oldScript.parentNode.replaceChild(newScript, oldScript);
+    });
+  }
 
   function makeCard(song) {
     const col = document.createElement('div');

@@ -20,7 +20,7 @@ function googlefemboylitics() {
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-ZC4JL0QNQ8');
+  gtag('config', 'G-ZC4JL0QNQ8', { 'debug_mode':true });
 </script>
 ` + headElem.innerHTML;
 }

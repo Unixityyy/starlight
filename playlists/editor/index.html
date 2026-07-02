@@ -19,8 +19,13 @@
 
 <div class="container py-4">
   <header class="mb-5 text-center"> <h1>Playlist Editor</h1> 
-    <div class="d-flex justify-content-center gap-3 mt-3">
-        <button class="btn btn-primary" onclick="exportSLP()">Export .slp</button>
+    <div class="d-flex justify-content-center gap-3 mt-3 align-items-center">
+        <!-- Hidden input fallback that acts as the explorer window -->
+        <input type="file" id="fallbackFileInput" accept=".slp" style="display: none;" onchange="handleFallbackImport(this)">
+        
+        <button class="btn btn-outline-primary" onclick="triggerImport()">Import .slp</button>
+        <button class="btn btn-primary" id="actionBtn" onclick="handleSaveOrExport()">Export .slp</button>
+        <small id="fileStatus" class="text-secondary"></small>
     </div>
   </header>
   <div class="row g-4">
@@ -42,9 +47,10 @@
 <script src="/starlight.js"></script>
 <script>
   let draft = [];
+  let fileHandle = null; 
+  let fallbackFile = null; // Stores file context if FileSystem API isn't supported
 
   function render(q = '') {
-    // Render Library Side
     const libContainer = document.getElementById('library');
     libContainer.innerHTML = '';
     const filtered = window.STARLIGHT_SONGS.filter(s => 
@@ -62,7 +68,6 @@
       libContainer.appendChild(div);
     });
 
-    // Render Draft Side
     const draftContainer = document.getElementById('draft');
     draftContainer.innerHTML = '';
     document.getElementById('draftCount').innerText = `(${draft.length})`;
@@ -86,7 +91,7 @@
   function addToDraft(id) {
     const song = window.STARLIGHT_SONGS.find(s => s.id == id);
     if (song) {
-        draft.push({...song}); // Push a copy
+        draft.push({...song});
         render(document.getElementById('search').value);
     }
   }
@@ -104,13 +109,97 @@
     }
   }
 
+  // Decides whether to use modern File System API or reliable Input element fallback
+  async function triggerImport() {
+    if ('showOpenFilePicker' in window && window.isSecureContext) {
+      try {
+        const options = {
+          types: [{
+            description: 'Starlight Playlists',
+            accept: { 'text/plain': ['.slp'] }
+          }]
+        };
+        [fileHandle] = await window.showOpenFilePicker(options);
+        const file = await fileHandle.getFile();
+        processFileContents(file);
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          useFallbackPicker();
+        }
+      }
+    } else {
+      useFallbackPicker();
+    }
+  }
+
+  function useFallbackPicker() {
+    document.getElementById('fallbackFileInput').click();
+  }
+
+  function handleFallbackImport(input) {
+    if (input.files.length === 0) return;
+    fallbackFile = input.files[0];
+    processFileContents(fallbackFile);
+  }
+
+  async function processFileContents(file) {
+    const text = await file.text();
+    const songIds = text.split(/\r?\n/).map(id => id.trim()).filter(id => id);
+    
+    const importedDraft = [];
+    songIds.forEach(id => {
+      const song = window.STARLIGHT_SONGS.find(s => s.id == id);
+      if (song) importedDraft.push({...song});
+    });
+
+    draft = importedDraft;
+    render(document.getElementById('search').value);
+
+    // Swap UI to "Save Playlist" mode
+    const actionBtn = document.getElementById('actionBtn');
+    actionBtn.innerText = 'Save Playlist';
+    actionBtn.className = 'btn btn-success';
+    document.getElementById('fileStatus').innerText = `Editing: ${file.name}`;
+  }
+
+  function handleSaveOrExport() {
+    // If we have a system native handle, we write directly to it.
+    if (fileHandle) {
+      saveSLP();
+    } else {
+      // If we are in fallback mode (or no file loaded yet), we export/download it.
+      exportSLP();
+    }
+  }
+
+  async function saveSLP() {
+    try {
+      const options = { mode: 'readwrite' };
+      if (await fileHandle.queryPermission(options) !== 'granted') {
+        if (await fileHandle.requestPermission(options) !== 'granted') {
+          return alert('Write permissions denied.');
+        }
+      }
+      const writable = await fileHandle.createWritable();
+      const output = draft.map(s => s.id).join('\n');
+      await writable.write(output);
+      await writable.close();
+      alert('Playlist saved successfully!');
+    } catch (err) {
+      console.error(err);
+      alert('Direct disk writing failed. Exporting file as download fallback instead...');
+      exportSLP();
+    }
+  }
+
   function exportSLP() {
     if(!draft.length) return alert("Playlist is empty!");
     const output = draft.map(s => s.id).join('\n');
     const blob = new Blob([output], {type: 'text/plain'});
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = "playlist.slp";
+    // Use original file name if imported via fallback upload
+    a.download = fallbackFile ? fallbackFile.name : "playlist.slp";
     a.click();
   }
 

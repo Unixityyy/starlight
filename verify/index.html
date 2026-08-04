@@ -32,20 +32,20 @@
   <div class="card p-4 shadow-lg">
     <div class="text-center mb-3">
       <h2 class="text-primary fw-bold mb-2">Verify Your Email</h2>
-      <p class="text-secondary small mb-0">School accounts can't get a normal verification email, so we do it this way instead.</p>
+      <p id="schoolacc" class="text-secondary small mb-0">School accounts can't get a normal verification email, so we do it this way instead.</p>
     </div>
 
     <div id="loadingState" class="text-center text-secondary py-4">Loading...</div>
 
     <div id="verifiedState" class="d-none text-center py-3">
-      <p class="mb-3">You're verified! You can use account features now!.</p>
-      <h7 class="mb-3">(like requests)</h7>
-      <a href="/" class="btn btn-primary">Go to Starlight</a>
+      <p class="mb-3">You're verified! You can use account features now!<br>(like requests)</p>
+      <a class="mb-3 btn btn-primary" href="/" class="btn btn-primary">Go to Starlight</a>
     </div>
 
     <div id="reviewState" class="d-none text-center py-3">
       <span class="status-pill status-awaiting_review mb-3 d-inline-block">Waiting on review</span>
       <p class="text-secondary small">We've got your doc link. This is checked by hand, so it might take a bit, check back later.</p>
+      <a href="/">Go Home</a>
     </div>
 
     <div id="pendingState" class="d-none">
@@ -119,6 +119,7 @@
       if (data.method === 'standard') {
         checkEmailAddr.textContent = user.email;
         showState('checkEmailState');
+        document.getElementById("schoolacc").innerHTML = "Check your spam if you have not recieved it!"
 
         if (pollTimer) clearInterval(pollTimer);
         pollTimer = setInterval(async () => {

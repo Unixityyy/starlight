@@ -64,7 +64,8 @@
       signInWithPopup, 
       signInWithEmailAndPassword, 
       createUserWithEmailAndPassword,
-      linkWithCredential
+      linkWithCredential,
+      sendEmailVerification
     } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
     const msg = document.getElementById('msg');
@@ -93,13 +94,26 @@
         });
     };
 
-    document.getElementById('signUpBtn').onclick = () => {
-      createUserWithEmailAndPassword(auth, email.value, password.value)
-        .then(() => window.location.href = home)
-        .catch(err => {
-            msg.className = "text-danger small mt-3 text-center";
-            msg.textContent = err.message;
+    document.getElementById('signUpBtn').onclick = async () => {
+      try {
+        const cred = await createUserWithEmailAndPassword(auth, email.value, password.value);
+
+        const res = await fetch('https://api.unixityyy.dev/api/v1/verify/request', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email.value })
         });
+        const data = await res.json();
+
+        if (data.method === 'standard') {
+          await sendEmailVerification(cred.user);
+        }
+
+        window.location.href = isElectron ? "../verify/index.html" : "../verify/";
+      } catch (err) {
+        msg.className = "text-danger small mt-3 text-center";
+        msg.textContent = err.message;
+      }
     };
 
     document.getElementById('googleBtn').onclick = () => handleAuth(googleProvider);

@@ -40,7 +40,28 @@ window.logoutUser = () => {
   });
 };
 
-onAuthStateChanged(auth, (user) => {
+// #region verification gating
+const VERIFY_API_BASE = 'https://api.unixityyy.dev/api/v1/verify';
+
+async function isVerified(user) {
+  try {
+    const res = await fetch(`${VERIFY_API_BASE}/status?email=${encodeURIComponent(user.email)}`);
+    const data = await res.json();
+    if (data.status === 'not_applicable') {
+      return user.emailVerified;
+    }
+    return data.status === 'verified';
+  } catch {
+    return false;
+  }
+}
+
+function onVerifyOrLoginPage() {
+  return window.location.pathname.includes('/verify') || window.location.pathname.includes('/login');
+}
+// #endregion
+
+onAuthStateChanged(auth, async (user) => {
   document.querySelectorAll('.auth-only').forEach(el => {
     user ? el.classList.remove('d-none') : el.classList.add('d-none');
   });
@@ -52,5 +73,13 @@ onAuthStateChanged(auth, (user) => {
 
   if (!user && window.location.href.includes('/request')) {
     window.location.href = isElectron ? "../login/index.html" : "/login/";
+    return;
+  }
+
+  if (user && !onVerifyOrLoginPage()) {
+    const verified = await isVerified(user);
+    if (!verified) {
+      window.location.href = isElectron ? "../verify/index.html" : "/verify/";
+    }
   }
 });

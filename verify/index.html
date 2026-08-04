@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark" data-no-nav="">
+<head>
+  <script type="module" src="/navbar.js"></script>
+  <meta charset="UTF-8">
+  <title>Verify Your Email - Starlight</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <style>
+    body { background-color:#1a1a2e; min-height:100vh; display:flex; align-items:center; justify-content:center; margin:0; font-family:Inter,sans-serif; }
+    .card { background:#27273f; border:1px solid #3d3d5f; border-radius:12px; width:100%; max-width:520px; }
+    .code-box {
+      font-family: monospace;
+      font-size: 1.4rem;
+      letter-spacing: 2px;
+      background: #1a1a2e;
+      border: 1px dashed #0d6efd;
+      border-radius: 8px;
+      padding: 12px 16px;
+      text-align: center;
+      user-select: all;
+    }
+    ol li { margin-bottom: .5rem; }
+    .status-pill { display:inline-block; padding:2px 10px; border-radius:20px; font-size:.8rem; font-weight:600; }
+    .status-pending { background:#5d3587; }
+    .status-awaiting_review { background:#8a6d00; }
+    .status-verified { background:#0d6b31; }
+  </style>
+</head>
+<body class="text-white">
+  <div class="card p-4 shadow-lg">
+    <div class="text-center mb-3">
+      <h2 class="text-primary fw-bold mb-2">Verify Your Email</h2>
+      <p class="text-secondary small mb-0">School accounts can't get a normal verification email, so we do it this way instead.</p>
+    </div>
+
+    <div id="loadingState" class="text-center text-secondary py-4">Loading...</div>
+
+    <div id="verifiedState" class="d-none text-center py-3">
+      <p class="mb-3">You're verified! You can use account features now!.</p>
+      <h7 class="mb-3">(like requests)</h7>
+      <a href="/" class="btn btn-primary">Go to Starlight</a>
+    </div>
+
+    <div id="reviewState" class="d-none text-center py-3">
+      <span class="status-pill status-awaiting_review mb-3 d-inline-block">Waiting on review</span>
+      <p class="text-secondary small">We've got your doc link. This is checked by hand, so it might take a bit, check back later.</p>
+    </div>
+
+    <div id="pendingState" class="d-none">
+      <p class="small mb-2">1. Your code:</p>
+      <div class="code-box mb-4" id="codeDisplay">------</div>
+
+      <ol class="small text-secondary ps-3 mb-4">
+        <li>Make a new Google Doc.</li>
+        <li>Paste your code above into it, by itself.</li>
+        <li>Click <strong>Share</strong> and set it so anyone in the district can view.</li>
+        <li>Copy the link and paste it below.</li>
+      </ol>
+
+      <form id="submitForm">
+        <div class="mb-3">
+          <input type="url" id="docLink" class="form-control bg-dark text-white border-secondary"
+                 placeholder="https://docs.google.com/document/d/..." required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100" id="submitBtn">Submit for Review</button>
+      </form>
+      <div id="formMsg" class="text-danger small mt-3 text-center"></div>
+    </div>
+
+    <div id="checkEmailState" class="d-none text-center py-3">
+      <p class="mb-3">We sent a verification link to <strong id="checkEmailAddr"></strong>.</p>
+      <p class="text-secondary small mb-4">Click the link in that email, then come back here, this page checks automatically every few seconds.</p>
+      <button id="resendBtn" class="btn btn-outline-light btn-sm">Resend Email</button>
+      <div id="resendMsg" class="text-secondary small mt-2"></div>
+    </div>
+
+    <div class="text-center mt-4 border-top pt-3">
+      <a href="javascript:void(0)" onclick="window.logoutUser && window.logoutUser()" class="text-secondary small text-decoration-none">Sign out</a>
+    </div>
+  </div>
+
+  <script type="module">
+    import { auth } from '../auth.js';
+    import { onAuthStateChanged, sendEmailVerification, reload } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+    const API_BASE = 'https://api.unixityyy.dev/api/v1/verify';
+
+    const loadingState = document.getElementById('loadingState');
+    const verifiedState = document.getElementById('verifiedState');
+    const reviewState = document.getElementById('reviewState');
+    const pendingState = document.getElementById('pendingState');
+    const checkEmailState = document.getElementById('checkEmailState');
+    const codeDisplay = document.getElementById('codeDisplay');
+    const submitForm = document.getElementById('submitForm');
+    const docLinkInput = document.getElementById('docLink');
+    const submitBtn = document.getElementById('submitBtn');
+    const formMsg = document.getElementById('formMsg');
+    const checkEmailAddr = document.getElementById('checkEmailAddr');
+    const resendBtn = document.getElementById('resendBtn');
+    const resendMsg = document.getElementById('resendMsg');
+
+    let pollTimer = null;
+
+    function showState(name) {
+      [loadingState, verifiedState, reviewState, pendingState, checkEmailState].forEach(el => el.classList.add('d-none'));
+      document.getElementById(name).classList.remove('d-none');
+    }
+
+    async function init(user) {
+      const res = await fetch(`${API_BASE}/request`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: user.email })
+      });
+      const data = await res.json();
+
+      if (data.method === 'standard') {
+        checkEmailAddr.textContent = user.email;
+        showState('checkEmailState');
+
+        if (pollTimer) clearInterval(pollTimer);
+        pollTimer = setInterval(async () => {
+          await reload(user);
+          if (user.emailVerified) {
+            clearInterval(pollTimer);
+            showState('verifiedState');
+          }
+        }, 4000);
+        return;
+      }
+
+      if (data.status === 'verified') {
+        showState('verifiedState');
+      } else if (data.status === 'awaiting_review') {
+        showState('reviewState');
+      } else {
+        codeDisplay.textContent = data.code;
+        showState('pendingState');
+      }
+    }
+
+    submitForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const user = auth.currentUser;
+      if (!user) return;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+      formMsg.textContent = '';
+
+      try {
+        const res = await fetch(`${API_BASE}/submit`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: user.email, docLink: docLinkInput.value })
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          showState('reviewState');
+        } else {
+          formMsg.textContent = data.error || 'Something went wrong.';
+        }
+      } catch (err) {
+        formMsg.textContent = 'Something went wrong. Try again.';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit for Review';
+      }
+    });
+
+    resendBtn.addEventListener('click', async () => {
+      const user = auth.currentUser;
+      if (!user) return;
+      resendBtn.disabled = true;
+      try {
+        await sendEmailVerification(user);
+        resendMsg.textContent = 'Sent!';
+      } catch (err) {
+        resendMsg.textContent = 'Could not resend right now — try again shortly.';
+      } finally {
+        setTimeout(() => { resendBtn.disabled = false; }, 5000);
+      }
+    });
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = '../login/';
+        return;
+      }
+      init(user);
+    });
+  </script>
+</body>
+</html>

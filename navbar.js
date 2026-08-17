@@ -207,9 +207,6 @@ function loadEpisode(epNum) {
   status.textContent = `Episode ${epNum}`;
 
   video.src = `${VIDEO_BASE_URL}/${epNum}.mp4`;
-  video.play().catch(() => {
-    // Autoplay may be blocked by the browser; user can hit play manually.
-  });
 }
 
 function openEpisodeViewer() {

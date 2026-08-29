@@ -1,0 +1,16 @@
+{%- comment -%}
+  Shared navbar. Edit this ONE file to change the nav on every page
+  of the site. Active-tab highlighting is based on the current page's
+  URL, so no per-page changes are ever needed here.
+{%- endcomment -%}
+<nav class="navbar">
+  <div class="brand">
+    <img src="/favicon.ico" alt="" class="brand-icon">
+    Starlight Sound Library
+  </div>
+  <div class="tabs">
+    <a href="/" class="{% if page.url == '/' %}active{% endif %}">Home</a>
+    <a href="/player/" class="{% if page.url == '/player/' %}active{% endif %}">Player</a>
+    <a href="/playlists/" class="{% if page.url contains '/playlists/' %}active{% endif %}">Playlists</a>
+  </div>
+</nav>

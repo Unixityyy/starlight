@@ -1,1 +1,6 @@
-include: [".well-known"]
+title: Starlight Sound Library
+description: A small hand-picked music library.
+
+# Jekyll turns each folder's index.html into a clean URL automatically
+# (request/index.html -> /request/, playlists/editor/index.html -> /playlists/editor/),
+# so no permalink config is needed here.

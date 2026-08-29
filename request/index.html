@@ -1,208 +1,41 @@
-<!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
-<head>
-  <script type="module" src="/navbar.js"></script>
-  <meta charset="UTF-8">
-  <title>Starlight Song Request</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="icon" href="../favicon.ico" type="image/x-icon">
-  <script type="module" src="../auth.js"></script>
-  
-  <style>
-    body { background-color:#1a1a2e; font-family:Inter,sans-serif; color:white; }
-    .card { background:#27273f; border:1px solid #3d3d5f; border-radius:12px; transition:.2s; }
-    .card:hover { transform:translateY(-5px); box-shadow:0 10px 20px rgba(0,0,0,.5); }
-    header h1 { font-size:3rem; font-weight:bold; text-align:center; color:#0d6efd; margin-bottom:.5rem; }
-    header p { text-align:center; color:#c0c0ff; margin-bottom:.25rem; }
-    
-    .search-result-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      cursor: pointer;
-      background: #1a1a2e;
-      border: 1px solid #3d3d5f;
-      margin-bottom: 4px;
-      border-radius: 8px;
-    }
-    .search-result-item:hover { background: #32325d; }
-    .album-art { width: 45px; height: 45px; border-radius: 4px; }
-    .explicit-tag {
-      background:#5d3587;
-      color:white;
-      font-size:.65rem;
-      padding:1px 4px;
-      border-radius:3px;
-      font-weight:700;
-      text-transform: uppercase;
-      vertical-align: middle;
-    }
-  </style>
-</head>
-<body>
+---
+layout: default
+title: Starlight Song Request
+extra_js:
+  - /assets/js/apple-music.js
+  - /assets/js/request.js
+---
+<div class="form-shell">
+  <a href="/" class="back-link">&larr; Back to library</a>
+  <h1>Starlight Song Request</h1>
+  <p class="sub">Search Apple Music for a song to add to the library.</p>
 
-<nav class="mb-4"></nav>
+  <div class="am-search">
+    <input type="text" id="songSearch" class="am-search-input" placeholder="Search by title or artist..." autocomplete="off">
+    <div id="searchResults" class="am-results"></div>
+  </div>
 
-<div class="container py-4">
-  <header class="mb-5">
-    <h1>Starlight Song Request</h1>
-    <p>Search Apple Music for a song to add to the library!</p>
-    <p>For some reason, explicit songs don't show and we are working on that!</p>
-    <p class="text-error">Your email will be sent along with your request!</p>
-  </header>
+  <form id="requestForm">
+    <input type="hidden" id="songTitle" name="Song Name">
+    <input type="hidden" id="artistName" name="Song Artist">
+    <input type="hidden" id="linkUrl" name="Link">
 
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card p-4">
-        <h3 class="text-primary mb-3 text-center">Find a Song</h3>
-        
-        <div class="mb-3">
-          <input type="text" class="form-control form-control-lg" id="songSearch" placeholder="Search by title or artist..." autocomplete="off">
-        </div>
-
-        <div id="searchResults" class="mb-3" style="max-height: 280px; overflow-y: auto;"></div>
-
-        <form id="songForm">
-          <input type="hidden" id="songName" name="songName">
-          <input type="hidden" id="songArtist" name="songArtist">
-          <input type="hidden" id="songLink" name="songLink">
-          
-          <div id="selectedSongPreview" class="mb-4 d-none">
-            <p class="small text-muted mb-2 text-center">Ready to Submit:</p>
-            <div class="p-3 border border-primary rounded bg-dark d-flex align-items-center gap-3">
-              <img id="displayArt" src="" class="album-art" alt="Art">
-              <div class="overflow-hidden">
-                <div class="d-flex align-items-center gap-2">
-                    <strong id="displayTitle" class="text-truncate"></strong>
-                    <span id="displayExplicit" class="explicit-tag" style="display:none;">E</span>
-                </div>
-                <span id="displayArtist" class="text-secondary small d-block text-truncate"></span>
-              </div>
-            </div>
+    <div class="am-preview d-none" id="selectedSongPreview">
+      <p class="am-preview-label">Ready to submit:</p>
+      <div class="am-preview-card">
+        <img id="displayArt" src="" alt="" class="am-preview-art">
+        <div class="am-preview-text">
+          <div class="am-preview-title-row">
+            <strong id="displayTitle" class="am-preview-title"></strong>
+            <span id="displayExplicit" class="explicit-tag" style="display:none;">E</span>
           </div>
-
-          <button type="submit" id="submitBtn" class="btn btn-outline-light w-100 py-2" disabled>Submit Request</button>
-        </form>
-        <div id="formMessage" class="mt-3 text-center opacity-75"></div>
+          <span id="displayArtist" class="am-preview-artist"></span>
+        </div>
       </div>
     </div>
-  </div>
+
+    <button type="submit" class="submit-btn" id="submitBtn" disabled>Submit request</button>
+    <div class="form-success" id="formSuccess">Thanks — your request has been added to the queue.</div>
+    <div class="form-error" id="formError">Something went wrong sending your request. Try again in a moment.</div>
+  </form>
 </div>
-
-<script type="module">
-import { auth } from '../auth.js';
-
-const songSearch = document.getElementById('songSearch');
-const searchResults = document.getElementById('searchResults');
-const songForm = document.getElementById('songForm');
-const songNameInput = document.getElementById('songName');
-const songArtistInput = document.getElementById('songArtist');
-const songLinkInput = document.getElementById('songLink'); // Link reference
-const selectedSongPreview = document.getElementById('selectedSongPreview');
-const displayTitle = document.getElementById('displayTitle');
-const displayArtist = document.getElementById('displayArtist');
-const displayArt = document.getElementById('displayArt');
-const displayExplicit = document.getElementById('displayExplicit');
-const submitBtn = document.getElementById('submitBtn');
-const message = document.getElementById('formMessage');
-
-let debounceTimer;
-
-songSearch.addEventListener('input', () => {
-  clearTimeout(debounceTimer);
-  const query = songSearch.value.trim();
-  
-  if (query.length < 2) {
-    searchResults.innerHTML = '';
-    return;
-  }
-
-  debounceTimer = setTimeout(() => {
-    fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&entity=song&limit=20&country=us&explicit=true&lang=en_us`)
-      .then(res => res.json())
-      .then(data => {
-        searchResults.innerHTML = '';
-        data.results.forEach(track => {
-          const isExplicit = track.trackExplicitness === 'explicit';
-          const item = document.createElement('div');
-          item.className = 'search-result-item p-2 d-flex align-items-center';
-          item.innerHTML = `
-            <img src="${track.artworkUrl60}" class="album-art">
-            <div class="overflow-hidden flex-grow-1">
-              <div class="text-truncate">
-                <strong>${track.trackName}</strong>
-                ${isExplicit ? '<span class="explicit-tag ms-1">E</span>' : ''}
-              </div>
-              <div class="text-secondary small text-truncate">${track.artistName}</div>
-            </div>
-          `;
-          // Passing track.trackViewUrl to the selection function
-          item.onclick = () => selectSong(track.trackName, track.artistName, track.artworkUrl100, isExplicit, track.trackViewUrl);
-          searchResults.appendChild(item);
-        });
-      });
-  }, 400);
-});
-
-function selectSong(name, artist, artUrl, isExplicit, trackUrl) {
-  songNameInput.value = name;
-  songArtistInput.value = artist;
-  songLinkInput.value = trackUrl; // Store the Apple Music URL
-  displayTitle.textContent = name;
-  displayArtist.textContent = artist;
-  displayArt.src = artUrl;
-  selectedSongPreview.classList.remove('d-none');
-  submitBtn.disabled = false;
-  searchResults.innerHTML = '';
-  displayExplicit.style.display = isExplicit ? 'inline-block' : 'none';
-  songSearch.value = '';
-}
-
-songForm.addEventListener('submit', async e => {
-  e.preventDefault();
-  message.textContent = '';
-  
-  const originalBtnText = submitBtn.textContent;
-  submitBtn.disabled = true;
-  submitBtn.textContent = 'Submitting...';
-  const user = auth.currentUser;
-
-  const userEmail = user?.email || user?.displayName || "Anonymous";
-
-  // Build the payload including the Link
-  const data = new URLSearchParams({
-    'Song Name': songNameInput.value,
-    'Song Artist': songArtistInput.value,
-    'Email': userEmail,
-    'Link': songLinkInput.value // Sends the link to Column E
-  });
-
-  try {
-    const response = await fetch('https://script.google.com/macros/s/AKfycby24mZSCCmyYzE7u8R0JctZY-ARBnOAIGtlc8ZPo-j6y_GFxem64VdsB_lsfW23-2ou/exec', {
-      method: 'POST',
-      body: data,
-      headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-    });
-
-    const result = await response.json();
-
-    if(result.result === "success") {
-      message.textContent = 'Song submitted successfully!';
-      songForm.reset();
-      selectedSongPreview.classList.add('d-none');
-      submitBtn.disabled = true;
-    } else {
-      message.textContent = result.result === "duplicate" ? 'This song has already been requested!' : 'Error submitting song.';
-    }
-  } catch(err) {
-    message.textContent = 'Error submitting song.';
-  } finally {
-    submitBtn.textContent = originalBtnText;
-    if (!selectedSongPreview.classList.contains('d-none')) submitBtn.disabled = false;
-  }
-});
-</script>
-<script src="../starlight.js"></script>
-</body>
-</html>

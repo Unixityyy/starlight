@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ page.title | default: site.title }}</title>
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="/assets/css/styles.css">
+{% for css in page.extra_css %}
+<link rel="stylesheet" href="{{ css }}">
+{% endfor %}
+</head>
+<body>
+
+<div class="starfield"></div>
+
+<div class="page">
+  {% include navbar.html %}
+
+  {{ content }}
+</div>
+
+{% for js in page.extra_js %}
+<script src="{{ js }}"></script>
+{% endfor %}
+</body>
+</html>

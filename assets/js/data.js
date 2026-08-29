@@ -1,5 +1,3 @@
-// yt image urls are https://i.ytimg.com/vi/<video id>/hq720.jpg
-
 window.STARLIGHT_SONGS = [
   {
     id: 1,
@@ -314,7 +312,7 @@ window.STARLIGHT_SONGS = [
     file: "/songs/Not The 1975.m4a",
     isExplicit: false
   },
-{
+  {
     id: 38,
     title: "Again",
     artist: "Fetty Wap",
@@ -1115,7 +1113,7 @@ window.STARLIGHT_SONGS = [
     file: "/songs/cliché.m4a",
     isExplicit: false
   },
-{
+  {
     id: 135,
     title: "Stupid Song",
     artist: "Hot Chelle Rae",
@@ -1245,30 +1243,26 @@ window.STARLIGHT_SONGS = [
   },
 ];
 
-(() => {
-  const today = new Date();
-  const isAprilFools =
-    today.getMonth() === 3 && today.getDate() === 1; // 3 = april, 1 = 1st, april fools day
-
-  if (isAprilFools) {
-    window.STARLIGHT_SONGS = [
-      {
-        id: 1,
-        title: "Baby Shark",
-        artist: "Pinkfong",
-        cover: "https://i.ytimg.com/vi/XqZsoesa55w/hq720.jpg",
-        file: "/songs/Baby Shark.m4a",
-        isExplicit: false
-      }
-    ];
-  }
-
-})();
-
-console.log("%cHey There!", "color: red; font-size: 50px; font-weight: bold;");
-console.log(
-  "%cIf somebody told you to paste something here, it is very likely they are a %cscammer%c!",
-  "color: red; font-size: 25px;",
-  "color: red; font-size: 25px; font-weight: bold;",
-  "color: red; font-size: 25px;"
-);
+window.randomTextPool = [
+  "Better than Google Slides with music.",
+  `${window.STARLIGHT_SONGS.length} songs in total!`,
+  "\"yes teach this is educational\"",
+  "cheese",
+  "do yo balls hang low do they wobble to the flo", // for your information, no they do not.
+  "mister alvarez is a meanie",
+  "made with html, css, javascript, and <b><i>love</i></b>",
+  "no this is not a proxy",
+  "unixityyy was here",
+  "so was pwr",
+  "skibidi dop dop dop yes yes",
+  "<a href=\"https://github.com/Unixityyy/starlight\" target=\"_blank\">https://github.com/Unixityyy/starlight</a>",
+  "im a new soul i came to this strange world",
+  "i just hit the jackpotttttttt",
+  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "gurt: yo",
+  "yo: gurt",
+  "i use arch btw",
+  "i have $0.30 to my name",
+  "<img src=\"https://placehold.co/500x100/3a3a3a/FFFFFF?text=butt+cream\">",
+  "library maintained by pwR!",
+];

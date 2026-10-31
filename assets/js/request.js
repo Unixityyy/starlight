@@ -6,7 +6,7 @@
   var previewEl = document.getElementById('selectedSongPreview');
   if (!form) return;
 
-  var SHEETS_ENDPOINT = 'https://script.google.com/macros/s/AKfycby24mZSCCmyYzE7u8R0JctZY-ARBnOAIGtlc8ZPo-j6y_GFxem64VdsB_lsfW23-2ou/exec';
+  var SHEETS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzYCW7BFxdADUpaQvVEeA2K1W58BZbIZAiSNXa5-HLmans5whxyws2Lmnu4u_tZcC1D/exec';
 
   var defaultErrorText = errorEl ? errorEl.textContent : '';
 
@@ -18,6 +18,8 @@
     var songTitle = document.getElementById('songTitle').value.trim();
     var artistName = document.getElementById('artistName').value.trim();
     var linkUrl = document.getElementById('linkUrl').value.trim();
+    var isExplicit = document.getElementById('isExplicit').value.trim();
+    var cleanLink = document.getElementById('cleanVersion').value.trim();
 
     var originalLabel = submitBtn.textContent;
     submitBtn.disabled = true;
@@ -26,7 +28,8 @@
     var body = new URLSearchParams({
       'Song Name': songTitle,
       'Song Artist': artistName,
-      'Email': 'Anonymous',
+      'Is Explicit': isExplicit,
+      'Clean Link': cleanLink,
       'Link': linkUrl
     });
 

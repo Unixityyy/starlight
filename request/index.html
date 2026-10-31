@@ -2,7 +2,7 @@
 layout: default
 title: Starlight Song Request
 extra_js:
-  - /assets/js/apple-music.js
+  - /assets/js/deezer.js
   - /assets/js/request.js
 ---
 <div class="form-shell">
@@ -19,6 +19,8 @@ extra_js:
     <input type="hidden" id="songTitle" name="Song Name">
     <input type="hidden" id="artistName" name="Song Artist">
     <input type="hidden" id="linkUrl" name="Link">
+    <input type="hidden" id="cleanVersion" name="Clean Version">
+    <input type="hidden" id="isExplicit" name="Is Explicit">
 
     <div class="am-preview d-none" id="selectedSongPreview">
       <p class="am-preview-label">Ready to submit:</p>
@@ -35,7 +37,7 @@ extra_js:
     </div>
 
     <button type="submit" class="submit-btn" id="submitBtn" disabled>Submit request</button>
-    <div class="form-success" id="formSuccess">Thanks — your request has been added to the queue.</div>
+    <div class="form-success" id="formSuccess">Thanks, your request has been added to the queue.</div>
     <div class="form-error" id="formError">Something went wrong sending your request. Try again in a moment.</div>
   </form>
 </div>

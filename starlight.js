@@ -1241,6 +1241,83 @@ window.STARLIGHT_SONGS = [
     file: "/songs/TORE UP.m4a",
     isExplicit: false
   },
+  {
+    id: 151,
+    title: "Doors",
+    artist: "Noah Kahan",
+    cover: "https://is1-ssl.mzstatic.com/image/thumb/Video211/v4/09/48/ad/0948ad2e-bc2d-3ef5-9de5-317f95feecd3/a71aa0641d4418bc309e06cdad095a2f_Preview_Image_Intermediate_nonvideo_sdr_440581672_2670522696.png/600x600bb.webp",
+    file: "/songs/Doors.m4a",
+    file_clean: "/songs/Doors Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 152,
+    title: "Lose Somebody",
+    artist: "Kygo & OneRepublic",
+    cover: "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/7e/45/0d/7e450def-fa0d-02c1-5cff-206534f88faf/886448458449.jpg/600x600bb.webp",
+    file: "/songs/Lose Somebody.m4a",
+    isExplicit: false
+  },
+  {
+    id: 153,
+    title: "Yard Sale",
+    artist: "Alex Warren",
+    cover: "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f1/91/6e/f1916ecb-0b21-57da-7d60-cd21ae0ff40b/075679614797.jpg/600x600bb.webp",
+    file: "/songs/Lose Somebody.m4a",
+    isExplicit: false
+  },
+  {
+    id: 154,
+    title: "Every End",
+    artist: "Dimrain47",
+    cover: "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/06/98/c7/0698c795-50db-34a5-ad22-ac90509ce7e7/artwork.jpg/600x600bb.webp",
+    file: "/songs/Every End.m4a",
+    isExplicit: false
+  },
+  {
+    id: 155,
+    title: "IGOR'S THEME",
+    artist: "Tyler, The Creator",
+    cover: "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/0c/06/05/0c060581-6242-6a2a-a677-20170f2cf8da/886447710180.jpg/600x600bb.webp",
+    file: "/songs/Igors Theme.m4a",
+    isExplicit: false
+  },
+  {
+    id: 156,
+    title: "Jimmy Cooks (feat. 21 Savage)",
+    artist: "Drake",
+    cover: "https://is1-ssl.mzstatic.com/image/thumb/Music122/v4/84/2c/b4/842cb419-243c-b3f4-4da9-b6b980996062/22UMGIM67371.rgb.jpg/600x600bb.webp",
+    file: "/songs/Jimmy Cooks.m4a",
+    file_clean: "/songs/Jimmy Cooks Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 157,
+    title: "HIGHEST IN THE ROOM",
+    artist: "Travis Scott",
+    cover: "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/d2/2d/6b/d22d6b0f-68dd-0eeb-92b4-9b6f4a43e85f/886448047452.jpg/600x600bb.webp",
+    file: "/songs/Highest In The Room.m4a",
+    file_clean: "/songs/Highest In The Room Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 158,
+    title: "Space Cadet (feat. Gunna)",
+    artist: "Metro Boomin",
+    cover: "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/b1/e3/27/b1e3271b-b8cb-7d80-99e5-0ddd9d6e632e/00602577303210.rgb.jpg/600x600bb.webp",
+    file: "/songs/Space Cadet.m4a",
+    file_clean: "/songs/Space Cadet Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 159,
+    title: "Janice STFU",
+    artist: "Drake",
+    cover: "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/7f/39/61/7f396123-be56-bc11-eaab-976441808e58/26UMGIM63622.rgb.jpg/600x600bb.webp",
+    file: "/songs/Janice STFU.m4a",
+    file_clean: "/songs/Janice STFU Clean.m4a",
+    isExplicit: true
+  },
 ];
 
 window.randomTextPool = [

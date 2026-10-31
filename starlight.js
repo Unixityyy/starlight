@@ -1318,6 +1318,24 @@ window.STARLIGHT_SONGS = [
     file_clean: "/songs/Janice STFU Clean.m4a",
     isExplicit: true
   },
+  {
+    id: 160,
+    title: "Love Sosa",
+    artist: "Chief Keef",
+    cover: "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/df/91/5f/df915f26-bb16-dfad-1066-ccfc62f75782/12UMGIM59941.rgb.jpg/600x600bb.webp",
+    file: "/songs/Love Sosa.m4a",
+    file_clean: "/songs/Lova Sosa Clean.m4a",
+    isExplicit: true
+  },
+  {
+    id: 161,
+    title: "Hate Bein' Sober (feat. 50 Cent & Wiz Khalifa)",
+    artist: "Chief Keef",
+    cover: "https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/df/91/5f/df915f26-bb16-dfad-1066-ccfc62f75782/12UMGIM59941.rgb.jpg/600x600bb.webp",
+    file: "/songs/Hate Bein Sober.m4a",
+    file_clean: "/songs/Hate Bein Sober.m4a",
+    isExplicit: true
+  },
 ];
 
 window.randomTextPool = [

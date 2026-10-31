@@ -6,7 +6,7 @@
   var previewEl = document.getElementById('selectedSongPreview');
   if (!form) return;
 
-  var SHEETS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzYCW7BFxdADUpaQvVEeA2K1W58BZbIZAiSNXa5-HLmans5whxyws2Lmnu4u_tZcC1D/exec';
+  var SHEETS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzIVLqBC4v1SaXnrQNi2_i4LMrmmMV9rnz_aLdA7wvuzcLt2KRwsitZA-JoXb6Y2FrE/exec';
 
   var defaultErrorText = errorEl ? errorEl.textContent : '';
 

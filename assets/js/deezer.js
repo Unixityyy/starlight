@@ -16,7 +16,6 @@
 
   if (!searchInput || !resultsEl) return;
 
-  // Set to false to use Deezer only (no Apple fallback for clean links)
   var USE_APPLE_FALLBACK = true;
 
   var debounceTimer = null;
@@ -51,28 +50,56 @@
     });
   }
 
-  // lowercase, drop (...) and [...] parts, strip punctuation
-  function baseTitle(s) {
-    return String(s).toLowerCase()
-      .replace(/[\(\[].*?[\)\]]/g, '')
-      .replace(/[^a-z0-9]+/g, ' ')
-      .trim();
+  function stripAccents(s) {
+    return String(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   }
 
   function normName(s) {
-    return String(s).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+    return stripAccents(s).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  }
+
+  function titleTokens(s) {
+    return stripAccents(s).toLowerCase()
+      .replace(/[\(\[].*?[\)\]]/g, '')
+      .replace(/[^a-z0-9*\s]+/g, ' ')
+      .split(/\s+/)
+      .filter(Boolean);
+  }
+
+  function tokenToRegex(t) {
+    return new RegExp('^' + t
+      .replace(/[.+?^${}()|[\]\\]/g, '\\$&')
+      .replace(/\*+/g, '.*') + '$');
+  }
+
+  function tokenMatch(a, b) {
+    if (a === b) return true;
+    if (a.indexOf('*') === -1 && b.indexOf('*') === -1) return false;
+    return tokenToRegex(a).test(b) || tokenToRegex(b).test(a);
+  }
+
+  function titlesMatch(a, b) {
+    var x = titleTokens(a);
+    var y = titleTokens(b);
+    if (!x.length || x.length !== y.length) return false;
+    return x.every(function (t, i) { return tokenMatch(t, y[i]); });
+  }
+
+  function searchTitle(s) {
+    return titleTokens(s).filter(function (t) {
+      return t.indexOf('*') === -1;
+    }).join(' ');
   }
 
   var BAD_VERSION = /remix|live|instrumental|karaoke|acoustic/i;
 
-  // Deezer: find a non-explicit version of the same song by the same artist
   function findClean(track) {
-    var title = baseTitle(track.trackName);
     var wantArtist = normName(track.artistName);
+    var words = searchTitle(track.trackName);
 
     var queries = [
-      track.artistName + ' ' + title,
-      'artist:"' + track.artistName.replace(/,/g, '') + '" track:"' + title + '"'
+      (wantArtist + ' ' + words).trim(),
+      'artist:"' + wantArtist + '" track:"' + words + '"'
     ];
 
     function attempt(i) {
@@ -85,14 +112,13 @@
         var candidates = results.filter(function (t) {
           return !t.explicit_lyrics
             && t.artist && normName(t.artist.name) === wantArtist
-            && baseTitle(t.title) === title
+            && titlesMatch(t.title, track.trackName)
             && !BAD_VERSION.test(t.title);
         });
 
         console.log('deezer clean lookup:', queries[i], '->', results.length + ' results,', candidates.length + ' matches');
 
         if (candidates.length) {
-          // prefer an "edited" version (explicit_content_lyrics === 3)
           var edited = candidates.find(function (t) {
             return t.explicit_content_lyrics === 3;
           });
@@ -105,13 +131,12 @@
     return attempt(0);
   }
 
-  // Apple fallback: iTunes search currently returns mostly non-explicit tracks
   function findCleanApple(track) {
-    var title = baseTitle(track.trackName);
     var wantArtist = normName(track.artistName);
+    var words = searchTitle(track.trackName);
 
     var url = 'https://itunes.apple.com/search'
-      + '?term=' + encodeURIComponent(track.artistName + ' ' + title)
+      + '?term=' + encodeURIComponent((wantArtist + ' ' + words).trim())
       + '&entity=song&limit=25&country=us';
 
     return fetch(url)
@@ -122,7 +147,7 @@
         var candidates = results.filter(function (t) {
           return t.trackExplicitness !== 'explicit'
             && normName(t.artistName) === wantArtist
-            && baseTitle(t.trackName) === title
+            && titlesMatch(t.trackName, track.trackName)
             && !BAD_VERSION.test(t.trackName);
         });
 
@@ -181,11 +206,9 @@
     if (previewEl) previewEl.classList.remove('d-none');
 
     if (!isExplicit) {
-      // no lookup needed
       if (cleanField) cleanField.value = 'Non-explicit song';
       if (submitBtn) submitBtn.disabled = false;
     } else {
-      // block submit until the lookup finishes so the field is never empty
       if (submitBtn) submitBtn.disabled = true;
 
       findClean(track)
